@@ -14,9 +14,28 @@ export class QuizComponent implements OnInit {
         question: "What's the common name for 'feline?'",
         answer: "cat",
         animationTimeline: new TimelineMax()
-    }
+    };
     score:number = 0;
-    quizMonster:string[] = [];
+    quizMonsters:any[] = [
+        {
+            id: 0,
+            question: "What's the common name for 'feline?'",
+            answer: "cat",
+            animationTimeline: new TimelineMax()
+        },
+        {
+            id: 1,
+            question: "What's 72 times 11? (enter a number)",
+            answer: "792",
+            animationTimeline: new TimelineMax()
+        },
+        {
+            id: 2,
+            question: "Fill in the blank: OH. MY. ._ _ _",
+            answer: "792",
+            animationTimeline: new TimelineMax()
+        }
+    ];
     quizQuestions:string[] = [];
     quizAnswers:string[] = [];
     currentQuizId:number = 0;
@@ -25,7 +44,6 @@ export class QuizComponent implements OnInit {
     ngOnInit() {
         let tl = this.monsterExample.animationTimeline;
         tl.to("#monster-0", 10, {left: "100%", ease: Power0.easeNone, onComplete: this.gameOver});
-        //TweenMax.to(".monster", 3, {rotation:"380", ease:Linear.easeNone, repeat:-1});
 
         this.quizQuestions.push("What's the common name for 'feline?'");
         this.quizAnswers.push("cat");

@@ -1,13 +1,16 @@
 <h2 class="ui header divided">{{name}}</h2>
 <div class="ui segment">
+
     <div id="hud">
         <h3>Score: {{score}}</h3>
     </div>
+
     <div id="battleground">
         <div id="wall">|</div>
         <div class="monster" id="monster-0"></div>
     </div>
-    <div id="user-input">
+
+    <div id="user-control">
         <input type="text" (keypress)="keyPress($event)" id="editor">
         <p><strong>Question:</strong> {{currentQuestion}}</p>
     </div>

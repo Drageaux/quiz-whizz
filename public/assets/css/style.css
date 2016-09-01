@@ -16,8 +16,9 @@ body {
       background-color: #FF695E; }
   body quiz #hud {
     width: 100%;
-    height: 40px h3;
-      height-float: right; }
+    height: 40px; }
+    body quiz #hud h3 {
+      float: right; }
   body quiz #battleground {
     position: relative;
     height: 70vh;
@@ -49,7 +50,8 @@ body {
       -moz-transform: rotate(135deg);
       -ms-transform: rotate(135deg);
       -o-transform: rotate(135deg); }
-  body quiz #user-input {
+  body quiz #user-control {
+    margin-top: 10px;
     text-align: center; }
 
 /*# sourceMappingURL=style.css.map */

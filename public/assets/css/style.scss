@@ -39,7 +39,8 @@ body {
     quiz {
         #hud {
             width: 100%;
-            height: 40px h3 {
+            height: 40px;
+            h3 {
                 float: right
             }
         }
@@ -54,6 +55,7 @@ body {
                 right: 1%;
             }
             // TODO add eyes to monster
+            // shapes via Alan Johnson
             .monster {
                 background: red;
                 width: 80px;
@@ -80,7 +82,8 @@ body {
                 -o-transform: rotate(135deg);
             }
         }
-        #user-input {
+        #user-control {
+            margin-top: 10px;
             text-align: center;
         }
     }
