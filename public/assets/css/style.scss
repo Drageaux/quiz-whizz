@@ -12,6 +12,7 @@ $pink_semantic: #E03997;
 $brown_semantic: #A5673F;
 $grey_semantic: #767676;
 $black_semantic: #1B1C1D;
+
 body {
     background: #F4F4F4;
     .center {
@@ -32,6 +33,55 @@ body {
         .item:focus {
             color: white;
             background-color: $red_inverted_semantic;
+        }
+    }
+
+    quiz {
+        #hud {
+            width: 100%;
+            height: 40px h3 {
+                float: right
+            }
+        }
+
+        #battleground {
+            position: relative;
+            height: 70vh;
+            border: solid 1px black;
+            overflow: hidden;
+            #wall {
+                position: absolute;
+                right: 1%;
+            }
+            // TODO add eyes to monster
+            .monster {
+                background: red;
+                width: 80px;
+                height: 80px;
+                position: absolute;
+                left: 0;
+                text-align: center;
+                -webkit-transform: rotate(20deg);
+                -moz-transform: rotate(20deg);
+                -ms-transform: rotate(20deg);
+                -o-transform: rotate(20 eg);
+            }
+            .monster:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 80px;
+                width: 80px;
+                background: red;
+                -webkit-transform: rotate(135deg);
+                -moz-transform: rotate(135deg);
+                -ms-transform: rotate(135deg);
+                -o-transform: rotate(135deg);
+            }
+        }
+        #user-input {
+            text-align: center;
         }
     }
 }

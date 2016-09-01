@@ -7,6 +7,14 @@ import "gsap";
 })
 export class QuizComponent implements OnInit {
     @Input() name:string;
+    // each monster will have their own timeline,
+    // so that the user cannot interfere with the monster reaching their goal
+    monsterExample:any = {
+        id: 0,
+        question: "What's the common name for 'feline?'",
+        answer: "cat",
+        animationTimeline: new TimelineMax()
+    }
     score:number = 0;
     quizMonster:string[] = [];
     quizQuestions:string[] = [];
@@ -15,8 +23,10 @@ export class QuizComponent implements OnInit {
     currentQuestion:string = "";
 
     ngOnInit() {
-        let tl = new TimelineMax();
-        tl.set("#monster-0", {y: 100});
+        let tl = this.monsterExample.animationTimeline;
+        tl.to("#monster-0", 10, {left: "100%", ease: Power0.easeNone, onComplete: this.gameOver});
+        //TweenMax.to(".monster", 3, {rotation:"380", ease:Linear.easeNone, repeat:-1});
+
         this.quizQuestions.push("What's the common name for 'feline?'");
         this.quizAnswers.push("cat");
         this.currentQuestion = this.quizQuestions[this.currentQuizId];
@@ -25,7 +35,7 @@ export class QuizComponent implements OnInit {
     keyPress(event:any) {
         if (event.keyCode == 13) {
             if (event.target.value.toLowerCase() == this.quizAnswers[0]) {
-                this.destroyMonster(this.currentQuizId);
+                this.destroyMonster(this.monsterExample);
             } else {
                 this.score--;
             }
@@ -34,9 +44,23 @@ export class QuizComponent implements OnInit {
         }
     }
 
-    destroyMonster(id:number){
-        $("#monster-"+id).css("display", "none");
+    spawnMonster() {
+
+    }
+
+    destroyMonster(monster:any) {
         this.score++;
+        let tl = monster.animationTimeline;
+
+        let monsterObjectId = "#monster-0";
+        tl.kill(null, monsterObjectId)
+            .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
+            .to(monsterObjectId, 0.3, {autoAlpha: 0, ease: Power1.easeIn}, "-=0.2");
+
         // TODO: clear form and question
+    }
+
+    gameOver() {
+        alert("GAME OVER!")
     }
 }
