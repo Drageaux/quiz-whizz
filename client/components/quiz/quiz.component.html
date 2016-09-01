@@ -1,0 +1,10 @@
+<h2 class="ui header divided">{{name}}</h2>
+<div class="ui segment">
+    <div id="wall">|</div>
+    <div id="hud">
+        <span>Score: {{score}}</span>
+    </div>
+    <div class="ui button" id="monster-0">Monster</div>
+    <input type="text" (keypress)="keyPress($event)" id="editor">
+    <p><strong>Question:</strong> {{currentQuestion}}</p>
+</div>

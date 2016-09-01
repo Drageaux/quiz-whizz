@@ -7,6 +7,7 @@ import { NgSemanticModule } from "ng-semantic";
 import { AppComponent }  from './app.component';
 import { routing } from "./routes";
 import { HelloComponent } from "./components/shared/hello.component";
+import { QuizComponent } from "./components/quiz/quiz.component";
 import { ContactModule } from "./modules/contact/contact.module";
 import { HomeModule } from "./modules/home/home.module";
 
@@ -26,7 +27,7 @@ import { HomeModule } from "./modules/home/home.module";
             noTokenScheme: true
         })
     ],
-    declarations: [ HelloComponent, AppComponent ],
+    declarations: [ QuizComponent, HelloComponent, AppComponent ],
     bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

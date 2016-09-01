@@ -1,10 +1,37 @@
+$red_semantic: #DB2828;
+$red_inverted_semantic: #FF695E;
+$orange_semantic: #F2711C;
+$yellow_semantic: #FBBD08;
+$olive_semantic: #B5CC18;
+$green_semantic: #21BA45;
+$teal_semantic: #00B5AD;
+$blue_semantic: #2185D0;
+$violet_semantic: #6435C9;
+$purple_semantic: #A333C8;
+$pink_semantic: #E03997;
+$brown_semantic: #A5673F;
+$grey_semantic: #767676;
+$black_semantic: #1B1C1D;
 body {
-	background: #f4f4f4;
+    background: #F4F4F4;
     .center {
-		text-align: center;
-		padding-top: 100px;
-	}
-	.sebm-google-map-container {
-		height: 300px;
-	}
+        text-align: center;
+        padding-top: 100px;
+    }
+    .sebm-google-map-container {
+        height: 300px;
+    }
+
+    nav.ui.inverted.menu {
+        border-radius: 0 !important;
+        .item {
+            color: $red_inverted_semantic;
+            border-radius: 0 !important;
+        }
+        .item:hover,
+        .item:focus {
+            color: white;
+            background-color: $red_inverted_semantic;
+        }
+    }
 }

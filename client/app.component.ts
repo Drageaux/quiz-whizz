@@ -5,40 +5,40 @@ import { SemanticPopupComponent } from "ng-semantic";
 @Component({
     selector: "app",
     template: `
-<div class="ui container">
-    <nav class="ui menu inverted red huge">
+    <nav class="ui menu inverted huge">
         <a routerLink="home" class="item">Home</a>
         <!--<a routerLink="contact" class="item">Contact Me</a>-->
-        
+
         <!--<nav class="menu right">-->
             <!--<a (click)="myPopup.show($event, {position: 'right center'})" *ngIf="!isLogged" class="item">Login</a>-->
             <!--<a (click)="logout()" *ngIf="isLogged" class="item inverted red">Logout</a>-->
         <!--</nav>-->
     </nav>
+    <div class="ui container">
 
-    <!--<sm-popup class="huge" #myPopup>-->
-        <!--<sm-card class="card basic">-->
-            <!--<card-title> Simple login </card-title>-->
-            <!--<card-subtitle>  </card-subtitle>-->
-            <!--<card-content>-->
-                <!--<p><b>Password</b>: angualr2express</p>-->
-                <!--<p><b>Username</b>: john</p>-->
-            <!--</card-content>-->
-            <!--<sm-button class="bottom attached fluid primary" *ngIf="!isLogged" (click)="login()">Login</sm-button>-->
-            <!--<sm-button class="bottom attached fluid red" *ngIf="isLogged" (click)="logout()">Logout</sm-button>-->
-        <!--</sm-card>-->
-    <!--</sm-popup>-->
-        
-    <hello [name]="appName"></hello>
-    
-    <div class="ui divider"></div>
-    
-    <router-outlet></router-outlet>
-    
-</div>`
+        <!--<sm-popup class="huge" #myPopup>-->
+            <!--<sm-card class="card basic">-->
+                <!--<card-title> Simple login </card-title>-->
+                <!--<card-subtitle>  </card-subtitle>-->
+                <!--<card-content>-->
+                    <!--<p><b>Password</b>: angualr2express</p>-->
+                    <!--<p><b>Username</b>: john</p>-->
+                <!--</card-content>-->
+                <!--<sm-button class="bottom attached fluid primary" *ngIf="!isLogged" (click)="login()">Login</sm-button>-->
+                <!--<sm-button class="bottom attached fluid red" *ngIf="isLogged" (click)="logout()">Logout</sm-button>-->
+            <!--</sm-card>-->
+        <!--</sm-popup>-->
+
+        <quiz [name]="appName"></quiz>
+
+        <div class="ui divider"></div>
+
+        <router-outlet></router-outlet>
+
+    </div>`
 })
 export class AppComponent {
-    appName:string = "Angular 2 Express";
+    appName:string = "Quiz Whizz";
     user:any = {
         password: "angualr2express",
         username: "john"
