@@ -10,11 +10,11 @@
     "noImplicitAny": false
   },
   "exclude": [
-    "node_modules",
-    "typings/main",
-    "typings/globals",
-    "typings/main.d.ts",
-    "typings/index.d.ts",
-    "typings/globals/node/index.d.ts"
+    "../node_modules",
+    "../typings/main",
+    "../typings/globals",
+    "../typings/main.d.ts",
+    "../typings/index.d.ts",
+    "../typings/globals/node/index.d.ts"
   ]
 }

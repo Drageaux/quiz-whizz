@@ -4,8 +4,9 @@ import { join } from "path";
 import * as favicon from "serve-favicon";
 import { json, urlencoded } from "body-parser";
 
-import { loginRouter } from "./routes/login";
 import { protectedRouter } from "./routes/protected";
+import { loginRouter } from "./routes/login";
+import {quizRouter} from "./routes/quiz";
 
 const app: express.Application = express();
 app.disable("x-powered-by");
@@ -19,8 +20,11 @@ app.use(urlencoded({ extended: true }));
 // api routes
 app.use("/api", protectedRouter);
 app.use("/login", loginRouter);
+// quiz api routes
+app.use("/quiz", quizRouter);
 
 app.use('/client', express.static(join(__dirname, '../client')));
+
 
 // error handlers
 // development error handler
