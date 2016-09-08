@@ -75,7 +75,7 @@ export class QuizComponent implements OnInit {
      * END-TO-END FUNCTIONS *
      ************************/
     makeQuiz() {
-        his.apiService
+        this.apiService
             .makeQuiz(this.currentLevel)
             .subscribe(
                 (data) => {
