@@ -6,9 +6,22 @@ const quizRouter:Router = Router();
 
 // get quiz question
 quizRouter.post("/", function (request:Request, response:Response, next:NextFunction) {
+    console.log(request.body);
+    let level = request.body.currentLevel;
+    let maxValue = Math.pow(10,1+0.1*level);
+
+    // random number between 1 and the max value
+    let targetValue = Math.round(Math.random() * (maxValue)) + 1;
+    console.log("target val: " + targetValue);
+
+    response.json({
+        quiz: "test"
+    });
+});
 
 
-    // test
+// evaluate and return the result & whether answer is correct or not
+quizRouter.post("/check", function (request:Request, response:Response, next:NextFunction) {
     http.get("http://api.mathjs.org/v1/?expr=2*(7-3)", (res) => {
         console.log(`STATUS: ${res.statusCode}`);
         res.on('data', function (chunk) {
@@ -20,28 +33,6 @@ quizRouter.post("/", function (request:Request, response:Response, next:NextFunc
     }).on('error', (e) => {
         console.log(`Got error: ${e.message}`);
     });
-
-});
-
-// evaluate and return the result & whether answer is correct or not
-quizRouter.post("/check", function (request:Request, response:Response, next:NextFunction) {
-
-    //pbkdf2(request.body.password, user.salt, 10000, length, function (err, hash) {
-    //    if (err) {
-    //        console.log(err);
-    //    }
-    //
-    //    // check if password is active
-    //    if (hash.toString("hex") === user.hashedPassword) {
-    //
-    //        const token = sign({"user": user.username, permissions: []}, secret, { expiresIn: "7d" });
-    //        response.json({"jwt": token});
-    //
-    //    } else {
-    //        response.json({message: "Wrong password"});
-    //    }
-    //
-    //});
 });
 
 export { quizRouter }

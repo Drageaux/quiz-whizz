@@ -8,7 +8,7 @@ import "gsap";
 })
 export class QuizComponent implements OnInit {
     @Input() name:string;
-    currentLevel:number;
+    currentLevel:number = 0;
     // each monster will have their own timeline,
     // so that the user cannot interfere with the monster reaching their goal
     monsterExample:any = {
