@@ -108,6 +108,7 @@ function isPrime(value) {
     return value > 1;
 }
 
+
 /**
  * Loop through iterations and create an object with a list of puzzle elements and the value given to the user
  *
@@ -159,7 +160,7 @@ function generateExpression(exprTimes:number, targetValue:number, maxValue:numbe
             case "/":
                 modifier = getRandomInclusive(1, givenValue);
 
-                console.log("dividing...................");
+                console.log("dividing...................modifier: " + modifier);
                 givenValue = targetValue / modifier;
                 result.expr.push(modifier.toString(), "*");
                 break;

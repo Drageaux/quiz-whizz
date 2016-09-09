@@ -9,6 +9,9 @@ import "gsap";
 export class QuizComponent implements OnInit {
     @Input() name:string;
     currentLevel:number = 0;
+    score:number = 0;
+    userAnswer:string[] = [];
+    quiz:any = {};
     // each monster will have their own timeline,
     // so that the user cannot interfere with the monster reaching their goal
     monsterExample:any = {
@@ -17,32 +20,26 @@ export class QuizComponent implements OnInit {
         answer: "cat",
         animationTimeline: new TimelineMax()
     };
-    score:number = 0;
-
-    quizQuestions:string[] = [];
-    quizAnswers:string[] = [];
-    currentQuizId:number = 0;
-    currentQuestion:string = "";
 
     constructor(private apiService:ApiService) {
     }
 
     ngOnInit() {
         this.makeQuiz();
+        // TODO: create array of available buttons
+        // TODO: create array of selected buttons
+
     }
 
     keyPress(event:any) {
-        if (event.keyCode == 13) {
-            if (event.target.value.toLowerCase() == this.monsterExample.answer) {
-                this.destroyMonster(this.monsterExample); // animation
-                this.currentLevel++; // increase difficulty
+        if (event.keyCode == 13) { // pressed Enter/Submit
+            if (this.checkSolution()) {
+                // TODO: this.destroyMonster(this.monsterExample); // animation
+                this.currentLevel += this.quiz.targetValue; // increase difficulty
                 this.makeQuiz(); // return another quiz
-            } else {
-                this.score--;
             }
-        } else if (event.keyCode == 38) {
-
         }
+        // TODO: navigate between different quizzes
     }
 
 
@@ -50,8 +47,8 @@ export class QuizComponent implements OnInit {
      * ANIMATIONS *
      **************/
     spawnMonster() {
-        let tl = this.monsterExample.animationTimeline;
-        tl.to("#monster-0", 10, {left: "100%", ease: Power0.easeNone, onComplete: this.gameOver});
+        //let tl = this.monsterExample.animationTimeline;
+        //tl.to("#monster-0", 10, {left: "100%", ease: Power0.easeNone, onComplete: this.gameOver});
     }
 
     destroyMonster(monster:any) {
@@ -67,7 +64,7 @@ export class QuizComponent implements OnInit {
     }
 
     gameOver() {
-        alert("GAME OVER!")
+        // TODO: popup a nag button or modal to let user replay/go to leaderboard
     }
 
 
@@ -80,10 +77,15 @@ export class QuizComponent implements OnInit {
             .subscribe(
                 (data) => {
                     console.log(data);
+                    this.quiz = data;
                 },
                 (error:Error) => {
                     let error = error.message;
                     setTimeout(() => error = null, 4000)
                 });
+    }
+
+    checkSolution() {
+        // TODO: send request to Mathjs to check solution
     }
 }
