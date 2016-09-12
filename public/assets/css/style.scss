@@ -84,7 +84,21 @@ body {
         }
         #user-control {
             margin-top: 10px;
+            margin-bottom: 10px;
             text-align: center;
+            span {
+                display: inline-block;
+            }
+            ul {
+                li {
+                    list-style: none;
+                    display: inline-block;
+                }
+                li.ui.button {
+                    width: 50px;
+                }
+            }
+            .question-values { font-size: 30px; padding: 10px; }
         }
     }
 }

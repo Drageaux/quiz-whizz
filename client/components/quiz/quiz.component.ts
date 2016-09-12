@@ -8,10 +8,13 @@ import "gsap";
 })
 export class QuizComponent implements OnInit {
     @Input() name:string;
-    currentLevel:number = 0;
+    currentLevel:number = 4;
     score:number = 0;
-    userAnswer:string[] = [];
     quiz:any = {};
+    buttonWidth:number = 1; // for uniformity
+    currAvailInput:any[] = []; // model bound to available choices of symbols
+    currUserInput:any[] = []; // model bound to symbols the user selected
+
     // each monster will have their own timeline,
     // so that the user cannot interfere with the monster reaching their goal
     monsterExample:any = {
@@ -78,6 +81,24 @@ export class QuizComponent implements OnInit {
                 (data) => {
                     console.log(data);
                     this.quiz = data;
+
+                    this.currAvailInput = [];
+                    this.currUserInput = [];
+                    let maxSymbolWidth = 1;
+                    for (let i = 0; i < this.quiz.expr.length; i++) {
+                        // to display a uniform width
+                        if (this.quiz.expr[i].length > maxSymbolWidth){
+                            maxSymbolWidth = this.quiz.expr[i].length;
+                            console.log(this.quiz.expr[i].length);
+                        }
+                        // for the binding models
+                        this.currAvailInput[i] = {
+                            symbol: this.quiz.expr[i],
+                            disabled: false
+                        };
+                        this.currUserInput[i] = { symbol: "" };
+                    }
+                    this.buttonWidth = 50 + maxSymbolWidth * 8;
                 },
                 (error:Error) => {
                     let error = error.message;

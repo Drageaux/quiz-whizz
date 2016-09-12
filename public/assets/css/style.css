@@ -52,6 +52,17 @@ body {
       -o-transform: rotate(135deg); }
   body quiz #user-control {
     margin-top: 10px;
+    margin-bottom: 10px;
     text-align: center; }
+    body quiz #user-control span {
+      display: inline-block; }
+    body quiz #user-control ul li {
+      list-style: none;
+      display: inline-block; }
+    body quiz #user-control ul li.ui.button {
+      width: 50px; }
+    body quiz #user-control .question-values {
+      font-size: 30px;
+      padding: 10px; }
 
 /*# sourceMappingURL=style.css.map */

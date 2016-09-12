@@ -10,8 +10,30 @@
         <div class="monster" id="monster-0"></div>
     </div>
 
-    <div id="user-control">
-        <input type="text" (keypress)="keyPress($event)" id="editor">
-        <p><strong>Question:</strong> {{currentQuestion}}</p>
+    <!--<input type="text" (keypress)="keyPress($event)" id="editor">-->
+    <div id="user-control" class="ui grid">
+        <div class="ui row">
+            <ul class="column">
+                <li class="ui blue button"
+                    [style.width]="buttonWidth + 'px'"
+                    *ngFor="let symbol of quiz.expr; let i = index">
+                    {{symbol}}
+                </li>
+            </ul>
+        </div>
+
+        <div class="ui row input-area">
+            <div class="question-values four wide right aligned column" id="given-value">{{quiz.givenValue}}</div>
+            <ul class="eight wide column">
+                <li class="ui disabled grey button"
+                    [style.width]="buttonWidth + 'px'"
+                    *ngFor="let symbol of quiz.expr">
+                    &nbsp;
+                </li>
+            </ul>
+            <div class="question-values four wide left aligned column" id="target-value">{{quiz.targetValue}}</div>
+        </div>
+
     </div>
+    <button (click)="makeQuiz()">Make a quiz</button>
 </div>

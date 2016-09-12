@@ -18,7 +18,6 @@ quizRouter.post("/", function (request:Request, response:Response, next:NextFunc
     let quiz = generateExpression(exprTimes, targetValue, maxValue);
     console.log("list: " + quiz.expr.toString());
 
-
     response.json(quiz);
 });
 
@@ -50,6 +49,11 @@ quizRouter.post("/check", function (request:Request, response:Response, next:Nex
  * @returns {number}
  */
 function getRandomInclusive(min:number, max:number) {
+    if (min > max) {
+        let temp = max;
+        max = min;
+        min = temp;
+    }
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -68,7 +72,7 @@ function filterAllowedOperators(givenValue:number, maxValue:number) {
         exprPossible.splice(toRemove, 1);
         console.log("filter +:" + givenValue);
     }
-    if (givenValue * 2 > maxValue) { // shouldn't be larger than half of max (to make it interesting/harder)
+    if (givenValue * 2 > maxValue || givenValue <= 1) { // shouldn't be larger than half of max (to make it interesting/harder)
         let toRemove = exprPossible.indexOf("*");
         exprPossible.splice(toRemove, 1);
         console.log("filter " + givenValue + "*2: " + (givenValue * 2));
@@ -78,12 +82,11 @@ function filterAllowedOperators(givenValue:number, maxValue:number) {
         exprPossible.splice(toRemove, 1);
         console.log("filter -:" + givenValue);
     }
-    if (isPrime(givenValue)) { // don't divide prime numbers; will still result in decimals but reduce weird difficult values
+    if (isPrime(givenValue) || givenValue == 0) { // don't divide prime numbers; will still result in decimals but reduce weird difficult values
         let toRemove = exprPossible.indexOf("/");
         exprPossible.splice(toRemove, 1);
         console.log("filter /:" + givenValue);
     }
-    console.log("possible: " + exprPossible);
 
     if (exprPossible.length == 0) {
         //exprPossible.push("+")
@@ -128,9 +131,10 @@ function generateExpression(exprTimes:number, targetValue:number, maxValue:numbe
     let limit; // max limit of modifier
 
     for (let i = 0; i < exprTimes; i++) {
+        console.log("_____________________________");
         // filter only allowed expressions
         let exprPossible:string[] = filterAllowedOperators(givenValue, maxValue);
-        console.log("possible: " + exprPossible);
+        console.log("current value: " + givenValue + "\npossible: " + exprPossible);
 
         let randomIndex = getRandomInclusive(0, exprPossible.length - 1);
         switch (exprPossible[randomIndex]) {
@@ -138,40 +142,42 @@ function generateExpression(exprTimes:number, targetValue:number, maxValue:numbe
                 limit = maxValue - givenValue;
                 modifier = getRandomInclusive(0, limit);
 
-                console.log("adding.....................");
-                givenValue = targetValue + modifier;
+                givenValue = givenValue + modifier;
+                console.log("adding.......................: + " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "-");
                 break;
             case "*":
                 limit = Math.floor(maxValue / givenValue);
                 modifier = getRandomInclusive(1, limit);
 
-                console.log("multiplying................");
-                givenValue = targetValue * modifier;
+                givenValue = givenValue * modifier;
+                console.log("multiply.....................: * " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "/");
                 break;
             case "-":
                 modifier = getRandomInclusive(0, givenValue);
 
-                console.log("subtracting................");
-                givenValue = targetValue - modifier;
+                givenValue = givenValue - modifier;
+                console.log("subtract.....................: - " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "+");
                 break;
             case "/":
                 modifier = getRandomInclusive(1, givenValue);
 
-                console.log("dividing...................modifier: " + modifier);
-                givenValue = targetValue / modifier;
+                givenValue = givenValue / modifier;
+                console.log("divide.......................: / " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "*");
                 break;
             default:
                 console.log("ERROR: expression generation had some problems!");
                 break;
         }
+        console.log("list: " + result.expr.toString());
         console.log("given val: " + givenValue);
     }
 
     // finalize
+    // TODO: truncate/toFix decimals to the thousandth
     // TODO: randomize the expr list before returning
     result.givenValue = givenValue;
 
