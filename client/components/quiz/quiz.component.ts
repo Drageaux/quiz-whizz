@@ -12,8 +12,9 @@ export class QuizComponent implements OnInit {
     score:number = 0;
     quiz:any = {};
     buttonWidth:number = 1; // for uniformity
-    currAvailInput:any[] = []; // model bound to available choices of symbols
-    currUserInput:any[] = []; // model bound to symbols the user selected
+    currAvailInput:any[] = []; // array list model bound to available choices of symbols
+    currUserInput:any[] = []; // stack list model bound to symbols the user selected
+    inputIndex:number = 0;
 
     // each monster will have their own timeline,
     // so that the user cannot interfere with the monster reaching their goal
@@ -34,6 +35,9 @@ export class QuizComponent implements OnInit {
 
     }
 
+    /***************
+     * INTERACTIVE *
+     ***************/
     keyPress(event:any) {
         if (event.keyCode == 13) { // pressed Enter/Submit
             if (this.checkSolution()) {
@@ -43,6 +47,12 @@ export class QuizComponent implements OnInit {
             }
         }
         // TODO: navigate between different quizzes
+    }
+
+    selectAnswer(index:number){
+        this.currUserInput[this.inputIndex].value = this.currAvailInput[index].value;
+        this.currAvailInput[index].disabled = true;
+        this.inputIndex++;
     }
 
 
@@ -84,6 +94,7 @@ export class QuizComponent implements OnInit {
 
                     this.currAvailInput = [];
                     this.currUserInput = [];
+                    this.inputIndex = 0;
                     let maxSymbolWidth = 1;
                     for (let i = 0; i < this.quiz.expr.length; i++) {
                         // to display a uniform width
@@ -93,10 +104,10 @@ export class QuizComponent implements OnInit {
                         }
                         // for the binding models
                         this.currAvailInput[i] = {
-                            symbol: this.quiz.expr[i],
+                            value: this.quiz.expr[i],
                             disabled: false
                         };
-                        this.currUserInput[i] = { symbol: "" };
+                        this.currUserInput[i] = { value: "" };
                     }
                     this.buttonWidth = 50 + maxSymbolWidth * 8;
                 },
@@ -108,5 +119,15 @@ export class QuizComponent implements OnInit {
 
     checkSolution() {
         // TODO: send request to Mathjs to check solution
+    }
+
+    /***********
+     * HELPERS *
+     ***********/
+    isEmptyString(text:string) {
+        if (text == " " || text == "" || text == null){
+            return true;
+        }
+        return false;
     }
 }

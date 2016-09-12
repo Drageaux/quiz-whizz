@@ -5,10 +5,10 @@
         <h3>Score: {{score}}</h3>
     </div>
 
-    <div id="battleground">
-        <div id="wall">|</div>
-        <div class="monster" id="monster-0"></div>
-    </div>
+    <!--<div id="battleground">-->
+    <!--<div id="wall">|</div>-->
+    <!--<div class="monster" id="monster-0"></div>-->
+    <!--</div>-->
 
     <!--<input type="text" (keypress)="keyPress($event)" id="editor">-->
     <div id="user-control" class="ui grid">
@@ -16,8 +16,10 @@
             <ul class="column">
                 <li class="ui blue button"
                     [style.width]="buttonWidth + 'px'"
-                    *ngFor="let symbol of quiz.expr; let i = index">
-                    {{symbol}}
+                    [class.basic]="currAvailInput[i].disabled"
+                    *ngFor="let symbol of currAvailInput; let i = index"
+                    (click)="selectAnswer(i)">
+                    {{symbol.value}}
                 </li>
             </ul>
         </div>
@@ -27,8 +29,10 @@
             <ul class="eight wide column">
                 <li class="ui disabled grey button"
                     [style.width]="buttonWidth + 'px'"
-                    *ngFor="let symbol of quiz.expr">
-                    &nbsp;
+                    [class.blue]="!isEmptyString(currUserInput[i].value)"
+                    [class.disabled]="isEmptyString(currUserInput[i].value)"
+                    *ngFor="let symbol of currUserInput; let i = index">
+                    {{symbol.value}}
                 </li>
             </ul>
             <div class="question-values four wide left aligned column" id="target-value">{{quiz.targetValue}}</div>

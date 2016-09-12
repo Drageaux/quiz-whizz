@@ -60,7 +60,9 @@ body {
       list-style: none;
       display: inline-block; }
     body quiz #user-control ul li.ui.button {
-      width: 50px; }
+      width: 50px;
+      height: 36px;
+      vertical-align: top; }
     body quiz #user-control .question-values {
       font-size: 30px;
       padding: 10px; }
