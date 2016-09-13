@@ -83,6 +83,7 @@ body {
             }
         }
         #user-control {
+            user-select: none;
             margin-top: 10px;
             margin-bottom: 10px;
             text-align: center;
@@ -100,7 +101,11 @@ body {
                     vertical-align: top;
                 }
             }
-            .question-values { font-size: 30px; padding: 10px; }
+            .question-values {
+                user-select: none;
+                font-size: 30px;
+                padding: 10px;
+            }
         }
     }
 }

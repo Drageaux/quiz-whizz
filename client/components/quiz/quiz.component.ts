@@ -116,10 +116,22 @@ export class QuizComponent implements OnInit {
                 y: -50,
                 ease: Power1.easeOut
             }, "+=0.2");
+        this.score += this.quiz.targetValue;
+        this.diffLevel++;
 
         // wait after the animation; seems like the best way right now
         let timer = Observable.timer(1000);
         timer.subscribe(t => this.makeQuiz());
+    }
+
+    wrongAnswer() {
+        let timeline = new TimelineMax();
+        let answerItems = $("#input-area ul li");
+        timeline
+            .set(answerItems, {backgroundColor: "#DB2828"})
+            .from(answerItems, 0.3, {x: 10, ease: Bounce.easeOut})
+            .set(answerItems, {x: 0})
+            .to(answerItems, 1, {backgroundColor: "#2185D0"}, "+=0.6")
     }
 
     gameOver() {
@@ -175,6 +187,8 @@ export class QuizComponent implements OnInit {
                     console.log(data);
                     if (data.result == this.quiz.targetValue) {
                         this.correctAnswer();
+                    } else {
+                        this.wrongAnswer();
                     }
                 }
             );

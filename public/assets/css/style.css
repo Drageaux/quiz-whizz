@@ -51,6 +51,7 @@ body {
       -ms-transform: rotate(135deg);
       -o-transform: rotate(135deg); }
   body quiz #user-control {
+    user-select: none;
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center; }
@@ -64,6 +65,7 @@ body {
       height: 36px;
       vertical-align: top; }
     body quiz #user-control .question-values {
+      user-select: none;
       font-size: 30px;
       padding: 10px; }
 
