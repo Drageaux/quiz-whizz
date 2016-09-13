@@ -30,6 +30,18 @@ export class ApiService {
             .catch(this.handleError);
     }
 
+    checkSolution(expr:string) {
+        let body = {expr: expr};
+        let headers = new Headers({"Content-Type": "application/json"});
+        let options = new RequestOptions({headers: headers});
+
+        return this
+            .http
+            .post("/quiz/check", body, options)
+            .map((res:Response) => res.json())
+            .catch(this.handleError);
+    }
+
     private handleError(error:any) {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message

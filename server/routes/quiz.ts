@@ -24,12 +24,16 @@ quizRouter.post("/", function (request:Request, response:Response, next:NextFunc
 
 // evaluate and return the result & whether answer is correct or not
 quizRouter.post("/check", function (request:Request, response:Response, next:NextFunction) {
-    http.get("http://api.mathjs.org/v1/?expr=2*(7-3)", (res) => {
+    let expr = request.body.expr;
+    expr = encodeURIComponent(expr);
+    console.log(expr);
+
+    http.get("http://api.mathjs.org/v1/?expr=" + expr, (res) => {
         console.log(`STATUS: ${res.statusCode}`);
         res.on('data', function (chunk) {
             console.log('BODY: ' + chunk.toString("utf8"));
             response.json({
-                number: chunk.toString("utf8")
+                result: chunk.toString("utf8")
             })
         });
     }).on('error', (e) => {

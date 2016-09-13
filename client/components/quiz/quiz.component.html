@@ -24,20 +24,23 @@
             </ul>
         </div>
 
-        <div class="ui row input-area">
+        <div class="ui row" id="input-area">
             <div class="question-values four wide right aligned column" id="given-value">{{quiz.givenValue}}</div>
             <ul class="eight wide column">
                 <li class="ui disabled grey button"
                     [style.width]="buttonWidth + 'px'"
                     [class.blue]="!isEmptyString(currUserInput[i].value)"
                     [class.disabled]="isEmptyString(currUserInput[i].value)"
-                    *ngFor="let symbol of currUserInput; let i = index">
+                    *ngFor="let symbol of currUserInput; let i = index"
+                    (click)="removeAnswer(i)">
                     {{symbol.value}}
                 </li>
             </ul>
-            <div class="question-values four wide left aligned column" id="target-value">{{quiz.targetValue}}</div>
+            <div class="question-values four wide left aligned column" id="target-value">
+                = {{quiz.targetValue}}
+            </div>
         </div>
-
+        <b>Your answer:</b> {{exprString}}
     </div>
     <button (click)="makeQuiz()">Make a quiz</button>
 </div>

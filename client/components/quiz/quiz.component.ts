@@ -1,6 +1,8 @@
 import { Component, Input } from "@angular/core";
 import {ApiService} from "../../service/api.service";
 import "gsap";
+import {Observable} from "rxjs/Rx";
+import {isEmpty} from "rxjs/operator/isEmpty";
 
 @Component({
     selector: "quiz",
@@ -8,13 +10,16 @@ import "gsap";
 })
 export class QuizComponent implements OnInit {
     @Input() name:string;
-    currentLevel:number = 4;
+    diffLevel:number = 4; // difficulty
     score:number = 0;
-    quiz:any = {};
     buttonWidth:number = 1; // for uniformity
+
+    quiz:any = {};
     currAvailInput:any[] = []; // array list model bound to available choices of symbols
     currUserInput:any[] = []; // stack list model bound to symbols the user selected
-    inputIndex:number = 0;
+    inputIndex:number = 0; // basically the length of the answer list
+    exprString = "";
+
 
     // each monster will have their own timeline,
     // so that the user cannot interfere with the monster reaching their goal
@@ -30,9 +35,6 @@ export class QuizComponent implements OnInit {
 
     ngOnInit() {
         this.makeQuiz();
-        // TODO: create array of available buttons
-        // TODO: create array of selected buttons
-
     }
 
     /***************
@@ -42,17 +44,42 @@ export class QuizComponent implements OnInit {
         if (event.keyCode == 13) { // pressed Enter/Submit
             if (this.checkSolution()) {
                 // TODO: this.destroyMonster(this.monsterExample); // animation
-                this.currentLevel += this.quiz.targetValue; // increase difficulty
+                this.diffLevel += this.quiz.targetValue; // increase difficulty
                 this.makeQuiz(); // return another quiz
             }
         }
         // TODO: navigate between different quizzes
     }
 
-    selectAnswer(index:number){
-        this.currUserInput[this.inputIndex].value = this.currAvailInput[index].value;
-        this.currAvailInput[index].disabled = true;
-        this.inputIndex++;
+    selectAnswer(index:number) {
+        if (!this.currAvailInput[index].disabled) {
+            let value = this.currAvailInput[index].value;
+            this.currUserInput[this.inputIndex].value = value; // move
+            this.currUserInput[this.inputIndex].originIndex = index; // remember the index for removal
+
+            this.currAvailInput[index].disabled = true; // disable original button
+            this.inputIndex++;
+            this.compileExpressionString();
+
+            // when all answers selected
+            if (this.inputIndex == this.currAvailInput.length) {
+                this.checkSolution();
+            }
+        }
+    }
+
+    removeAnswer(index:number) {
+        let answer = this.currUserInput[index];
+        this.currAvailInput[answer.originIndex].disabled = false; // re-enable the original button
+
+        // remove just the 1 selected answer
+        this.currUserInput.splice(index, 1);
+        this.currUserInput.push({
+            value: "",
+            originIndex: null
+        });
+        this.inputIndex--;
+        this.compileExpressionString();
     }
 
 
@@ -76,6 +103,25 @@ export class QuizComponent implements OnInit {
         // TODO: clear form and question
     }
 
+    correctAnswer() {
+        let timeline = new TimelineMax();
+        let answerItems = $("#input-area ul li");
+        timeline
+            .to(answerItems, 0.1, {
+                backgroundColor: "#21BA45",
+                ease: Power1.easeOut
+            })
+            .to(answerItems, 0.5, {
+                autoAlpha: 0,
+                y: -50,
+                ease: Power1.easeOut
+            }, "+=0.2");
+
+        // wait after the animation; seems like the best way right now
+        let timer = Observable.timer(1000);
+        timer.subscribe(t => this.makeQuiz());
+    }
+
     gameOver() {
         // TODO: popup a nag button or modal to let user replay/go to leaderboard
     }
@@ -86,7 +132,7 @@ export class QuizComponent implements OnInit {
      ************************/
     makeQuiz() {
         this.apiService
-            .makeQuiz(this.currentLevel)
+            .makeQuiz(this.diffLevel)
             .subscribe(
                 (data) => {
                     console.log(data);
@@ -98,16 +144,19 @@ export class QuizComponent implements OnInit {
                     let maxSymbolWidth = 1;
                     for (let i = 0; i < this.quiz.expr.length; i++) {
                         // to display a uniform width
-                        if (this.quiz.expr[i].length > maxSymbolWidth){
+                        if (this.quiz.expr[i].length > maxSymbolWidth) {
                             maxSymbolWidth = this.quiz.expr[i].length;
-                            console.log(this.quiz.expr[i].length);
                         }
                         // for the binding models
                         this.currAvailInput[i] = {
                             value: this.quiz.expr[i],
                             disabled: false
                         };
-                        this.currUserInput[i] = { value: "" };
+                        this.currUserInput[i] = {
+                            value: "",
+                            originIndex: null
+                        };
+                        this.exprString = this.quiz.givenValue;
                     }
                     this.buttonWidth = 50 + maxSymbolWidth * 8;
                 },
@@ -119,15 +168,44 @@ export class QuizComponent implements OnInit {
 
     checkSolution() {
         // TODO: send request to Mathjs to check solution
+        this.apiService
+            .checkSolution(this.exprString)
+            .subscribe(
+                (data) => {
+                    console.log(data);
+                    if (data.result == this.quiz.targetValue) {
+                        this.correctAnswer();
+                    }
+                }
+            );
     }
 
     /***********
      * HELPERS *
      ***********/
     isEmptyString(text:string) {
-        if (text == " " || text == "" || text == null){
+        if (text == " " || text == "" || text == null) {
             return true;
         }
         return false;
+    }
+
+    compileExpressionString() {
+        this.exprString = this.quiz.givenValue;
+
+        for (let i = 0; i < this.currUserInput.length; i++) {
+            let value = this.currUserInput[i].value;
+            // manipulate expression sent to the server
+            if (!this.isEmptyString(value)) {
+                if (Number.isInteger(Number(value))) {
+                    console.log(value);
+                    this.exprString = "(" + this.exprString + value + ")";
+                } else {
+                    // if operators and numbers are out of order, the syntax will be wrong;
+                    // this takes care of misuse/abuse case of mixing up string orders
+                    this.exprString += value;
+                }
+            }
+        }
     }
 }
