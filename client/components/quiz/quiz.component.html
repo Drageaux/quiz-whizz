@@ -2,7 +2,17 @@
 <div class="ui segment">
 
     <div id="hud">
-        <h3>Score: {{score}}</h3>
+        <ul>
+            <li>Score: {{score}}</li>
+            <li>Health:
+                <i class="heart icon"
+                   [class.empty]="health<1"></i>
+                <i class="heart icon"
+                   [class.empty]="health<2"></i>
+                <i class="heart icon"
+                   [class.empty]="health<3"></i>
+            </li>
+        </ul>
     </div>
 
     <!--<div id="battleground">-->
@@ -12,6 +22,7 @@
 
     <!--<input type="text" (keypress)="keyPress($event)" id="editor">-->
     <div id="user-control" class="ui grid">
+        <div style="text-align: center"><h2>Level: {{diffLevel}}</h2></div>
         <div class="ui row">
             <ul class="column">
                 <li class="ui blue button"
@@ -44,6 +55,20 @@
     </div>
 
     <hr>
-    <!--Test-->
-    <!--<button (click)="makeQuiz()">New Question</button>-->
+    <hr>
+    <!-- Testing -->
+    <button (click)="makeQuiz()">New Question</button>
+</div>
+
+<div class="ui modal" id="game-over">
+    <div class="header">
+        Game Over!
+    </div>
+    <div class="content" style="text-align: center">
+        <h2><b>Final Score</b>: {{score}}</h2>
+        <h2><b>Level</b>: {{diffLevel}}</h2>
+    </div>
+    <div class="actions">
+        <div class="ui button" (click)="restart()">Play Again</div>
+    </div>
 </div>

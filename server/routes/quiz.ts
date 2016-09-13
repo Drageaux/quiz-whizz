@@ -181,8 +181,11 @@ function generateExpression(exprTimes:number, targetValue:number, maxValue:numbe
     }
 
     // finalize
-    // TODO: truncate/toFix decimals to the thousandth
+    // TODO: truncate/toFix decimals to the thousandth (in front end)
     // TODO: randomize the expr list before returning
+    result.expr.sort(function () {
+        return .5 - Math.random();
+    });
     result.givenValue = givenValue;
 
     return result;

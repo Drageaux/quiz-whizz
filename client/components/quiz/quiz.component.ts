@@ -10,8 +10,9 @@ import {isEmpty} from "rxjs/operator/isEmpty";
 })
 export class QuizComponent implements OnInit {
     @Input() name:string;
-    diffLevel:number = 4; // difficulty
+    diffLevel:number = 1; // difficulty
     score:number = 0;
+    health:number = 3; // chances left
     buttonWidth:number = 1; // for uniformity
 
     quiz:any = {};
@@ -82,6 +83,22 @@ export class QuizComponent implements OnInit {
         this.compileExpressionString();
     }
 
+    gameOver() {
+        $("#game-over").modal("show");
+    }
+
+    restart() {
+        this.score = 0;
+        this.health = 3;
+        this.diffLevel = 1;
+        this.currAvailInput = [];
+        this.currUserInput = [];
+        this.inputIndex = 0;
+        this.exprString = "";
+        this.makeQuiz();
+        $("#game-over").modal("hide");
+    }
+
 
     /**************
      * ANIMATIONS *
@@ -131,11 +148,13 @@ export class QuizComponent implements OnInit {
             .set(answerItems, {backgroundColor: "#DB2828"})
             .from(answerItems, 0.3, {x: 10, ease: Bounce.easeOut})
             .set(answerItems, {x: 0})
-            .to(answerItems, 1, {backgroundColor: "#2185D0"}, "+=0.6")
-    }
+            .to(answerItems, 1, {backgroundColor: "#2185D0"}, "+=0.6");
+        this.health--;
 
-    gameOver() {
-        // TODO: popup a nag button or modal to let user replay/go to leaderboard
+        // game over
+        if (this.health == 0) {
+            this.gameOver();
+        }
     }
 
 

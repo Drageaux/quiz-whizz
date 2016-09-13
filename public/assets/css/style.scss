@@ -40,8 +40,17 @@ body {
         #hud {
             width: 100%;
             height: 40px;
-            h3 {
-                float: right
+            ul {
+                float: right;
+                margin: 0;
+                li {
+                    list-style: none;
+                    font-weight: bold;
+                    font-size: 16px;
+                }
+                .heart.icon {
+                    color: red;
+                }
             }
         }
 
