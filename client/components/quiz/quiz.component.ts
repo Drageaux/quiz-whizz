@@ -15,7 +15,7 @@ export class QuizComponent implements OnInit {
     score:number = 0;
     health:number = 3; // chances left
     buttonWidth:number = 1; // for uniformity
-    errorMessage:string = ""
+    errorMessage:string = "";
     // quiz-related
     quiz:any = {};
     currAvailInput:any[] = []; // array list model bound to available choices of symbols

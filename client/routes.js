@@ -1,4 +1,6 @@
-System.register(['@angular/router'], function(exports_1) {
+System.register(['@angular/router'], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var router_1;
     var routes, routing;
     return {

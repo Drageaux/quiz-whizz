@@ -1,4 +1,6 @@
-System.register(['@angular/router', './home/home.component', "./form/form.component"], function(exports_1) {
+System.register(['@angular/router', './home/home.component', "./form/form.component"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var router_1, home_component_1, form_component_1;
     var routes, routing;
     return {
