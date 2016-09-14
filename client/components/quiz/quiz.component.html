@@ -63,6 +63,12 @@
             </div>
         </div>
         <div class="sixteen wide column"><b>Preview your answer:</b> {{exprString}}</div>
+        <div class="ui negative message centered twelve wide column" [class.hidden]="isEmptyString(errorMessage)">
+            <div class="header">
+                Wrong answer
+            </div>
+            <p>{{errorMessage}}</p>
+        </div>
     </div>
     <hr>
 

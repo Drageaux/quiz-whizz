@@ -1,7 +1,7 @@
 {
-  "name": "angular2-express-starter",
+  "name": "David Thong Nguyen",
   "version": "1.0.0",
-  "description": "Starter application of Angular2 on Express",
+  "description": "Quiz Whizz exercise",
   "main": "gulpfile.js",
   "private": true,
   "scripts": {
@@ -12,7 +12,7 @@
     "typings": "typings install",
     "bundle": "node tools/builder.js",
     "bundle:prod": "node tools/builder.js --prod",
-    "postinstall": "typings install && tsc -p ./server"
+    "postinstall": "typings install && tsc -p ./server && tsc -p ./client"
   },
   "engines": {
     "node": ">= 5.4.1 < 6"

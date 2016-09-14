@@ -15,6 +15,7 @@ export class QuizComponent implements OnInit {
     score:number = 0;
     health:number = 3; // chances left
     buttonWidth:number = 1; // for uniformity
+    errorMessage:string = ""
     // quiz-related
     quiz:any = {};
     currAvailInput:any[] = []; // array list model bound to available choices of symbols
@@ -62,6 +63,7 @@ export class QuizComponent implements OnInit {
             this.currUserInput[this.inputIndex].originIndex = index; // remember the index for removal
 
             this.currAvailInput[index].disabled = true; // disable original button
+            this.currAvailInput[index].location = this.inputIndex; // remember the location to cancel selection
             this.inputIndex++;
             this.compileExpressionString();
 
@@ -69,6 +71,9 @@ export class QuizComponent implements OnInit {
             if (this.inputIndex == this.currAvailInput.length) {
                 this.checkSolution();
             }
+        } else {
+            let location = this.currAvailInput[index].location;
+            this.removeAnswer(location);
         }
     }
 
@@ -100,6 +105,7 @@ export class QuizComponent implements OnInit {
         this.score = 0;
         this.health = 3;
         this.diffLevel = 1;
+        this.errorMessage = "";
         this.currAvailInput = [];
         this.currUserInput = [];
         this.inputIndex = 0;
@@ -214,7 +220,8 @@ export class QuizComponent implements OnInit {
                             // for the binding models
                             this.currAvailInput[i] = {
                                 value: this.quiz.expr[i],
-                                disabled: false
+                                disabled: false,
+                                location: null
                             };
                             this.currUserInput[i] = {
                                 value: "",
@@ -239,8 +246,13 @@ export class QuizComponent implements OnInit {
                 (data) => {
                     console.log(data);
                     if (data.result == this.quiz.targetValue) {
+                        this.errorMessage = "";
                         this.correctAnswer();
+                    } else if (Number.isInteger(Number(data.result))) {
+                        this.errorMessage = "The result of your answer was " + data.result;
+                        this.wrongAnswer();
                     } else {
+                        this.errorMessage = "Please check your expression syntax";
                         this.wrongAnswer();
                     }
                 }
