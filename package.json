@@ -1,7 +1,7 @@
 {
-  "name": "David Thong Nguyen",
+  "name": "QuizWhizz",
   "version": "1.0.0",
-  "description": "Quiz Whizz exercise",
+  "description": "Quiz Whizz exercise with Math Puzzle",
   "main": "gulpfile.js",
   "private": true,
   "scripts": {
@@ -17,7 +17,7 @@
   "engines": {
     "node": ">= 5.4.1 < 6"
   },
-  "author": "Vlado Tešanović",
+  "author": "David Thong Nguyen",
   "license": "MIT",
   "dependencies": {
     "body-parser": "~1.13.2",
