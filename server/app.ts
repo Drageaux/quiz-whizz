@@ -6,7 +6,7 @@ import { json, urlencoded } from "body-parser";
 
 import { protectedRouter } from "./routes/protected";
 import { loginRouter } from "./routes/login";
-import {quizRouter} from "./routes/quiz";
+import { quizRouter } from "./routes/quiz";
 
 const app: express.Application = express();
 app.disable("x-powered-by");
@@ -24,6 +24,7 @@ app.use("/login", loginRouter);
 app.use("/quiz", quizRouter);
 
 app.use('/client', express.static(join(__dirname, '../client')));
+app.use('/node_modules', express.static(join(__dirname, '../node_modules')));
 
 
 // error handlers
