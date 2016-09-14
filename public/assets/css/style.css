@@ -14,66 +14,89 @@ body {
     body nav.ui.inverted.menu .item:focus {
       color: white;
       background-color: #FF695E; }
-  body quiz #hud {
-    width: 100%;
-    height: 40px; }
-    body quiz #hud ul {
-      float: right;
-      margin: 0; }
-      body quiz #hud ul li {
-        list-style: none;
-        font-weight: bold;
-        font-size: 16px; }
-      body quiz #hud ul .heart.icon {
-        color: red; }
-  body quiz #battleground {
-    position: relative;
-    height: 70vh;
-    border: solid 1px black;
-    overflow: hidden; }
-    body quiz #battleground #wall {
-      position: absolute;
-      right: 1%; }
-    body quiz #battleground .monster {
-      background: red;
-      width: 80px;
-      height: 80px;
-      position: absolute;
-      left: 0;
-      text-align: center;
-      -webkit-transform: rotate(20deg);
-      -moz-transform: rotate(20deg);
-      -ms-transform: rotate(20deg);
-      -o-transform: rotate(20 eg); }
-    body quiz #battleground .monster:before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 80px;
-      width: 80px;
-      background: red;
-      -webkit-transform: rotate(135deg);
-      -moz-transform: rotate(135deg);
-      -ms-transform: rotate(135deg);
-      -o-transform: rotate(135deg); }
-  body quiz #user-control {
+  body quiz {
+    -webkit-user-select: none;
+    /* Chrome all / Safari all */
+    -moz-user-select: none;
+    /* Firefox all */
+    -ms-user-select: none;
+    /* IE 10+ */
     user-select: none;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center; }
-    body quiz #user-control span {
-      display: inline-block; }
-    body quiz #user-control ul li {
-      list-style: none;
-      display: inline-block; }
-    body quiz #user-control ul li.ui.button {
-      width: 50px;
-      height: 36px;
-      vertical-align: top; }
-    body quiz #user-control .question-values {
+    /* Likely future */ }
+    body quiz #hud {
+      width: 100%;
+      height: 40px; }
+      body quiz #hud ul {
+        float: right;
+        margin: 0; }
+        body quiz #hud ul li {
+          list-style: none;
+          font-weight: bold;
+          font-size: 16px; }
+        body quiz #hud ul .add-score {
+          color: #21BA45;
+          opacity: 0;
+          position: absolute;
+          padding-left: 2px; }
+        body quiz #hud ul .heart.icon {
+          color: red; }
+        body quiz #hud ul .warning.heart.icon {
+          animation: glow 0.8s infinite alternate; }
+@keyframes glow {
+  to {
+    text-shadow: 0 0 10px red; } }
+    body quiz #battleground {
+      position: relative;
+      height: 70vh;
+      border: solid 1px black;
+      overflow: hidden; }
+      body quiz #battleground #wall {
+        position: absolute;
+        right: 1%; }
+      body quiz #battleground .monster {
+        background: red;
+        width: 80px;
+        height: 80px;
+        position: absolute;
+        left: 0;
+        text-align: center;
+        -webkit-transform: rotate(20deg);
+        -moz-transform: rotate(20deg);
+        -ms-transform: rotate(20deg);
+        -o-transform: rotate(20 eg); }
+      body quiz #battleground .monster:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 80px;
+        width: 80px;
+        background: red;
+        -webkit-transform: rotate(135deg);
+        -moz-transform: rotate(135deg);
+        -ms-transform: rotate(135deg);
+        -o-transform: rotate(135deg); }
+    body quiz #user-control {
       user-select: none;
-      font-size: 30px;
-      padding: 10px; }
+      margin-top: 10px;
+      margin-bottom: 10px;
+      text-align: center; }
+      body quiz #user-control span {
+        display: inline-block; }
+      body quiz #user-control ul li {
+        list-style: none;
+        display: inline-block; }
+      body quiz #user-control ul li.ui.button {
+        width: 50px;
+        height: 36px;
+        vertical-align: top; }
+      body quiz #user-control .question-values {
+        font-size: 30px;
+        padding: 10px; }
+    body quiz #options .button {
+      margin-top: 5px; }
+    @media only screen and (max-width: 767px) and (min-width: 320px) {
+      body quiz #options .right.floated.column .right.floated.button {
+        float: left; } }
 
 /*# sourceMappingURL=style.css.map */

@@ -9,17 +9,20 @@ import {isEmpty} from "rxjs/operator/isEmpty";
     templateUrl: "client/components/quiz/quiz.component.html"
 })
 export class QuizComponent implements OnInit {
+    // essential
     @Input() name:string;
     diffLevel:number = 1; // difficulty
     score:number = 0;
     health:number = 3; // chances left
     buttonWidth:number = 1; // for uniformity
-
+    // quiz-related
     quiz:any = {};
     currAvailInput:any[] = []; // array list model bound to available choices of symbols
     currUserInput:any[] = []; // stack list model bound to symbols the user selected
     inputIndex:number = 0; // basically the length of the answer list
     exprString = "";
+    // power-ups
+    skipPower:number = 1;
 
 
     // each monster will have their own timeline,
@@ -84,7 +87,13 @@ export class QuizComponent implements OnInit {
     }
 
     gameOver() {
-        $("#game-over").modal("show");
+        $("#game-over")
+            .modal('setting', 'closable', false)
+            .modal("show");
+    }
+
+    quit() {
+        this.gameOver();
     }
 
     restart() {
@@ -95,8 +104,25 @@ export class QuizComponent implements OnInit {
         this.currUserInput = [];
         this.inputIndex = 0;
         this.exprString = "";
+
+        this.skipPower = 1;
         this.makeQuiz();
         $("#game-over").modal("hide");
+    }
+
+    /*************
+     * POWER UPS *
+     *************/
+    skipQuestion() {
+        if (this.skipPower > 0) {
+            this.skipPower--;
+            this.makeQuiz();
+        }
+    }
+
+    refillPowerUps() {
+        if (this.diffLevel % 7 == 0 && this.health < 3) { this.health++; }
+        if (this.diffLevel % 5 == 0 && this.skipPower < 3) { this.skipPower++; }
     }
 
 
@@ -115,6 +141,7 @@ export class QuizComponent implements OnInit {
         let monsterObjectId = "#monster-0";
         tl.kill(null, monsterObjectId)
             .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
+            .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
             .to(monsterObjectId, 0.3, {autoAlpha: 0, ease: Power1.easeIn}, "-=0.2");
 
         // TODO: clear form and question
@@ -123,6 +150,7 @@ export class QuizComponent implements OnInit {
     correctAnswer() {
         let timeline = new TimelineMax();
         let answerItems = $("#input-area ul li");
+        let earnedScore = $("#hud .add-score");
         timeline
             .to(answerItems, 0.1, {
                 backgroundColor: "#21BA45",
@@ -133,7 +161,11 @@ export class QuizComponent implements OnInit {
                 y: -50,
                 ease: Power1.easeOut
             }, "+=0.2");
+        timeline
+            .set(earnedScore, {x: 3, y: 0, autoAlpha: 1}, 0)
+            .to(earnedScore, 0.7, {autoAlpha: 0, y: -20}, 0.3);
         this.score += this.quiz.targetValue;
+        this.refillPowerUps();
         this.diffLevel++;
 
         // wait after the animation; seems like the best way right now
@@ -162,39 +194,41 @@ export class QuizComponent implements OnInit {
      * END-TO-END FUNCTIONS *
      ************************/
     makeQuiz() {
-        this.apiService
-            .makeQuiz(this.diffLevel)
-            .subscribe(
-                (data) => {
-                    console.log(data);
-                    this.quiz = data;
+        if (this.health > 0) {
+            this.apiService
+                .makeQuiz(this.diffLevel)
+                .subscribe(
+                    (data) => {
+                        console.log(data);
+                        this.quiz = data;
 
-                    this.currAvailInput = [];
-                    this.currUserInput = [];
-                    this.inputIndex = 0;
-                    let maxSymbolWidth = 1;
-                    for (let i = 0; i < this.quiz.expr.length; i++) {
-                        // to display a uniform width
-                        if (this.quiz.expr[i].length > maxSymbolWidth) {
-                            maxSymbolWidth = this.quiz.expr[i].length;
+                        this.currAvailInput = [];
+                        this.currUserInput = [];
+                        this.inputIndex = 0;
+                        let maxSymbolWidth = 1;
+                        for (let i = 0; i < this.quiz.expr.length; i++) {
+                            // to display a uniform width
+                            if (this.quiz.expr[i].length > maxSymbolWidth) {
+                                maxSymbolWidth = this.quiz.expr[i].length;
+                            }
+                            // for the binding models
+                            this.currAvailInput[i] = {
+                                value: this.quiz.expr[i],
+                                disabled: false
+                            };
+                            this.currUserInput[i] = {
+                                value: "",
+                                originIndex: null
+                            };
+                            this.exprString = this.quiz.givenValue;
                         }
-                        // for the binding models
-                        this.currAvailInput[i] = {
-                            value: this.quiz.expr[i],
-                            disabled: false
-                        };
-                        this.currUserInput[i] = {
-                            value: "",
-                            originIndex: null
-                        };
-                        this.exprString = this.quiz.givenValue;
-                    }
-                    this.buttonWidth = 50 + maxSymbolWidth * 8;
-                },
-                (error:Error) => {
-                    let error = error.message;
-                    setTimeout(() => error = null, 4000)
-                });
+                        this.buttonWidth = 50 + maxSymbolWidth * 8;
+                    },
+                    (error:Error) => {
+                        let error = error.message;
+                        setTimeout(() => error = null, 4000)
+                    });
+        }
     }
 
     checkSolution() {

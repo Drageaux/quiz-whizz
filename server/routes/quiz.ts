@@ -167,7 +167,9 @@ function generateExpression(exprTimes:number, targetValue:number, maxValue:numbe
                 break;
             case "/":
                 modifier = getRandomInclusive(1, givenValue);
-
+                while (givenValue % modifier != 0){
+                    modifier = getRandomInclusive(1, givenValue);
+                }
                 givenValue = givenValue / modifier;
                 console.log("divide.......................: / " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "*");
