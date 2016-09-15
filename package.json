@@ -50,6 +50,6 @@
     "systemjs": "0.19.27",
     "systemjs-builder": "^0.15.26",
     "yargs": "^4.8.1",
-    "zone.js": "^0.6.21"
+    "zone.js": "0.6.21"
   }
 }
