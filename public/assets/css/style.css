@@ -101,6 +101,8 @@ body {
       body quiz #user-control .question-values {
         font-size: 30px;
         padding: 10px; }
+      body quiz #user-control #input-area ul li.ui.button {
+        margin-bottom: 0.25em; }
     body quiz #options .column .button:not(:first-of-type) {
       margin-top: 5px; }
     body quiz #options .right.aligned.text {

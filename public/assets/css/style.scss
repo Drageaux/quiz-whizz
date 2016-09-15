@@ -71,7 +71,9 @@ body {
             }
             #how-to { float: right; }
             @media only screen and (max-width: 767px) {
-                #how-to { .icon { margin: 0; } }
+                #how-to {
+                    .icon { margin: 0; }
+                }
                 #how-to-text { display: none }
             }
 
@@ -136,6 +138,11 @@ body {
             .question-values {
                 font-size: 30px;
                 padding: 10px;
+            }
+            #input-area {
+                ul {
+                    li.ui.button { margin-bottom: .25em; }
+                }
             }
         }
 
