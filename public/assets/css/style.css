@@ -50,7 +50,7 @@ body {
       width: 100%;
       height: 40px; }
       body quiz #hud ul {
-        float: left;
+        float: right;
         margin: 0;
         padding-left: 5px; }
         body quiz #hud ul li {
@@ -69,13 +69,6 @@ body {
 @keyframes glow {
   to {
     text-shadow: 0 0 10px red; } }
-      body quiz #hud #how-to-button {
-        float: right; }
-      @media only screen and (max-width: 767px) {
-        body quiz #hud #how-to-button .icon {
-          margin: 0; }
-        body quiz #hud #how-to-text {
-          display: none; } }
     body quiz #battleground {
       position: relative;
       height: 70vh;
