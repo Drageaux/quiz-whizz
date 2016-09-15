@@ -6,7 +6,6 @@ import { NgSemanticModule } from "ng-semantic";
 
 import { AppComponent }  from './app.component';
 import { routing } from "./routes";
-import { QuizComponent } from "./components/quiz/quiz.component";
 import { HomeModule } from "./modules/home/home.module";
 
 @NgModule({
@@ -24,7 +23,7 @@ import { HomeModule } from "./modules/home/home.module";
             noTokenScheme: true
         })
     ],
-    declarations: [ QuizComponent, AppComponent ],
+    declarations: [ AppComponent ],
     bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

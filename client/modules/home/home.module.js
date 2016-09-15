@@ -1,6 +1,4 @@
-System.register(['@angular/core', "@angular/http", "ng-semantic", "@angular/common", "./home.component", "./home.routing", "../shared/shared.module"], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['@angular/core', "@angular/http", "ng-semantic", "@angular/common", "./home.component", "../../components/quiz/quiz.component", "./home.routing", "../shared/shared.module"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,7 +8,7 @@ System.register(['@angular/core', "@angular/http", "ng-semantic", "@angular/comm
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, ng_semantic_1, common_1, home_component_1, home_routing_1, shared_module_1;
+    var core_1, http_1, ng_semantic_1, common_1, home_component_1, quiz_component_1, home_routing_1, shared_module_1;
     var HomeModule;
     return {
         setters:[
@@ -28,6 +26,9 @@ System.register(['@angular/core', "@angular/http", "ng-semantic", "@angular/comm
             },
             function (home_component_1_1) {
                 home_component_1 = home_component_1_1;
+            },
+            function (quiz_component_1_1) {
+                quiz_component_1 = quiz_component_1_1;
             },
             function (home_routing_1_1) {
                 home_routing_1 = home_routing_1_1;
@@ -48,13 +49,13 @@ System.register(['@angular/core', "@angular/http", "ng-semantic", "@angular/comm
                             shared_module_1.SharedModule.forRoot(),
                             ng_semantic_1.NgSemanticModule,
                         ],
-                        declarations: [home_component_1.HomeComponent],
+                        declarations: [home_component_1.HomeComponent, quiz_component_1.QuizComponent],
                         bootstrap: [home_component_1.HomeComponent]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], HomeModule);
                 return HomeModule;
-            }());
+            })();
             exports_1("HomeModule", HomeModule);
         }
     }

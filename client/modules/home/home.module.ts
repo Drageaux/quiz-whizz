@@ -4,6 +4,7 @@ import { NgSemanticModule } from "ng-semantic";
 import { CommonModule } from "@angular/common";
 
 import { HomeComponent } from "./home.component";
+import { QuizComponent } from "../../components/quiz/quiz.component";
 import { routing } from "./home.routing";
 import { SharedModule } from "../shared/shared.module";
 
@@ -15,7 +16,7 @@ import { SharedModule } from "../shared/shared.module";
         SharedModule.forRoot(),
         NgSemanticModule,
     ],
-    declarations: [ HomeComponent ],
+    declarations: [ HomeComponent, QuizComponent ],
     bootstrap:    [ HomeComponent ]
 })
 export class HomeModule { }
