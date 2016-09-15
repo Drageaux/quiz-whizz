@@ -1,4 +1,6 @@
-System.register(['@angular/core', '@angular/platform-browser', "angular2-jwt", "@angular/http", "ng-semantic", './app.component', "./routes", "./components/shared/hello.component", "./components/quiz/quiz.component", "./modules/contact/contact.module", "./modules/home/home.module"], function(exports_1) {
+System.register(['@angular/core', '@angular/platform-browser', "angular2-jwt", "@angular/http", "ng-semantic", './app.component', "./routes", "./components/shared/hello.component", "./components/quiz/quiz.component", "./modules/contact/contact.module", "./modules/home/home.module"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -72,7 +74,7 @@ System.register(['@angular/core', '@angular/platform-browser', "angular2-jwt", "
                     __metadata('design:paramtypes', [])
                 ], AppModule);
                 return AppModule;
-            })();
+            }());
             exports_1("AppModule", AppModule);
         }
     }
