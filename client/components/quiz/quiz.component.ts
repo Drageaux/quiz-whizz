@@ -1,4 +1,8 @@
-import { Component, Input } from "@angular/core";
+import {
+    Component,
+    OnInit,
+    Input
+} from "@angular/core";
 import {ApiService} from "../../service/api.service";
 import "gsap";
 import {Observable} from "rxjs/Rx";
@@ -230,10 +234,6 @@ export class QuizComponent implements OnInit {
                             this.exprString = this.quiz.givenValue;
                         }
                         this.buttonWidth = 50 + maxSymbolWidth * 8;
-                    },
-                    (error:Error) => {
-                        let error = error.message;
-                        setTimeout(() => error = null, 4000)
                     });
         }
     }

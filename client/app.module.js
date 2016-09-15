@@ -1,5 +1,4 @@
-System.register(["@angular/core", "@angular/platform-browser", "angular2-jwt", "@angular/http", "ng-semantic", "./app.component", "./routes", "./components/shared/hello.component", "./components/quiz/quiz.component", "./modules/contact/contact.module", "./modules/home/home.module"], function (exports_1, context_1) {
-    "use strict";
+System.register(['@angular/core', '@angular/platform-browser', "angular2-jwt", "@angular/http", "ng-semantic", './app.component', "./routes", "./components/shared/hello.component", "./components/quiz/quiz.component", "./modules/contact/contact.module", "./modules/home/home.module"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,10 +8,10 @@ System.register(["@angular/core", "@angular/platform-browser", "angular2-jwt", "
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var __moduleName = context_1 && context_1.id;
-    var core_1, platform_browser_1, angular2_jwt_1, http_1, ng_semantic_1, app_component_1, routes_1, hello_component_1, quiz_component_1, contact_module_1, home_module_1, AppModule;
+    var core_1, platform_browser_1, angular2_jwt_1, http_1, ng_semantic_1, app_component_1, routes_1, hello_component_1, quiz_component_1, contact_module_1, home_module_1;
+    var AppModule;
     return {
-        setters: [
+        setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
@@ -45,38 +44,37 @@ System.register(["@angular/core", "@angular/platform-browser", "angular2-jwt", "
             },
             function (home_module_1_1) {
                 home_module_1 = home_module_1_1;
-            }
-        ],
-        execute: function () {
+            }],
+        execute: function() {
             AppModule = (function () {
                 function AppModule() {
                 }
+                AppModule = __decorate([
+                    core_1.NgModule({
+                        imports: [
+                            platform_browser_1.BrowserModule,
+                            http_1.HttpModule,
+                            ng_semantic_1.NgSemanticModule,
+                            contact_module_1.ContactModule,
+                            home_module_1.HomeModule,
+                            routes_1.routing
+                        ],
+                        providers: [
+                            angular2_jwt_1.provideAuth({
+                                globalHeaders: [{ "Content-type": "application/json" }],
+                                newJwtError: true,
+                                noTokenScheme: true
+                            })
+                        ],
+                        declarations: [quiz_component_1.QuizComponent, hello_component_1.HelloComponent, app_component_1.AppComponent],
+                        bootstrap: [app_component_1.AppComponent]
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], AppModule);
                 return AppModule;
-            }());
-            AppModule = __decorate([
-                core_1.NgModule({
-                    imports: [
-                        platform_browser_1.BrowserModule,
-                        http_1.HttpModule,
-                        ng_semantic_1.NgSemanticModule,
-                        contact_module_1.ContactModule,
-                        home_module_1.HomeModule,
-                        routes_1.routing
-                    ],
-                    providers: [
-                        angular2_jwt_1.provideAuth({
-                            globalHeaders: [{ "Content-type": "application/json" }],
-                            newJwtError: true,
-                            noTokenScheme: true
-                        })
-                    ],
-                    declarations: [quiz_component_1.QuizComponent, hello_component_1.HelloComponent, app_component_1.AppComponent],
-                    bootstrap: [app_component_1.AppComponent]
-                }),
-                __metadata("design:paramtypes", [])
-            ], AppModule);
+            })();
             exports_1("AppModule", AppModule);
         }
-    };
+    }
 });
 //# sourceMappingURL=app.module.js.map
