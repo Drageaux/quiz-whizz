@@ -14,8 +14,6 @@ import { SemanticPopupComponent } from "ng-semantic";
             <!--<a (click)="logout()" *ngIf="isLogged" class="item inverted red">Logout</a>-->
         <!--</nav>-->
     </nav>
-    <div class="ui container">
-
         <!--<sm-popup class="huge" #myPopup>-->
             <!--<sm-card class="card basic">-->
                 <!--<card-title> Simple login </card-title>-->
@@ -29,9 +27,8 @@ import { SemanticPopupComponent } from "ng-semantic";
             <!--</sm-card>-->
         <!--</sm-popup>-->
 
-        <router-outlet></router-outlet>
-
-    </div>`
+    <router-outlet></router-outlet>
+    `
 })
 export class AppComponent {
     user:any = {
@@ -45,8 +42,6 @@ export class AppComponent {
     constructor(private http:Http) {
         this.isLogged = !!localStorage.getItem("id_token");
     }
-
-
 
 
 

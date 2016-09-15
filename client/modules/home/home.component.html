@@ -1,1 +1,15 @@
-<quiz [name]="appName"></quiz>
+<quiz *ngIf="playing" [name]="appName"></quiz>
+
+<div *ngIf="!playing" class="start-screen">
+    <img class="ui large image" src="assets/img/david-jason.jpg">
+
+    <div class="overlay">
+        <div class="ui big positive button" (click)="startGame()">Start Game</div>
+
+        <ul>
+            <li><h3>Complete the math expression</h3></li>
+            <li>(Click to fill in the blanks)</li>
+            <li>(Left to right operations only; no "PEMDAS")</li>
+        </ul>
+    </div>
+</div>

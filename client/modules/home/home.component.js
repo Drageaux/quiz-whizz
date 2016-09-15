@@ -25,6 +25,7 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                 function HomeComponent(apiService) {
                     this.apiService = apiService;
                     this.appName = "Quiz Whizz";
+                    this.playing = false;
                 }
                 HomeComponent.prototype.protected = function () {
                     var _this = this;
@@ -34,6 +35,9 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                         _this.error = error.message;
                         setTimeout(function () { return _this.error = null; }, 4000);
                     });
+                };
+                HomeComponent.prototype.startGame = function () {
+                    this.playing = true;
                 };
                 HomeComponent = __decorate([
                     core_1.Component({

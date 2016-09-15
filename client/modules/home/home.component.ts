@@ -9,6 +9,7 @@ export class HomeComponent {
     appName:string = "Quiz Whizz";
     error: string;
     response: {};
+    playing:boolean = false;
 
     constructor(private apiService: ApiService) {}
 
@@ -21,5 +22,9 @@ export class HomeComponent {
                     this.error = error.message;
                     setTimeout(() => this.error = null, 4000)
                 });
+    }
+
+    startGame() {
+        this.playing = true;
     }
 }
