@@ -6,7 +6,6 @@ import { CommonModule } from "@angular/common";
 import { HomeComponent } from "./home.component";
 import { routing } from "./home.routing";
 import { SharedModule } from "../shared/shared.module";
-import { ContactModule } from "../contact/contact.module";
 
 @NgModule({
     imports: [
@@ -15,7 +14,6 @@ import { ContactModule } from "../contact/contact.module";
         routing,
         SharedModule.forRoot(),
         NgSemanticModule,
-        ContactModule
     ],
     declarations: [ HomeComponent ],
     bootstrap:    [ HomeComponent ]

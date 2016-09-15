@@ -6,6 +6,7 @@ import { ApiService } from "../../service/api.service";
     templateUrl: `client/modules/home/home.component.html`
 })
 export class HomeComponent {
+    appName:string = "Quiz Whizz";
     error: string;
     response: {};
 

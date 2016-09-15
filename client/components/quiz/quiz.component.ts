@@ -49,6 +49,10 @@ export class QuizComponent implements OnInit {
     /***************
      * INTERACTIVE *
      ***************/
+    howToPlay(){
+        $("#how-to-modal").modal("show");
+    }
+
     keyPress(event:any) {
         if (event.keyCode == 13) { // pressed Enter/Submit
             if (this.checkSolution()) {

@@ -15,11 +15,11 @@
                    [class.warning]="health==1"></i>
             </li>
         </ul>
-        <div class="ui secondary button" id="how-to" data-position="bottom right"
-             data-html="<ul>
-             <li>Fill in the blanks and get from the left value to the right value</li>
-             <li>Operate from left to right; multiplication/division doesn't apply here</li>
-             </ul>">
+        <div class="ui secondary button" id="how-to-button" (click)="howToPlay()">
+             <!--data-html="<ul>-->
+             <!--<li>Fill in the blanks and get from the left value to the right value</li>-->
+             <!--<li>Operate from left to right; multiplication/division doesn't apply here</li>-->
+             <!--</ul>">-->
             <i class="help circle icon"></i><span id="how-to-text">How To Play</span>
         </div>
 
@@ -30,10 +30,11 @@
     <!--<div id="wall">|</div>-->
     <!--<div class="monster" id="monster-0"></div>-->
     <!--</div>-->
-
     <!--<input type="text" (keypress)="keyPress($event)" id="editor">-->
+
     <div id="user-control" class="ui grid">
         <div class="sixteen wide column"><h2>Level: {{diffLevel}}</h2></div>
+        <!-- Available Buttons -->
         <div class="ui row">
             <ul class="column">
                 <li class="ui blue button"
@@ -46,6 +47,7 @@
             </ul>
         </div>
 
+        <!-- Answer Area -->
         <div class="ui row" id="input-area">
             <div class="question-values four wide right aligned column" id="given-value">{{quiz.givenValue}}</div>
             <ul class="eight wide column">
@@ -86,6 +88,19 @@
             <h3 class="right aligned text">Options</h3>
             <button class="right floated ui button red" (click)="quit()">Quit Game</button>
         </div>
+    </div>
+</div>
+
+<div class="ui small modal" id="how-to-modal">
+    <i class="close icon"></i>
+    <div class="header">
+        How To Play
+    </div>
+    <div class="content">
+        - Complete the expression by filling in the blanks <img class="image" src="assets/img/howto0.jpg">
+    </div>
+    <div class="actions">
+        <div class="ui button">Close</div>
     </div>
 </div>
 

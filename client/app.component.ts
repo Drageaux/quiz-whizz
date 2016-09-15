@@ -29,16 +29,11 @@ import { SemanticPopupComponent } from "ng-semantic";
             <!--</sm-card>-->
         <!--</sm-popup>-->
 
-        <quiz [name]="appName"></quiz>
-
-        <div class="ui divider"></div>
-
         <router-outlet></router-outlet>
 
     </div>`
 })
 export class AppComponent {
-    appName:string = "Quiz Whizz";
     user:any = {
         password: "angualr2express",
         username: "john"

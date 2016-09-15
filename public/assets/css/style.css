@@ -46,10 +46,10 @@ body {
 @keyframes glow {
   to {
     text-shadow: 0 0 10px red; } }
-      body quiz #hud #how-to {
+      body quiz #hud #how-to-button {
         float: right; }
       @media only screen and (max-width: 767px) {
-        body quiz #hud #how-to .icon {
+        body quiz #hud #how-to-button .icon {
           margin: 0; }
         body quiz #hud #how-to-text {
           display: none; } }
@@ -102,7 +102,7 @@ body {
         font-size: 30px;
         padding: 10px; }
       body quiz #user-control #input-area ul li.ui.button {
-        margin-bottom: 0.25em; }
+        margin-bottom: .25em; }
     body quiz #options .column .button:not(:first-of-type) {
       margin-top: 5px; }
     body quiz #options .right.aligned.text {
