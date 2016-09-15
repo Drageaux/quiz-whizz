@@ -1,6 +1,4 @@
-System.register(["@angular/core", "../../service/api.service", "gsap", "rxjs/Rx"], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(["@angular/core", "../../service/api.service", "gsap", "rxjs/Rx"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -290,7 +288,7 @@ System.register(["@angular/core", "../../service/api.service", "gsap", "rxjs/Rx"
                     __metadata('design:paramtypes', [api_service_1.ApiService])
                 ], QuizComponent);
                 return QuizComponent;
-            }());
+            })();
             exports_1("QuizComponent", QuizComponent);
         }
     }
