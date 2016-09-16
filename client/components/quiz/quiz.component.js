@@ -103,6 +103,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                 };
                 QuizComponent.prototype.gameOver = function () {
                     $("#game-over")
+                        .modal('setting', 'closable', false)
                         .modal("show");
                 };
                 QuizComponent.prototype.quitGame = function () {

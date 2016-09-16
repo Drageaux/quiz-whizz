@@ -103,6 +103,7 @@ export class QuizComponent implements OnInit {
 
     gameOver() {
         $("#game-over")
+            .modal('setting', 'closable', false)
             .modal("show");
     }
 
