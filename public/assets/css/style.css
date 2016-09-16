@@ -30,9 +30,14 @@ body {
       left: 50%;
       top: 37vh;
       transform: translateX(-50%); }
+      body .start-screen .overlay .ui.button {
+        margin: 0; }
+      body .start-screen .overlay ul {
+        padding: 0; }
       body .start-screen .overlay li {
         list-style: none; }
     body .start-screen img.ui.image {
+      z-index: -1;
       min-width: 480px;
       position: absolute;
       left: 50%;

@@ -1,12 +1,13 @@
 import {
     Component,
     OnInit,
-    Input
+    Input,
+    Output,
+    EventEmitter
 } from "@angular/core";
 import {ApiService} from "../../service/api.service";
-import "gsap";
 import {Observable} from "rxjs/Rx";
-import {isEmpty} from "rxjs/operator/isEmpty";
+import "gsap";
 
 @Component({
     selector: "quiz",
@@ -15,6 +16,7 @@ import {isEmpty} from "rxjs/operator/isEmpty";
 export class QuizComponent implements OnInit {
     // essential
     @Input() name:string;
+    @Output() onBackToMenu = new EventEmitter<boolean>(); // emits event to parent component
     diffLevel:number = 1; // difficulty
     score:number = 0;
     health:number = 3; // chances left
@@ -27,7 +29,7 @@ export class QuizComponent implements OnInit {
     inputIndex:number = 0; // basically the length of the answer list
     exprString = "";
     // power-ups
-    skipPower:number = 1;
+    skipPower:number = 3;
 
 
     // each monster will have their own timeline,
@@ -49,7 +51,7 @@ export class QuizComponent implements OnInit {
     /***************
      * INTERACTIVE *
      ***************/
-    howToPlay(){
+    howToPlay() {
         $("#how-to-modal").modal("show");
     }
 
@@ -105,8 +107,9 @@ export class QuizComponent implements OnInit {
             .modal("show");
     }
 
-    quit() {
-        this.gameOver();
+    quitGame() {
+        $("#confirm-quit")
+            .modal("show");
     }
 
     restart() {
@@ -119,9 +122,14 @@ export class QuizComponent implements OnInit {
         this.inputIndex = 0;
         this.exprString = "";
 
-        this.skipPower = 1;
+        this.skipPower = 3;
         this.makeQuiz();
         $("#game-over").modal("hide");
+    }
+
+    backToMenu(event:any) {
+        $("#game-over").modal("hide");
+        this.onBackToMenu.emit(false);
     }
 
     /*************

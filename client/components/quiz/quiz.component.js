@@ -1,4 +1,6 @@
-System.register(["@angular/core", "../../service/api.service", "gsap", "rxjs/Rx"], function(exports_1) {
+System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,14 +20,15 @@ System.register(["@angular/core", "../../service/api.service", "gsap", "rxjs/Rx"
             function (api_service_1_1) {
                 api_service_1 = api_service_1_1;
             },
-            function (_1) {},
             function (Rx_1_1) {
                 Rx_1 = Rx_1_1;
-            }],
+            },
+            function (_1) {}],
         execute: function() {
             QuizComponent = (function () {
                 function QuizComponent(apiService) {
                     this.apiService = apiService;
+                    this.onBackToMenu = new core_1.EventEmitter(); // emits event to parent component
                     this.diffLevel = 1; // difficulty
                     this.score = 0;
                     this.health = 3; // chances left
@@ -38,7 +41,7 @@ System.register(["@angular/core", "../../service/api.service", "gsap", "rxjs/Rx"
                     this.inputIndex = 0; // basically the length of the answer list
                     this.exprString = "";
                     // power-ups
-                    this.skipPower = 1;
+                    this.skipPower = 3;
                     // each monster will have their own timeline,
                     // so that the user cannot interfere with the monster reaching their goal
                     this.monsterExample = {
@@ -103,8 +106,9 @@ System.register(["@angular/core", "../../service/api.service", "gsap", "rxjs/Rx"
                         .modal('setting', 'closable', false)
                         .modal("show");
                 };
-                QuizComponent.prototype.quit = function () {
-                    this.gameOver();
+                QuizComponent.prototype.quitGame = function () {
+                    $("#confirm-quit")
+                        .modal("show");
                 };
                 QuizComponent.prototype.restart = function () {
                     this.score = 0;
@@ -115,9 +119,13 @@ System.register(["@angular/core", "../../service/api.service", "gsap", "rxjs/Rx"
                     this.currUserInput = [];
                     this.inputIndex = 0;
                     this.exprString = "";
-                    this.skipPower = 1;
+                    this.skipPower = 3;
                     this.makeQuiz();
                     $("#game-over").modal("hide");
+                };
+                QuizComponent.prototype.backToMenu = function (event) {
+                    $("#game-over").modal("hide");
+                    this.onBackToMenu.emit(false);
                 };
                 /*************
                  * POWER UPS *
@@ -280,6 +288,10 @@ System.register(["@angular/core", "../../service/api.service", "gsap", "rxjs/Rx"
                     core_1.Input(), 
                     __metadata('design:type', String)
                 ], QuizComponent.prototype, "name", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], QuizComponent.prototype, "onBackToMenu", void 0);
                 QuizComponent = __decorate([
                     core_1.Component({
                         selector: "quiz",
@@ -288,7 +300,7 @@ System.register(["@angular/core", "../../service/api.service", "gsap", "rxjs/Rx"
                     __metadata('design:paramtypes', [api_service_1.ApiService])
                 ], QuizComponent);
                 return QuizComponent;
-            })();
+            }());
             exports_1("QuizComponent", QuizComponent);
         }
     }

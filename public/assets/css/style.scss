@@ -52,11 +52,18 @@ body {
             left: 50%;
             top: 37vh;
             transform: translateX(-50%);
+            .ui.button {
+                margin: 0;
+            }
+            ul {
+                padding: 0;
+            }
             li {
                 list-style: none;
             }
         }
         img.ui.image {
+            z-index: -1;
             min-width: 480px;
             position: absolute;
             left: 50%;
