@@ -1,4 +1,6 @@
-System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"], function(exports_1) {
+System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap", "./quiz"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +10,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, api_service_1, Rx_1;
+    var core_1, api_service_1, Rx_1, quiz_1;
     var QuizComponent;
     return {
         setters:[
@@ -21,7 +23,10 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
             function (Rx_1_1) {
                 Rx_1 = Rx_1_1;
             },
-            function (_1) {}],
+            function (_1) {},
+            function (quiz_1_1) {
+                quiz_1 = quiz_1_1;
+            }],
         execute: function() {
             QuizComponent = (function () {
                 function QuizComponent(apiService) {
@@ -33,7 +38,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     this.buttonWidth = 1; // for uniformity
                     this.errorMessage = "";
                     // quiz-related
-                    this.quiz = {};
+                    this.quiz = new quiz_1.Quiz([], "", "");
                     this.currAvailInput = []; // array list model bound to available choices of symbols
                     this.currUserInput = []; // stack list model bound to symbols the user selected
                     this.inputIndex = 0; // basically the length of the answer list
@@ -64,7 +69,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     if (event.keyCode == 13) {
                         if (this.checkSolution()) {
                             // TODO: this.destroyMonster(this.monsterExample); // animation
-                            this.diffLevel += this.quiz.targetValue; // increase difficulty
                             this.makeQuiz(); // return another quiz
                         }
                     }
@@ -102,9 +106,15 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     this.compileExpressionString();
                 };
                 QuizComponent.prototype.gameOver = function () {
-                    $("#game-over")
-                        .modal('setting', 'closable', false)
-                        .modal("show");
+                    if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
+                        console.log(this.userName);
+                        this.apiService
+                            .logHighScore(this.userName, this.score, this.diffLevel)
+                            .subscribe(function (data) { return console.log(data); });
+                        $("#game-over")
+                            .modal('setting', 'closable', false)
+                            .modal("show");
+                    }
                 };
                 QuizComponent.prototype.quitGame = function () {
                     $("#confirm-quit")
@@ -290,6 +300,10 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     __metadata('design:type', String)
                 ], QuizComponent.prototype, "name", void 0);
                 __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', String)
+                ], QuizComponent.prototype, "userName", void 0);
+                __decorate([
                     core_1.Output(), 
                     __metadata('design:type', Object)
                 ], QuizComponent.prototype, "onBackToMenu", void 0);
@@ -301,7 +315,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     __metadata('design:paramtypes', [api_service_1.ApiService])
                 ], QuizComponent);
                 return QuizComponent;
-            })();
+            }());
             exports_1("QuizComponent", QuizComponent);
         }
     }

@@ -22,7 +22,7 @@ body {
     top: 45px;
     overflow: hidden; }
     body .start-screen .overlay {
-      padding: 50px 0 20px;
+      padding: 35px 0 20px;
       position: absolute;
       width: 100vw;
       background: rgba(0, 0, 0, 0.7);
@@ -31,11 +31,14 @@ body {
       top: 37vh;
       transform: translateX(-50%); }
       body .start-screen .overlay .ui.button {
-        margin: 0; }
+        margin: 0 0 10px; }
       body .start-screen .overlay ul {
         padding: 0; }
       body .start-screen .overlay li {
         list-style: none; }
+      body .start-screen .overlay .ui.form .field {
+        position: relative;
+        margin: auto; }
     body .start-screen img.ui.image {
       z-index: -1;
       min-width: 480px;

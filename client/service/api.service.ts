@@ -20,6 +20,35 @@ export class ApiService {
             .map((response:Response) => response.json());
     }
 
+    /********
+     * USER *
+     ********/
+    createUser() {
+        //return this.http.post
+    }
+
+    logHighScore(userName:string, score:number, level:number) {
+        let body = {
+            userName: userName,
+            score: score,
+            level: level
+        };
+        let headers = new Headers({"Content-Type": "application/json"});
+        let options = new RequestOptions({headers: headers});
+
+        return this
+            .http
+            .post("/user/saveScore", body, options)
+            .map((res:Response) => {
+                res.json();
+                console.log(res);
+            })
+            .catch(this.handleError);
+    }
+
+    /********
+     * QUIZ *
+     ********/
     makeQuiz(level:number) {
         let body = {currentLevel: level};
         let headers = new Headers({"Content-Type": "application/json"});

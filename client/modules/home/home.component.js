@@ -1,4 +1,6 @@
-System.register(["@angular/core", "../../service/api.service"], function(exports_1) {
+System.register(["@angular/core", "../../service/api.service"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -23,22 +25,37 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                 function HomeComponent(apiService) {
                     this.apiService = apiService;
                     this.appName = "Quiz Whizz";
+                    this.userName = "test";
                     this.playing = false;
                 }
                 HomeComponent.prototype.protected = function () {
                     var _this = this;
                     this.apiService
                         .get("/api")
-                        .subscribe(function (data) { _this.response = data; }, function (error) {
+                        .subscribe(function (data) {
+                        _this.response = data;
+                    }, function (error) {
                         _this.error = error.message;
                         setTimeout(function () { return _this.error = null; }, 4000);
                     });
+                };
+                HomeComponent.prototype.updateUserName = function (name) {
+                    this.userName = name;
                 };
                 HomeComponent.prototype.startGame = function () {
                     this.playing = true;
                 };
                 HomeComponent.prototype.onBackToMenu = function (event) {
                     this.playing = event;
+                };
+                /***********
+                 * HELPERS *
+                 ***********/
+                HomeComponent.prototype.isEmptyString = function (text) {
+                    if (text == " " || text == "" || text == null) {
+                        return true;
+                    }
+                    return false;
                 };
                 HomeComponent = __decorate([
                     core_1.Component({
@@ -48,7 +65,7 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                     __metadata('design:paramtypes', [api_service_1.ApiService])
                 ], HomeComponent);
                 return HomeComponent;
-            })();
+            }());
             exports_1("HomeComponent", HomeComponent);
         }
     }

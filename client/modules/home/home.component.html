@@ -1,13 +1,22 @@
-<quiz class="ui container" *ngIf="playing" (onBackToMenu)="onBackToMenu($event)" [name]="appName"></quiz>
+<quiz class="ui container" *ngIf="playing" (onBackToMenu)="onBackToMenu($event)"
+      [name]="appName"
+      [userName]="userName"></quiz>
 
 <div *ngIf="!playing" class="start-screen">
     <img class="ui large image" src="assets/img/david-jason.jpg">
 
     <div class="overlay">
+        <form class="ui form">
+            <div class="six wide field">
+                <input type="text" id="user-name" placeholder="Username (0-14 characters)"
+                       [value]="userName" (keyup)="updateUserName(usernameInput.value)" #usernameInput>
+            </div>
+        </form>
         <div class="ui big positive button" (click)="startGame()">Start Game</div>
-
+        <hr>
         <ul>
-            <li><h3>Complete the math expression</h3></li>
+            <li><h3>How to Play:</h3></li>
+            <li>(Complete the math expression)</li>
             <li>(Click to fill in the blanks)</li>
             <li>(Left to right operations only; no "PEMDAS")</li>
         </ul>

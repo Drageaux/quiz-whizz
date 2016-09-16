@@ -7,6 +7,7 @@ import { json, urlencoded } from "body-parser";
 import { protectedRouter } from "./routes/protected";
 import { loginRouter } from "./routes/login";
 import { quizRouter } from "./routes/quiz";
+import { userRouter } from "./routes/user";
 
 const app: express.Application = express();
 app.disable("x-powered-by");
@@ -20,6 +21,8 @@ app.use(urlencoded({ extended: true }));
 // api routes
 app.use("/api", protectedRouter);
 app.use("/login", loginRouter);
+// user api routes
+app.use("/user", userRouter);
 // quiz api routes
 app.use("/quiz", quizRouter);
 

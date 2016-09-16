@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "../../service/api.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "../../service/api.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,43 +10,33 @@ System.register(["@angular/core", "@angular/common", "../../service/api.service"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, api_service_1;
-    var SharedModule;
+    var core_1, api_service_1;
+    var UserComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (common_1_1) {
-                common_1 = common_1_1;
-            },
             function (api_service_1_1) {
                 api_service_1 = api_service_1_1;
             }],
         execute: function() {
-            SharedModule = (function () {
-                function SharedModule() {
+            UserComponent = (function () {
+                function UserComponent(apiService) {
+                    this.apiService = apiService;
                 }
-                SharedModule.forRoot = function () {
-                    return {
-                        ngModule: SharedModule,
-                        providers: [
-                            api_service_1.ApiService
-                        ]
-                    };
-                };
-                SharedModule = __decorate([
-                    core_1.NgModule({
-                        imports: [common_1.CommonModule],
-                        declarations: [],
-                        exports: []
-                    }), 
-                    __metadata('design:paramtypes', [])
-                ], SharedModule);
-                return SharedModule;
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', String)
+                ], UserComponent.prototype, "username", void 0);
+                UserComponent = __decorate([
+                    core_1.Component({}), 
+                    __metadata('design:paramtypes', [api_service_1.ApiService])
+                ], UserComponent);
+                return UserComponent;
             }());
-            exports_1("SharedModule", SharedModule);
+            exports_1("UserComponent", UserComponent);
         }
     }
 });
-//# sourceMappingURL=shared.module.js.map
+//# sourceMappingURL=user.component.js.map
