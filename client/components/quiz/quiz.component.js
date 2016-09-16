@@ -42,6 +42,8 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     this.exprString = "";
                     // power-ups
                     this.skipPower = 3;
+                    // timer
+                    this.timer = 60;
                     // each monster will have their own timeline,
                     // so that the user cannot interfere with the monster reaching their goal
                     this.monsterExample = {

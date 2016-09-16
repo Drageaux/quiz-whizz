@@ -2,7 +2,9 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
 import { AuthHttp } from "angular2-jwt";
-import {Observable} from "rxjs/Observable";
+import { Observable } from "rxjs/Observable";
+
+import { Quiz } from "../components/quiz/quiz";
 
 @Injectable()
 export class ApiService {
@@ -38,7 +40,7 @@ export class ApiService {
         return this
             .http
             .post("/quiz/check", body, options)
-            .map((res:Response) => res.json())
+            .map((res) => <Quiz> res.json())
             .catch(this.handleError);
     }
 

@@ -8,6 +8,7 @@ import {
 import {ApiService} from "../../service/api.service";
 import {Observable} from "rxjs/Rx";
 import "gsap";
+import {Quiz} from "./quiz";
 
 @Component({
     selector: "quiz",
@@ -23,14 +24,15 @@ export class QuizComponent implements OnInit {
     buttonWidth:number = 1; // for uniformity
     errorMessage:string = "";
     // quiz-related
-    quiz:any = {};
+    quiz:Quiz = {};
     currAvailInput:any[] = []; // array list model bound to available choices of symbols
     currUserInput:any[] = []; // stack list model bound to symbols the user selected
     inputIndex:number = 0; // basically the length of the answer list
     exprString = "";
     // power-ups
     skipPower:number = 3;
-
+    // timer
+    timer:number = 60;
 
     // each monster will have their own timeline,
     // so that the user cannot interfere with the monster reaching their goal
