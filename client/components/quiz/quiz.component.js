@@ -103,7 +103,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                 };
                 QuizComponent.prototype.gameOver = function () {
                     $("#game-over")
-                        .modal('setting', 'closable', false)
                         .modal("show");
                 };
                 QuizComponent.prototype.quitGame = function () {
@@ -124,8 +123,9 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     $("#game-over").modal("hide");
                 };
                 QuizComponent.prototype.backToMenu = function (event) {
-                    $("#game-over").modal("hide");
                     this.onBackToMenu.emit(false);
+                    $("#game-over").modal("hide");
+                    $("body > .dimmer.modals.page").remove(); // this would stack extra dimmer layers otherwise
                 };
                 /*************
                  * POWER UPS *

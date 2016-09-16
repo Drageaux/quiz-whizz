@@ -103,7 +103,6 @@ export class QuizComponent implements OnInit {
 
     gameOver() {
         $("#game-over")
-            .modal('setting', 'closable', false)
             .modal("show");
     }
 
@@ -128,8 +127,9 @@ export class QuizComponent implements OnInit {
     }
 
     backToMenu(event:any) {
-        $("#game-over").modal("hide");
         this.onBackToMenu.emit(false);
+        $("#game-over").modal("hide");
+        $("body > .dimmer.modals.page").remove(); // this would stack extra dimmer layers otherwise
     }
 
     /*************
