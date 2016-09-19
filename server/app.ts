@@ -3,7 +3,8 @@ import * as express from "express";
 import { join } from "path";
 import * as favicon from "serve-favicon";
 import { json, urlencoded } from "body-parser";
-import mongoose = require("mongoose");
+//import mongoose = require("mongoose");
+let mongoose = require("mongoose");
 require('dotenv').config();
 
 import { protectedRouter } from "./routes/protected";
