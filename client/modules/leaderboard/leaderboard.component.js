@@ -1,4 +1,6 @@
-System.register(["@angular/core", "../../service/api.service"], function(exports_1) {
+System.register(["@angular/core", "../../service/api.service"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -24,6 +26,23 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                     this.apiService = apiService;
                     this.topUsers = [];
                 }
+                LeaderboardComponent.prototype.ngOnInit = function () {
+                    this.getUsersByScore();
+                };
+                LeaderboardComponent.prototype.getUsersByScore = function () {
+                    var _this = this;
+                    this.apiService
+                        .getUsersByScore()
+                        .subscribe(function (data) {
+                        _this.topUsers = data;
+                        console.log(data);
+                    }, function (error) {
+                        _this.error = error.message;
+                        setTimeout(function () { return _this.error = null; }, 4000);
+                    });
+                };
+                LeaderboardComponent.prototype.getUsersByLevel = function () {
+                };
                 /***********
                  * HELPERS *
                  ***********/
@@ -41,7 +60,7 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                     __metadata('design:paramtypes', [api_service_1.ApiService])
                 ], LeaderboardComponent);
                 return LeaderboardComponent;
-            })();
+            }());
             exports_1("LeaderboardComponent", LeaderboardComponent);
         }
     }

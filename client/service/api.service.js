@@ -71,6 +71,16 @@ System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observa
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
+                /***************
+                 * LEADERBOARD *
+                 ***************/
+                ApiService.prototype.getUsersByScore = function () {
+                    return this
+                        .http
+                        .get("/user/list/score")
+                        .map(function (res) { return res.json(); })
+                        .catch(this.handleError);
+                };
                 /********
                  * QUIZ *
                  ********/

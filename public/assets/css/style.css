@@ -138,5 +138,11 @@ body {
         margin: 0; }
       body quiz #options .right.floated.column .right.aligned.text {
         text-align: left; } }
+  body #leaderboard {
+    margin-top: 50px; }
+    body #leaderboard h1 {
+      text-align: center; }
+    body #leaderboard table.ui.table {
+      width: 100%; }
 
 /*# sourceMappingURL=style.css.map */

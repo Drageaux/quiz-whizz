@@ -5,6 +5,7 @@ import { AuthHttp } from "angular2-jwt";
 import { Observable } from "rxjs/Observable";
 
 import { Quiz } from "../components/quiz/quiz";
+import { User } from "../components/user/user";
 
 @Injectable()
 export class ApiService {
@@ -17,7 +18,7 @@ export class ApiService {
      * USER *
      ********/
     createUser(userName:string) {
-        let body = { userName: userName };
+        let body = {userName: userName};
         let headers = new Headers({"Content-Type": "application/json"});
         let options = new RequestOptions({headers: headers});
 
@@ -29,7 +30,7 @@ export class ApiService {
     }
 
     register(userName:string, email:string) {
-        let body = { userName: userName, email: email };
+        let body = {userName: userName, email: email};
         let headers = new Headers({"Content-Type": "application/json"});
         let options = new RequestOptions({headers: headers});
 
@@ -54,6 +55,17 @@ export class ApiService {
             .http
             .post("/user/saveScore", body, options)
             .map((res:Response) => res.json())
+            .catch(this.handleError);
+    }
+
+    /***************
+     * LEADERBOARD *
+     ***************/
+    getUsersByScore() {
+        return this
+            .http
+            .get("/user/list/score")
+            .map((res) => <User[]> res.json())
             .catch(this.handleError);
     }
 

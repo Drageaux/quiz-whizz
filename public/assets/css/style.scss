@@ -204,4 +204,12 @@ body {
             }
         }
     }
+
+    #leaderboard {
+        margin-top: 50px;
+        h1 { text-align: center; }
+        table.ui.table {
+            width: 100%
+        }
+    }
 }
