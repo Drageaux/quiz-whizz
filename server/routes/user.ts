@@ -22,6 +22,8 @@ userRouter.post("/", function (request:Request, response:Response, next:NextFunc
             var newUser = new User();
             newUser.name = userName;
             newUser.registered = false;
+            newUser.highScore = 0;
+            newUser.highLevel = 0;
             newUser.save(function (err, newUser) {
                 if (err) { console.error(err.stack); }
                 console.log("NEW USER: " + newUser.name);
@@ -66,15 +68,20 @@ userRouter.post("/register", function (request:Request, response:Response, next:
 });
 
 
-//
+// save if request & account registered status are the same
 userRouter.post("/saveScore", function (request:Request, response:Response, next:NextFunction) {
-
-    //var userName = request.body.userName;
-    //var user = new User({name: userName});
-    //user.save(function (err, user) {
-    //    if (err) { console.error(err.stack); }
-    //    response.json(user);
-    //});
+    User.findOne({"name": request.body.userName}, function (err, user) {
+        if (user && user.registered == request.body.registered) {
+            user.highScore = user.highScore > request.body.score ? user.highScore : request.body.score;
+            user.highLevel = user.highLevel > request.body.level ? user.highLevel : request.body.level;
+            user.save(function (err, user) {
+                if (err) { console.error(err.stack); }
+                response.json(user);
+            });
+        } else {
+            response.json({message: "ERROR"});
+        }
+    });
 });
 
 

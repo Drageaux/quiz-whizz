@@ -18,6 +18,7 @@ export class QuizComponent implements OnInit {
     // essential
     @Input() name:string;
     @Input() userName:string;
+    @Input() registered:string;
     @Output() onBackToMenu = new EventEmitter<boolean>(); // emits event to parent component
     diffLevel:number = 1; // difficulty
     score:number = 0;
@@ -106,9 +107,9 @@ export class QuizComponent implements OnInit {
     gameOver() {
         if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
             console.log(this.userName);
-                        this.apiService
-                            .logHighScore(this.userName, this.score, this.diffLevel)
-                            .subscribe((data) => console.log(data));
+            this.apiService
+                .logHighScore(this.userName, this.score, this.diffLevel, this.registered)
+                .subscribe((data) => console.log(data));
         }
         $("#game-over")
             .modal('setting', 'closable', false)

@@ -1,6 +1,7 @@
 <quiz class="ui container" *ngIf="playing" (onBackToMenu)="onBackToMenu($event)"
       [name]="appName"
-      [userName]="userName"></quiz>
+      [userName]="userName"
+      [registered]="registered"></quiz>
 
 <div *ngIf="!playing" class="start-screen">
     <img class="ui large image" src="assets/img/david-jason.jpg">

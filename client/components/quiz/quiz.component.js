@@ -109,7 +109,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
                         console.log(this.userName);
                         this.apiService
-                            .logHighScore(this.userName, this.score, this.diffLevel)
+                            .logHighScore(this.userName, this.score, this.diffLevel, this.registered)
                             .subscribe(function (data) { return console.log(data); });
                     }
                     $("#game-over")
@@ -303,6 +303,10 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     core_1.Input(), 
                     __metadata('design:type', String)
                 ], QuizComponent.prototype, "userName", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', String)
+                ], QuizComponent.prototype, "registered", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', Object)

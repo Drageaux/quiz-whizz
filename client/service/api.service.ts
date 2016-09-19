@@ -40,11 +40,12 @@ export class ApiService {
             .catch(this.handleError);
     }
 
-    logHighScore(userName:string, score:number, level:number) {
+    logHighScore(userName:string, score:number, level:number, registered:boolean) {
         let body = {
             userName: userName,
             score: score,
-            level: level
+            level: level,
+            registered: registered
         };
         let headers = new Headers({"Content-Type": "application/json"});
         let options = new RequestOptions({headers: headers});

@@ -8,7 +8,7 @@ import { EventEmitter } from "events";
 })
 export class HomeComponent {
     appName:string = "Quiz Whizz";
-    userName:string = "Guest";
+    userName:string = "";
     registered:boolean = false;
 
     playing:boolean = false;

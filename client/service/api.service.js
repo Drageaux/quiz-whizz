@@ -56,11 +56,12 @@ System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observa
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
-                ApiService.prototype.logHighScore = function (userName, score, level) {
+                ApiService.prototype.logHighScore = function (userName, score, level, registered) {
                     var body = {
                         userName: userName,
                         score: score,
-                        level: level
+                        level: level,
+                        registered: registered
                     };
                     var headers = new http_2.Headers({ "Content-Type": "application/json" });
                     var options = new http_2.RequestOptions({ headers: headers });

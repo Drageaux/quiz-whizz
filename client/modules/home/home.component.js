@@ -25,7 +25,7 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                 function HomeComponent(apiService) {
                     this.apiService = apiService;
                     this.appName = "Quiz Whizz";
-                    this.userName = "Guest";
+                    this.userName = "";
                     this.registered = false;
                     this.playing = false;
                 }
