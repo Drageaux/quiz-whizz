@@ -15,7 +15,6 @@ mongoose.connect("mongodb://localhost:27017/quiz-whizz" || process.env.MONGODB_U
 const app: express.Application = express();
 app.disable("x-powered-by");
 
-console.log(app.settings.env);
 app.use(favicon(join(__dirname, "../public", "favicon.ico")));
 app.use(express.static(join(__dirname, '../public')));
 
@@ -25,10 +24,8 @@ app.use(urlencoded({ extended: true }));
 // api routes
 app.use("/api", protectedRouter);
 app.use("/login", loginRouter);
-// user api routes
-app.use("/user", userRouter);
-// quiz api routes
-app.use("/quiz", quizRouter);
+app.use("/user", userRouter); // user api
+app.use("/quiz", quizRouter); // quiz api
 
 app.use('/client', express.static(join(__dirname, '../client')));
 app.use('/node_modules', express.static(join(__dirname, '../node_modules')));
