@@ -111,10 +111,10 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                         this.apiService
                             .logHighScore(this.userName, this.score, this.diffLevel)
                             .subscribe(function (data) { return console.log(data); });
-                        $("#game-over")
-                            .modal('setting', 'closable', false)
-                            .modal("show");
                     }
+                    $("#game-over")
+                        .modal('setting', 'closable', false)
+                        .modal("show");
                 };
                 QuizComponent.prototype.quitGame = function () {
                     $("#confirm-quit")

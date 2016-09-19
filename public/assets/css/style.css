@@ -38,7 +38,8 @@ body {
         list-style: none; }
       body .start-screen .overlay .ui.form .field {
         position: relative;
-        margin: auto; }
+        margin: auto;
+        margin-bottom: 5px; }
     body .start-screen img.ui.image {
       z-index: -1;
       min-width: 480px;

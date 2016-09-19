@@ -4,6 +4,8 @@ export class User {
                 public userUrl:string,
                 public email:string,
                 public name:string,
-                public profileImage:string) {
+                public profileImage:string,
+                public highScore:number,
+                public highLevel:number) {
     }
 }

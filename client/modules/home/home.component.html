@@ -6,13 +6,13 @@
     <img class="ui large image" src="assets/img/david-jason.jpg">
 
     <div class="overlay">
-        <form class="ui form">
+        <div class="ui form">
             <div class="six wide field">
-                <input type="text" id="user-name" placeholder="Username (0-14 characters)"
+                <input type="text" id="user-name" placeholder="Username (0-14 characters)" maxlength="14"
                        [value]="userName" (keyup)="updateUserName(usernameInput.value)" #usernameInput>
             </div>
-        </form>
-        <div class="ui big positive button" (click)="startGame()">Start Game</div>
+            <div class="ui big positive button" (click)="startGame()">Start Game</div>
+        </div>
         <hr>
         <ul>
             <li><h3>How to Play:</h3></li>

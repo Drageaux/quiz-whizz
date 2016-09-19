@@ -106,13 +106,13 @@ export class QuizComponent implements OnInit {
     gameOver() {
         if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
             console.log(this.userName);
-            this.apiService
-                .logHighScore(this.userName, this.score, this.diffLevel)
-                .subscribe((data) => console.log(data));
-            $("#game-over")
-                .modal('setting', 'closable', false)
-                .modal("show");
+                        this.apiService
+                            .logHighScore(this.userName, this.score, this.diffLevel)
+                            .subscribe((data) => console.log(data));
         }
+        $("#game-over")
+            .modal('setting', 'closable', false)
+            .modal("show");
     }
 
     quitGame() {

@@ -13,18 +13,31 @@ export class ApiService {
                 private http:Http) {
     }
 
-    get(url:string) {
-        return this
-            .authHttp
-            .get(url)
-            .map((response:Response) => response.json());
-    }
-
     /********
      * USER *
      ********/
-    createUser() {
-        //return this.http.post
+    createUser(userName:string) {
+        let body = { userName: userName };
+        let headers = new Headers({"Content-Type": "application/json"});
+        let options = new RequestOptions({headers: headers});
+
+        return this
+            .http
+            .post("/user", body, options)
+            .map((res:Response) => res.json())
+            .catch(this.handleError);
+    }
+
+    register(userName:string, email:string) {
+        let body = { userName: userName, email: email };
+        let headers = new Headers({"Content-Type": "application/json"});
+        let options = new RequestOptions({headers: headers});
+
+        return this
+            .http
+            .post("/user/register", body, options)
+            .map((res:Response) => res.json())
+            .catch(this.handleError);
     }
 
     logHighScore(userName:string, score:number, level:number) {

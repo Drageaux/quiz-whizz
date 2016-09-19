@@ -33,17 +33,28 @@ System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observa
                     this.authHttp = authHttp;
                     this.http = http;
                 }
-                ApiService.prototype.get = function (url) {
-                    return this
-                        .authHttp
-                        .get(url)
-                        .map(function (response) { return response.json(); });
-                };
                 /********
                  * USER *
                  ********/
-                ApiService.prototype.createUser = function () {
-                    //return this.http.post
+                ApiService.prototype.createUser = function (userName) {
+                    var body = { userName: userName };
+                    var headers = new http_2.Headers({ "Content-Type": "application/json" });
+                    var options = new http_2.RequestOptions({ headers: headers });
+                    return this
+                        .http
+                        .post("/user", body, options)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.handleError);
+                };
+                ApiService.prototype.register = function (userName, email) {
+                    var body = { userName: userName, email: email };
+                    var headers = new http_2.Headers({ "Content-Type": "application/json" });
+                    var options = new http_2.RequestOptions({ headers: headers });
+                    return this
+                        .http
+                        .post("/user/register", body, options)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.handleError);
                 };
                 ApiService.prototype.logHighScore = function (userName, score, level) {
                     var body = {

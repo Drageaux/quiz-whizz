@@ -25,25 +25,24 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                 function HomeComponent(apiService) {
                     this.apiService = apiService;
                     this.appName = "Quiz Whizz";
-                    this.userName = "test";
+                    this.userName = "Guest";
+                    this.registered = false;
                     this.playing = false;
                 }
-                HomeComponent.prototype.protected = function () {
-                    var _this = this;
-                    this.apiService
-                        .get("/api")
-                        .subscribe(function (data) {
-                        _this.response = data;
-                    }, function (error) {
-                        _this.error = error.message;
-                        setTimeout(function () { return _this.error = null; }, 4000);
-                    });
-                };
                 HomeComponent.prototype.updateUserName = function (name) {
                     this.userName = name;
                 };
                 HomeComponent.prototype.startGame = function () {
+                    var _this = this;
                     this.playing = true;
+                    this.apiService
+                        .createUser(this.userName)
+                        .subscribe(function (data) {
+                        console.log(data);
+                    }, function (error) {
+                        _this.error = error.message;
+                        setTimeout(function () { return _this.error = null; }, 4000);
+                    });
                 };
                 HomeComponent.prototype.onBackToMenu = function (event) {
                     this.playing = event;
