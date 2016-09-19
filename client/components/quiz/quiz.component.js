@@ -107,7 +107,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                 };
                 QuizComponent.prototype.gameOver = function () {
                     if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
-                        console.log(this.userName);
                         this.apiService
                             .logHighScore(this.userName, this.score, this.diffLevel, this.registered)
                             .subscribe(function (data) { return console.log(data); });
@@ -190,7 +189,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     timeline
                         .set(earnedScore, { x: 3, y: 0, autoAlpha: 1 }, 0)
                         .to(earnedScore, 0.7, { autoAlpha: 0, y: -20 }, 0.3);
-                    this.score += this.quiz.targetValue;
+                    this.score += Number(this.quiz.targetValue);
                     this.refillPowerUps();
                     this.diffLevel++;
                     // wait after the animation; seems like the best way right now

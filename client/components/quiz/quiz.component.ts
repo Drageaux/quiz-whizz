@@ -106,7 +106,6 @@ export class QuizComponent implements OnInit {
 
     gameOver() {
         if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
-            console.log(this.userName);
             this.apiService
                 .logHighScore(this.userName, this.score, this.diffLevel, this.registered)
                 .subscribe((data) => console.log(data));
@@ -196,7 +195,7 @@ export class QuizComponent implements OnInit {
         timeline
             .set(earnedScore, {x: 3, y: 0, autoAlpha: 1}, 0)
             .to(earnedScore, 0.7, {autoAlpha: 0, y: -20}, 0.3);
-        this.score += this.quiz.targetValue;
+        this.score += Number(this.quiz.targetValue);
         this.refillPowerUps();
         this.diffLevel++;
 

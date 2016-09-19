@@ -22,16 +22,18 @@ export class HomeComponent {
 
     startGame() {
         this.playing = true;
-        this.apiService
-            .createUser(this.userName)
-            .subscribe(
-                (data) => {
-                    console.log(data)
-                },
-                (error:Error) => {
-                    this.error = error.message;
-                    setTimeout(() => this.error = null, 4000)
-                });
+        if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
+            this.apiService
+                .createUser(this.userName)
+                .subscribe(
+                    (data) => {
+                        console.log(data)
+                    },
+                    (error:Error) => {
+                        this.error = error.message;
+                        setTimeout(() => this.error = null, 4000)
+                    });
+        }
     }
 
     onBackToMenu(event:any) {

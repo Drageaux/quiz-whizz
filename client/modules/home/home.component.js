@@ -35,14 +35,16 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                 HomeComponent.prototype.startGame = function () {
                     var _this = this;
                     this.playing = true;
-                    this.apiService
-                        .createUser(this.userName)
-                        .subscribe(function (data) {
-                        console.log(data);
-                    }, function (error) {
-                        _this.error = error.message;
-                        setTimeout(function () { return _this.error = null; }, 4000);
-                    });
+                    if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
+                        this.apiService
+                            .createUser(this.userName)
+                            .subscribe(function (data) {
+                            console.log(data);
+                        }, function (error) {
+                            _this.error = error.message;
+                            setTimeout(function () { return _this.error = null; }, 4000);
+                        });
+                    }
                 };
                 HomeComponent.prototype.onBackToMenu = function (event) {
                     this.playing = event;

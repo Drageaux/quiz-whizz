@@ -8,6 +8,7 @@ import { NgSemanticModule } from "ng-semantic";
 import { AppComponent }  from './app.component';
 import { routing } from "./routes";
 import { HomeModule } from "./modules/home/home.module";
+import { LeaderboardModule } from "./modules/leaderboard/leaderboard.module";
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import { HomeModule } from "./modules/home/home.module";
         HttpModule,
         NgSemanticModule,
         HomeModule,
+        LeaderboardModule,
         routing
     ],
     providers: [

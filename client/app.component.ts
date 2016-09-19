@@ -7,6 +7,7 @@ import { SemanticPopupComponent } from "ng-semantic";
     template: `
     <nav class="ui menu inverted huge">
         <a routerLink="home" class="item">Home</a>
+        <a routerLink="leaderboard" class="item">Leaderboard</a>
         <!--<a routerLink="contact" class="item">Contact Me</a>-->
 
         <!--<nav class="menu right">-->
