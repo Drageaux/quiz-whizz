@@ -304,7 +304,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                 ], QuizComponent.prototype, "userName", void 0);
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', String)
+                    __metadata('design:type', Boolean)
                 ], QuizComponent.prototype, "registered", void 0);
                 __decorate([
                     core_1.Output(), 

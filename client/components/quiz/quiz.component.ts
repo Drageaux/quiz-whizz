@@ -18,7 +18,7 @@ export class QuizComponent implements OnInit {
     // essential
     @Input() name:string;
     @Input() userName:string;
-    @Input() registered:string;
+    @Input() registered:boolean;
     @Output() onBackToMenu = new EventEmitter<boolean>(); // emits event to parent component
     diffLevel:number = 1; // difficulty
     score:number = 0;
