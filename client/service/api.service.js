@@ -1,6 +1,4 @@
-System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observable"], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observable"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -56,10 +54,7 @@ System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observa
                     return this
                         .http
                         .post("/user/saveScore", body, options)
-                        .map(function (res) {
-                        res.json();
-                        console.log(res);
-                    })
+                        .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
                 /********
@@ -98,7 +93,7 @@ System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observa
                     __metadata('design:paramtypes', [angular2_jwt_1.AuthHttp, http_1.Http])
                 ], ApiService);
                 return ApiService;
-            }());
+            })();
             exports_1("ApiService", ApiService);
         }
     }

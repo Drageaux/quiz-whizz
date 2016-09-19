@@ -39,10 +39,7 @@ export class ApiService {
         return this
             .http
             .post("/user/saveScore", body, options)
-            .map((res:Response) => {
-                res.json();
-                console.log(res);
-            })
+            .map((res:Response) => res.json())
             .catch(this.handleError);
     }
 
