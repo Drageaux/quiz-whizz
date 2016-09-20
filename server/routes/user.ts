@@ -3,7 +3,7 @@ import { json, urlencoded } from "body-parser";
 
 const userRouter:Router = Router();
 
-var User = require("../models/user.js");
+let User = require("../models/user.js");
 
 
 // create new unique-name user, but it is still unclaimed
