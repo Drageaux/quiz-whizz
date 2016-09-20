@@ -11,7 +11,7 @@ import { protectedRouter } from "./routes/protected";
 import { loginRouter } from "./routes/login";
 import { quizRouter } from "./routes/quiz";
 import { userRouter } from "./routes/user";
-mongoose.connect("mongodb://localhost:27017/quiz-whizz" || process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI);
 
 const app: express.Application = express();
 app.disable("x-powered-by");
