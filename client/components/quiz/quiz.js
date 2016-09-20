@@ -1,6 +1,4 @@
-System.register([], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register([], function(exports_1) {
     var Quiz;
     return {
         setters:[],
@@ -12,7 +10,7 @@ System.register([], function(exports_1, context_1) {
                     this.targetValue = targetValue;
                 }
                 return Quiz;
-            }());
+            })();
             exports_1("Quiz", Quiz);
         }
     }

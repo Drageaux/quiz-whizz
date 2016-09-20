@@ -1,9 +1,9 @@
 node_modules
 .idea
 typings
-server/**/*.js
 server/**/*.js.map
 client/**/*.js.map
 /npm-debug.log
 .env
 *.env
+server/config.js

@@ -3,26 +3,28 @@ import * as express from "express";
 import { join } from "path";
 import * as favicon from "serve-favicon";
 import { json, urlencoded } from "body-parser";
-//import mongoose = require("mongoose");
-let mongoose = require("mongoose");
-require('dotenv').config();
 
 import { protectedRouter } from "./routes/protected";
 import { loginRouter } from "./routes/login";
 import { quizRouter } from "./routes/quiz";
 import { userRouter } from "./routes/user";
-mongoose.connect("mongodb://localhost:27017/quiz-whizz" || process.env.MONGODB_URI);
 
+
+// MongoDB set up
+let mongoose = require("mongoose");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/quiz-whizz");
+
+// Express set up
 const app: express.Application = express();
 app.disable("x-powered-by");
 
+// Settings
 app.use(favicon(join(__dirname, "../public", "favicon.ico")));
 app.use(express.static(join(__dirname, '../public')));
-
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-// api routes
+// API routes
 app.use("/api", protectedRouter);
 app.use("/login", loginRouter);
 app.use("/user", userRouter); // user api

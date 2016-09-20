@@ -143,6 +143,7 @@ body {
     body #leaderboard h1 {
       text-align: center; }
     body #leaderboard table.ui.table {
-      width: 100%; }
+      width: 90%;
+      margin: auto; }
 
 /*# sourceMappingURL=style.css.map */
