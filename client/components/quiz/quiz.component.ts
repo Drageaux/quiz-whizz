@@ -39,6 +39,7 @@ export class QuizComponent implements OnInit {
     // timer
     time:number;
     timer:any;
+    timePercent:number;
     paused:boolean = true;
 
     // each monster will have their own timeline,
@@ -71,14 +72,9 @@ export class QuizComponent implements OnInit {
             duration: 60,
             total: 60
         });
-        this.time = 45000;
-        this.timer = self.setInterval(() => {
-            if (this.time > 0) {
-                this.time -= 100;
-            } else {
-                this.gameOver();
-            }
-        }, 100);
+        this.time = 60000;
+        this.timePercent = this.time / 60000 * 100;
+        this.resume();
     }
 
     /***************
@@ -145,7 +141,20 @@ export class QuizComponent implements OnInit {
             .modal("show");
     }
 
+    resume() {
+        this.timer = self.setInterval(() => {
+            if (this.time > 0) {
+                this.time -= 100;
+            } else {
+                this.gameOver();
+            }
+            this.timePercent = this.time / 60000 * 100;
+            $("#timer").progress("set percent", this.timePercent);
+        }, 100);
+    }
+
     quitGame() {
+        clearInterval(this.timer);
         $("#confirm-quit")
             .modal("show");
     }
@@ -216,10 +225,11 @@ export class QuizComponent implements OnInit {
         timeline
             .set(earnedScore, {x: 3, y: 0, autoAlpha: 1}, 0)
             .to(earnedScore, 0.7, {autoAlpha: 0, y: -20}, 0.3);
+
+        let extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
+        this.time = (this.time + extraTime) < 60000
+            ? this.time + extraTime : 60000;
         this.score += Number(this.quiz.targetValue);
-        this.time = (this.time + this.diffLevel * 1000) < 60000 ?
-        this.time + this.diffLevel * 1000 :
-            60000;
         this.refillPowerUps();
         this.diffLevel++;
 
@@ -322,7 +332,6 @@ export class QuizComponent implements OnInit {
             // manipulate expression sent to the server
             if (!this.isEmptyString(value)) {
                 if (Number.isInteger(Number(value))) {
-                    console.log(value);
                     this.exprString = "(" + this.exprString + value + ")";
                 } else {
                     // if operators and numbers are out of order, the syntax will be wrong;

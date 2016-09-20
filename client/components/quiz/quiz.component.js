@@ -47,7 +47,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     };
                 }
                 QuizComponent.prototype.ngOnInit = function () {
-                    var _this = this;
                     this.diffLevel = 1;
                     this.score = 0;
                     this.health = 3;
@@ -62,15 +61,9 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                         duration: 60,
                         total: 60
                     });
-                    this.time = 45000;
-                    this.timer = self.setInterval(function () {
-                        if (_this.time > 0) {
-                            _this.time -= 100;
-                        }
-                        else {
-                            _this.gameOver();
-                        }
-                    }, 100);
+                    this.time = 60000;
+                    this.timePercent = this.time / 60000 * 100;
+                    this.resume();
                 };
                 /***************
                  * INTERACTIVE *
@@ -129,7 +122,21 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                         .modal('setting', 'closable', false)
                         .modal("show");
                 };
+                QuizComponent.prototype.resume = function () {
+                    var _this = this;
+                    this.timer = self.setInterval(function () {
+                        if (_this.time > 0) {
+                            _this.time -= 100;
+                        }
+                        else {
+                            _this.gameOver();
+                        }
+                        _this.timePercent = _this.time / 60000 * 100;
+                        $("#timer").progress("set percent", _this.timePercent);
+                    }, 100);
+                };
                 QuizComponent.prototype.quitGame = function () {
+                    clearInterval(this.timer);
                     $("#confirm-quit")
                         .modal("show");
                 };
@@ -194,10 +201,10 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     timeline
                         .set(earnedScore, { x: 3, y: 0, autoAlpha: 1 }, 0)
                         .to(earnedScore, 0.7, { autoAlpha: 0, y: -20 }, 0.3);
+                    var extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
+                    this.time = (this.time + extraTime) < 60000
+                        ? this.time + extraTime : 60000;
                     this.score += Number(this.quiz.targetValue);
-                    this.time = (this.time + this.diffLevel * 1000) < 60000 ?
-                        this.time + this.diffLevel * 1000 :
-                        60000;
                     this.refillPowerUps();
                     this.diffLevel++;
                     // wait after the animation; seems like the best way right now
@@ -291,7 +298,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                         // manipulate expression sent to the server
                         if (!this.isEmptyString(value)) {
                             if (Number.isInteger(Number(value))) {
-                                console.log(value);
                                 this.exprString = "(" + this.exprString + value + ")";
                             }
                             else {

@@ -19,7 +19,13 @@
     </div>
     <hr>
 
-    <div class="ui small progress" id="timer">
+    <div class="ui small progress"
+         data-total="60" id="timer"
+         [attr.data-value]="timePercent"
+         [class.red]="timePercent < 25"
+         [class.yellow]="timePercent < 50 && timePercent > 24"
+         [class.olive]="timePercent < 75 && timePercent > 49"
+         [class.green]="timePercent < 100 && timePercent > 74">
       <div class="bar"></div>
       <div class="label">Time left: {{time/1000 | round}}</div>
     </div>
@@ -92,7 +98,7 @@
     </div>
     <div class="actions">
         <div class="ui positive button" (click)="gameOver()">Yes</div>
-        <div class="ui negative button">No</div>
+        <div class="ui negative button" (click)="resume()">No</div>
     </div>
 </div>
 

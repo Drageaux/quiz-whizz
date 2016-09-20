@@ -43,7 +43,7 @@ body {
       body .start-screen .overlay .ui.form .field {
         position: relative;
         margin: auto;
-        margin-bottom: 5px; }
+        margin-bottom: 10px; }
     body .start-screen img.ui.image {
       z-index: -1;
       min-width: 480px;
