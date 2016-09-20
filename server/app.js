@@ -4,21 +4,23 @@ var express = require("express");
 var path_1 = require("path");
 var favicon = require("serve-favicon");
 var body_parser_1 = require("body-parser");
-var mongoose = require("mongoose");
-console.log(process.env.MONGODB_URI);
 var protected_1 = require("./routes/protected");
 var login_1 = require("./routes/login");
 var quiz_1 = require("./routes/quiz");
 var user_1 = require("./routes/user");
+// MongoDB set up
+var mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/quiz-whizz");
+// Express set up
 var app = express();
 exports.app = app;
 app.disable("x-powered-by");
+// Settings
 app.use(favicon(path_1.join(__dirname, "../public", "favicon.ico")));
 app.use(express.static(path_1.join(__dirname, '../public')));
 app.use(body_parser_1.json());
 app.use(body_parser_1.urlencoded({ extended: true }));
-// api routes
+// API routes
 app.use("/api", protected_1.protectedRouter);
 app.use("/login", login_1.loginRouter);
 app.use("/user", user_1.userRouter); // user api
