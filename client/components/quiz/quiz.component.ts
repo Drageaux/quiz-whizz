@@ -10,6 +10,9 @@ import {Observable} from "rxjs/Rx";
 import "gsap";
 import {Quiz} from "./quiz";
 
+declare var $;
+declare var TimelineMax;
+
 @Component({
     selector: "quiz",
     templateUrl: "client/components/quiz/quiz.component.html"
@@ -20,21 +23,23 @@ export class QuizComponent implements OnInit {
     @Input() userName:string;
     @Input() registered:boolean;
     @Output() onBackToMenu = new EventEmitter<boolean>(); // emits event to parent component
-    diffLevel:number = 1; // difficulty
-    score:number = 0;
-    health:number = 3; // chances left
+    diffLevel:number; // difficulty
+    score:number;
+    health:number; // chances left
     buttonWidth:number = 1; // for uniformity
     errorMessage:string = "";
     // quiz-related
     quiz:Quiz = new Quiz([], "", "");
-    currAvailInput:any[] = []; // array list model bound to available choices of symbols
-    currUserInput:any[] = []; // stack list model bound to symbols the user selected
-    inputIndex:number = 0; // basically the length of the answer list
-    exprString = "";
+    currAvailInput:any[]; // array list model bound to available choices of symbols
+    currUserInput:any[]; // stack list model bound to symbols the user selected
+    inputIndex:number; // basically the length of the answer list
+    exprString:string;
     // power-ups
-    skipPower:number = 3;
+    skipPower:number;
     // timer
-    timer:number = 60;
+    time:number;
+    timer:any;
+    paused:boolean = true;
 
     // each monster will have their own timeline,
     // so that the user cannot interfere with the monster reaching their goal
@@ -49,7 +54,30 @@ export class QuizComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.diffLevel = 1;
+        this.score = 0;
+        this.health = 3;
+        this.errorMessage = "";
+        this.currAvailInput = [];
+        this.currUserInput = [];
+        this.inputIndex = 0;
+        this.exprString = "";
+
+        this.skipPower = 3;
+
         this.makeQuiz();
+
+        $("#timer").progress({
+            duration: 60,
+            total: 60
+        });
+        this.timer = self.setInterval(() => {
+            if (this.time > 0) {
+                this.time -= 100;
+            } else {
+                this.gameOver();
+            }
+        }, 100);
     }
 
     /***************
@@ -105,6 +133,7 @@ export class QuizComponent implements OnInit {
     }
 
     gameOver() {
+        clearInterval(this.timer);
         if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
             this.apiService
                 .logHighScore(this.userName, this.score, this.diffLevel, this.registered)
@@ -121,17 +150,7 @@ export class QuizComponent implements OnInit {
     }
 
     restart() {
-        this.score = 0;
-        this.health = 3;
-        this.diffLevel = 1;
-        this.errorMessage = "";
-        this.currAvailInput = [];
-        this.currUserInput = [];
-        this.inputIndex = 0;
-        this.exprString = "";
-
-        this.skipPower = 3;
-        this.makeQuiz();
+        this.ngOnInit();
         $("#game-over").modal("hide");
     }
 
@@ -140,6 +159,7 @@ export class QuizComponent implements OnInit {
         $("#game-over").modal("hide");
         $("body > .dimmer.modals.page").remove(); // this would stack extra dimmer layers otherwise
     }
+
 
     /*************
      * POWER UPS *
@@ -196,6 +216,9 @@ export class QuizComponent implements OnInit {
             .set(earnedScore, {x: 3, y: 0, autoAlpha: 1}, 0)
             .to(earnedScore, 0.7, {autoAlpha: 0, y: -20}, 0.3);
         this.score += Number(this.quiz.targetValue);
+        this.time = (this.time + this.diffLevel * 1000) < 60000 ?
+        this.time + this.diffLevel * 1000 :
+            60000;
         this.refillPowerUps();
         this.diffLevel++;
 

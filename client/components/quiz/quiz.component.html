@@ -19,11 +19,10 @@
     </div>
     <hr>
 
-    <!--<div id="battleground">-->
-    <!--<div id="wall">|</div>-->
-    <!--<div class="monster" id="monster-0"></div>-->
-    <!--</div>-->
-    <!--<input type="text" (keypress)="keyPress($event)" id="editor">-->
+    <div class="ui small progress" id="timer">
+      <div class="bar"></div>
+      <div class="label">Time left: {{time/1000 | round}}</div>
+    </div>
 
     <div id="user-control" class="ui grid">
         <div class="sixteen wide column"><h2>Level: {{diffLevel}}</h2></div>

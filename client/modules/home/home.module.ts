@@ -7,6 +7,7 @@ import { HomeComponent } from "./home.component";
 import { QuizComponent } from "../../components/quiz/quiz.component";
 import { routing } from "./home.routing";
 import { SharedModule } from "../shared/shared.module";
+import { RoundPipe } from "../../pipes/round.pipe";
 
 @NgModule({
     imports: [
@@ -16,7 +17,7 @@ import { SharedModule } from "../shared/shared.module";
         SharedModule.forRoot(),
         NgSemanticModule,
     ],
-    declarations: [ HomeComponent, QuizComponent ],
+    declarations: [ HomeComponent, QuizComponent, RoundPipe ],
     bootstrap:    [ HomeComponent ]
 })
 export class HomeModule { }

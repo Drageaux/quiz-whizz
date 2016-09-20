@@ -1,4 +1,6 @@
-System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap", "./quiz"], function(exports_1) {
+System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap", "./quiz"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -30,21 +32,11 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                 function QuizComponent(apiService) {
                     this.apiService = apiService;
                     this.onBackToMenu = new core_1.EventEmitter(); // emits event to parent component
-                    this.diffLevel = 1; // difficulty
-                    this.score = 0;
-                    this.health = 3; // chances left
                     this.buttonWidth = 1; // for uniformity
                     this.errorMessage = "";
                     // quiz-related
                     this.quiz = new quiz_1.Quiz([], "", "");
-                    this.currAvailInput = []; // array list model bound to available choices of symbols
-                    this.currUserInput = []; // stack list model bound to symbols the user selected
-                    this.inputIndex = 0; // basically the length of the answer list
-                    this.exprString = "";
-                    // power-ups
-                    this.skipPower = 3;
-                    // timer
-                    this.timer = 60;
+                    this.paused = true;
                     // each monster will have their own timeline,
                     // so that the user cannot interfere with the monster reaching their goal
                     this.monsterExample = {
@@ -55,7 +47,29 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     };
                 }
                 QuizComponent.prototype.ngOnInit = function () {
+                    var _this = this;
+                    this.diffLevel = 1;
+                    this.score = 0;
+                    this.health = 3;
+                    this.errorMessage = "";
+                    this.currAvailInput = [];
+                    this.currUserInput = [];
+                    this.inputIndex = 0;
+                    this.exprString = "";
+                    this.skipPower = 3;
                     this.makeQuiz();
+                    $("#timer").progress({
+                        duration: 60,
+                        total: 60
+                    });
+                    this.timer = self.setInterval(function () {
+                        if (_this.time > 0) {
+                            _this.time -= 100;
+                        }
+                        else {
+                            _this.gameOver();
+                        }
+                    }, 100);
                 };
                 /***************
                  * INTERACTIVE *
@@ -104,6 +118,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     this.compileExpressionString();
                 };
                 QuizComponent.prototype.gameOver = function () {
+                    clearInterval(this.timer);
                     if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
                         this.apiService
                             .logHighScore(this.userName, this.score, this.diffLevel, this.registered)
@@ -118,16 +133,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                         .modal("show");
                 };
                 QuizComponent.prototype.restart = function () {
-                    this.score = 0;
-                    this.health = 3;
-                    this.diffLevel = 1;
-                    this.errorMessage = "";
-                    this.currAvailInput = [];
-                    this.currUserInput = [];
-                    this.inputIndex = 0;
-                    this.exprString = "";
-                    this.skipPower = 3;
-                    this.makeQuiz();
+                    this.ngOnInit();
                     $("#game-over").modal("hide");
                 };
                 QuizComponent.prototype.backToMenu = function (event) {
@@ -188,6 +194,9 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                         .set(earnedScore, { x: 3, y: 0, autoAlpha: 1 }, 0)
                         .to(earnedScore, 0.7, { autoAlpha: 0, y: -20 }, 0.3);
                     this.score += Number(this.quiz.targetValue);
+                    this.time = (this.time + this.diffLevel * 1000) < 60000 ?
+                        this.time + this.diffLevel * 1000 :
+                        60000;
                     this.refillPowerUps();
                     this.diffLevel++;
                     // wait after the animation; seems like the best way right now
@@ -316,7 +325,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     __metadata('design:paramtypes', [api_service_1.ApiService])
                 ], QuizComponent);
                 return QuizComponent;
-            })();
+            }());
             exports_1("QuizComponent", QuizComponent);
         }
     }
