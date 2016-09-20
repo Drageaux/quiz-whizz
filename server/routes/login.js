@@ -1,4 +1,3 @@
-"use strict";
 var express_1 = require("express");
 var crypto_1 = require("crypto");
 var jsonwebtoken_1 = require("jsonwebtoken");

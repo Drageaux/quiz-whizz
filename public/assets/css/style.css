@@ -9,11 +9,13 @@ body {
     border-radius: 0 !important; }
     body nav.ui.inverted.menu .item {
       color: #FF695E;
-      border-radius: 0 !important; }
+      border-radius: 0 !important;
+      transition-duration: 0.25s; }
+    body nav.ui.inverted.menu .item.active,
     body nav.ui.inverted.menu .item:hover,
     body nav.ui.inverted.menu .item:focus {
       color: white;
-      background-color: #FF695E; }
+      background-color: #FF695E !important; }
   body .start-screen {
     width: 100% !important;
     text-align: center;

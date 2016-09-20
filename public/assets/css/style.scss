@@ -29,11 +29,13 @@ body {
         .item {
             color: $red_inverted_semantic;
             border-radius: 0 !important;
+            transition-duration: 0.25s;
         }
+        .item.active,
         .item:hover,
         .item:focus {
             color: white;
-            background-color: $red_inverted_semantic;
+            background-color: $red_inverted_semantic !important;
         }
     }
     .start-screen {
