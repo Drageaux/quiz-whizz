@@ -87,7 +87,7 @@ userRouter.post("/saveScore", function (request:Request, response:Response, next
 
 // sort and get users by criteria
 userRouter.get("/list/score", function (request:Request, response:Response, next:NextFunction) {
-    User.find({}).sort({score: 1}).limit(510).exec(
+    User.find({}).sort({highScore: -1}).limit(10).exec(
         function(err, users) {
             if (err) { console.error(err.stack); }
             response.json(users);

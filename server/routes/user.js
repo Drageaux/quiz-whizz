@@ -1,3 +1,4 @@
+"use strict";
 var express_1 = require("express");
 var userRouter = express_1.Router();
 exports.userRouter = userRouter;
@@ -92,7 +93,7 @@ userRouter.post("/saveScore", function (request, response, next) {
 });
 // sort and get users by criteria
 userRouter.get("/list/score", function (request, response, next) {
-    User.find({}).sort({ score: -1 }).limit(510).exec(function (err, users) {
+    User.find({}).sort({ highScore: -1 }).limit(10).exec(function (err, users) {
         if (err) {
             console.error(err.stack);
         }
