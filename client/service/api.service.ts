@@ -5,6 +5,7 @@ import { AuthHttp } from "angular2-jwt";
 import { Observable } from "rxjs/Observable";
 
 import { Quiz } from "../components/quiz/quiz";
+import { User } from "../components/user/user";
 
 @Injectable()
 export class ApiService {
@@ -13,13 +14,64 @@ export class ApiService {
                 private http:Http) {
     }
 
-    get(url:string) {
+    /********
+     * USER *
+     ********/
+    createUser(userName:string) {
+        let body = {userName: userName};
+        let headers = new Headers({"Content-Type": "application/json"});
+        let options = new RequestOptions({headers: headers});
+
         return this
-            .authHttp
-            .get(url)
-            .map((response:Response) => response.json());
+            .http
+            .post("/user", body, options)
+            .map((res:Response) => res.json())
+            .catch(this.handleError);
     }
 
+    register(userName:string, email:string) {
+        let body = {userName: userName, email: email};
+        let headers = new Headers({"Content-Type": "application/json"});
+        let options = new RequestOptions({headers: headers});
+
+        return this
+            .http
+            .post("/user/register", body, options)
+            .map((res:Response) => res.json())
+            .catch(this.handleError);
+    }
+
+    logHighScore(userName:string, score:number, level:number, registered:boolean) {
+        let body = {
+            userName: userName,
+            score: score,
+            level: level,
+            registered: registered
+        };
+        let headers = new Headers({"Content-Type": "application/json"});
+        let options = new RequestOptions({headers: headers});
+
+        return this
+            .http
+            .post("/user/saveScore", body, options)
+            .map((res:Response) => res.json())
+            .catch(this.handleError);
+    }
+
+    /***************
+     * LEADERBOARD *
+     ***************/
+    getUsersByScore() {
+        return this
+            .http
+            .get("/user/list/score")
+            .map((res) => <User[]> res.json())
+            .catch(this.handleError);
+    }
+
+    /********
+     * QUIZ *
+     ********/
     makeQuiz(level:number) {
         let body = {currentLevel: level};
         let headers = new Headers({"Content-Type": "application/json"});

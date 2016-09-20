@@ -44,7 +44,7 @@ body {
         top: 45px;
         overflow: hidden;
         .overlay {
-            padding: 50px 0 20px;
+            padding: 35px 0 20px;
             position: absolute;
             width: 100vw;
             background: rgba(0, 0, 0, 0.7);
@@ -53,13 +53,20 @@ body {
             top: 37vh;
             transform: translateX(-50%);
             .ui.button {
-                margin: 0;
+                margin: 0 0 10px;
             }
             ul {
                 padding: 0;
             }
             li {
                 list-style: none;
+            }
+            .ui.form {
+                .field {
+                    position: relative;
+                    margin: auto;
+                    margin-bottom: 5px;
+                }
             }
         }
         img.ui.image {
@@ -144,6 +151,7 @@ body {
                 -o-transform: rotate(135deg);
             }
         }
+
         #user-control {
             user-select: none;
             margin-top: 10px;
@@ -194,6 +202,15 @@ body {
                     }
                 }
             }
+        }
+    }
+
+    #leaderboard {
+        margin-top: 50px;
+        h1 { text-align: center; }
+        table.ui.table {
+            width: 90%;
+            margin: auto;
         }
     }
 }

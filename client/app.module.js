@@ -1,6 +1,4 @@
-System.register(['@angular/core', '@angular/platform-browser', "angular2-jwt", "@angular/http", "ng-semantic", './app.component', "./routes", "./modules/home/home.module"], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['@angular/core', '@angular/platform-browser', '@angular/forms', "angular2-jwt", "@angular/http", "ng-semantic", './app.component', "./routes", "./modules/home/home.module", "./modules/leaderboard/leaderboard.module"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,7 +8,7 @@ System.register(['@angular/core', '@angular/platform-browser', "angular2-jwt", "
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_browser_1, angular2_jwt_1, http_1, ng_semantic_1, app_component_1, routes_1, home_module_1;
+    var core_1, platform_browser_1, forms_1, angular2_jwt_1, http_1, ng_semantic_1, app_component_1, routes_1, home_module_1, leaderboard_module_1;
     var AppModule;
     return {
         setters:[
@@ -19,6 +17,9 @@ System.register(['@angular/core', '@angular/platform-browser', "angular2-jwt", "
             },
             function (platform_browser_1_1) {
                 platform_browser_1 = platform_browser_1_1;
+            },
+            function (forms_1_1) {
+                forms_1 = forms_1_1;
             },
             function (angular2_jwt_1_1) {
                 angular2_jwt_1 = angular2_jwt_1_1;
@@ -37,6 +38,9 @@ System.register(['@angular/core', '@angular/platform-browser', "angular2-jwt", "
             },
             function (home_module_1_1) {
                 home_module_1 = home_module_1_1;
+            },
+            function (leaderboard_module_1_1) {
+                leaderboard_module_1 = leaderboard_module_1_1;
             }],
         execute: function() {
             AppModule = (function () {
@@ -46,9 +50,11 @@ System.register(['@angular/core', '@angular/platform-browser', "angular2-jwt", "
                     core_1.NgModule({
                         imports: [
                             platform_browser_1.BrowserModule,
+                            forms_1.FormsModule,
                             http_1.HttpModule,
                             ng_semantic_1.NgSemanticModule,
                             home_module_1.HomeModule,
+                            leaderboard_module_1.LeaderboardModule,
                             routes_1.routing
                         ],
                         providers: [
@@ -64,7 +70,7 @@ System.register(['@angular/core', '@angular/platform-browser', "angular2-jwt", "
                     __metadata('design:paramtypes', [])
                 ], AppModule);
                 return AppModule;
-            }());
+            })();
             exports_1("AppModule", AppModule);
         }
     }

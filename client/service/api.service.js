@@ -1,6 +1,4 @@
-System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observable"], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observable"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -33,12 +31,57 @@ System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observa
                     this.authHttp = authHttp;
                     this.http = http;
                 }
-                ApiService.prototype.get = function (url) {
+                /********
+                 * USER *
+                 ********/
+                ApiService.prototype.createUser = function (userName) {
+                    var body = { userName: userName };
+                    var headers = new http_2.Headers({ "Content-Type": "application/json" });
+                    var options = new http_2.RequestOptions({ headers: headers });
                     return this
-                        .authHttp
-                        .get(url)
-                        .map(function (response) { return response.json(); });
+                        .http
+                        .post("/user", body, options)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.handleError);
                 };
+                ApiService.prototype.register = function (userName, email) {
+                    var body = { userName: userName, email: email };
+                    var headers = new http_2.Headers({ "Content-Type": "application/json" });
+                    var options = new http_2.RequestOptions({ headers: headers });
+                    return this
+                        .http
+                        .post("/user/register", body, options)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.handleError);
+                };
+                ApiService.prototype.logHighScore = function (userName, score, level, registered) {
+                    var body = {
+                        userName: userName,
+                        score: score,
+                        level: level,
+                        registered: registered
+                    };
+                    var headers = new http_2.Headers({ "Content-Type": "application/json" });
+                    var options = new http_2.RequestOptions({ headers: headers });
+                    return this
+                        .http
+                        .post("/user/saveScore", body, options)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.handleError);
+                };
+                /***************
+                 * LEADERBOARD *
+                 ***************/
+                ApiService.prototype.getUsersByScore = function () {
+                    return this
+                        .http
+                        .get("/user/list/score")
+                        .map(function (res) { return res.json(); })
+                        .catch(this.handleError);
+                };
+                /********
+                 * QUIZ *
+                 ********/
                 ApiService.prototype.makeQuiz = function (level) {
                     var body = { currentLevel: level };
                     var headers = new http_2.Headers({ "Content-Type": "application/json" });
@@ -72,7 +115,7 @@ System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observa
                     __metadata('design:paramtypes', [angular2_jwt_1.AuthHttp, http_1.Http])
                 ], ApiService);
                 return ApiService;
-            }());
+            })();
             exports_1("ApiService", ApiService);
         }
     }

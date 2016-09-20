@@ -17,6 +17,8 @@ import {Quiz} from "./quiz";
 export class QuizComponent implements OnInit {
     // essential
     @Input() name:string;
+    @Input() userName:string;
+    @Input() registered:boolean;
     @Output() onBackToMenu = new EventEmitter<boolean>(); // emits event to parent component
     diffLevel:number = 1; // difficulty
     score:number = 0;
@@ -24,7 +26,7 @@ export class QuizComponent implements OnInit {
     buttonWidth:number = 1; // for uniformity
     errorMessage:string = "";
     // quiz-related
-    quiz:Quiz = {};
+    quiz:Quiz = new Quiz([], "", "");
     currAvailInput:any[] = []; // array list model bound to available choices of symbols
     currUserInput:any[] = []; // stack list model bound to symbols the user selected
     inputIndex:number = 0; // basically the length of the answer list
@@ -61,7 +63,6 @@ export class QuizComponent implements OnInit {
         if (event.keyCode == 13) { // pressed Enter/Submit
             if (this.checkSolution()) {
                 // TODO: this.destroyMonster(this.monsterExample); // animation
-                this.diffLevel += this.quiz.targetValue; // increase difficulty
                 this.makeQuiz(); // return another quiz
             }
         }
@@ -104,6 +105,11 @@ export class QuizComponent implements OnInit {
     }
 
     gameOver() {
+        if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
+            this.apiService
+                .logHighScore(this.userName, this.score, this.diffLevel, this.registered)
+                .subscribe((data) => console.log(data));
+        }
         $("#game-over")
             .modal('setting', 'closable', false)
             .modal("show");
@@ -189,7 +195,7 @@ export class QuizComponent implements OnInit {
         timeline
             .set(earnedScore, {x: 3, y: 0, autoAlpha: 1}, 0)
             .to(earnedScore, 0.7, {autoAlpha: 0, y: -20}, 0.3);
-        this.score += this.quiz.targetValue;
+        this.score += Number(this.quiz.targetValue);
         this.refillPowerUps();
         this.diffLevel++;
 

@@ -8,28 +8,45 @@ import { EventEmitter } from "events";
 })
 export class HomeComponent {
     appName:string = "Quiz Whizz";
-    error: string;
-    response: {};
+    userName:string = "";
+    registered:boolean = false;
+
     playing:boolean = false;
 
-    constructor(private apiService: ApiService) {}
+    constructor(private apiService:ApiService) {
+    }
 
-    protected() {
-        this.apiService
-            .get("/api")
-            .subscribe(
-                (data) => { this.response = data; },
-                (error: Error) => {
-                    this.error = error.message;
-                    setTimeout(() => this.error = null, 4000)
-                });
+    updateUserName(name:any) {
+        this.userName = name;
     }
 
     startGame() {
         this.playing = true;
+        if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
+            this.apiService
+                .createUser(this.userName)
+                .subscribe(
+                    (data) => {
+                        console.log(data)
+                    },
+                    (error:Error) => {
+                        this.error = error.message;
+                        setTimeout(() => this.error = null, 4000)
+                    });
+        }
     }
 
     onBackToMenu(event:any) {
         this.playing = event;
+    }
+
+    /***********
+     * HELPERS *
+     ***********/
+    isEmptyString(text:string) {
+        if (text == " " || text == "" || text == null) {
+            return true;
+        }
+        return false;
     }
 }

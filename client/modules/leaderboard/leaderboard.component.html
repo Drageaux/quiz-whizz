@@ -1,0 +1,31 @@
+<div class="ui container" id="leaderboard">
+    <h1>Leaderboard</h1>
+    <table class="ui very basic collapsing celled table">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Hi-Score</th>
+            <th>Hi-Level</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of topUsers">
+            <td>
+                <h4 class="ui image header">
+                    <!--<img src="" class="ui mini rounded image">-->
+                    <div class="content">
+                        {{user.name}}
+                        <!--<div class="sub header">-->
+                    </div>
+                </h4>
+            </td>
+            <td>
+                {{user.highScore}}
+            </td>
+            <td>
+                {{user.highLevel}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -6,7 +6,8 @@ import { SemanticPopupComponent } from "ng-semantic";
     selector: "app",
     template: `
     <nav class="ui menu inverted huge">
-        <a routerLink="home" class="item">Home</a>
+        <a routerLink="home" routerLinkActive="active" class="item">Home</a>
+        <a routerLink="leaderboard" routerLinkActive="active" class="item">Leaderboard</a>
         <!--<a routerLink="contact" class="item">Contact Me</a>-->
 
         <!--<nav class="menu right">-->
@@ -14,18 +15,6 @@ import { SemanticPopupComponent } from "ng-semantic";
             <!--<a (click)="logout()" *ngIf="isLogged" class="item inverted red">Logout</a>-->
         <!--</nav>-->
     </nav>
-        <!--<sm-popup class="huge" #myPopup>-->
-            <!--<sm-card class="card basic">-->
-                <!--<card-title> Simple login </card-title>-->
-                <!--<card-subtitle>  </card-subtitle>-->
-                <!--<card-content>-->
-                    <!--<p><b>Password</b>: angualr2express</p>-->
-                    <!--<p><b>Username</b>: john</p>-->
-                <!--</card-content>-->
-                <!--<sm-button class="bottom attached fluid primary" *ngIf="!isLogged" (click)="login()">Login</sm-button>-->
-                <!--<sm-button class="bottom attached fluid red" *ngIf="isLogged" (click)="logout()">Logout</sm-button>-->
-            <!--</sm-card>-->
-        <!--</sm-popup>-->
 
     <router-outlet></router-outlet>
     `

@@ -1,4 +1,4 @@
-System.register(['@angular/core', "@angular/http", "ng-semantic", "@angular/common", "./home.component", "../../components/quiz/quiz.component", "./home.routing", "../shared/shared.module"], function(exports_1) {
+System.register(['@angular/core', "@angular/http", "ng-semantic", "@angular/common", "./leaderboard.component", "./leaderboard.routing"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,8 +8,8 @@ System.register(['@angular/core', "@angular/http", "ng-semantic", "@angular/comm
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, ng_semantic_1, common_1, home_component_1, quiz_component_1, home_routing_1, shared_module_1;
-    var HomeModule;
+    var core_1, http_1, ng_semantic_1, common_1, leaderboard_component_1, leaderboard_routing_1;
+    var LeaderboardModule;
     return {
         setters:[
             function (core_1_1) {
@@ -24,40 +24,33 @@ System.register(['@angular/core', "@angular/http", "ng-semantic", "@angular/comm
             function (common_1_1) {
                 common_1 = common_1_1;
             },
-            function (home_component_1_1) {
-                home_component_1 = home_component_1_1;
+            function (leaderboard_component_1_1) {
+                leaderboard_component_1 = leaderboard_component_1_1;
             },
-            function (quiz_component_1_1) {
-                quiz_component_1 = quiz_component_1_1;
-            },
-            function (home_routing_1_1) {
-                home_routing_1 = home_routing_1_1;
-            },
-            function (shared_module_1_1) {
-                shared_module_1 = shared_module_1_1;
+            function (leaderboard_routing_1_1) {
+                leaderboard_routing_1 = leaderboard_routing_1_1;
             }],
         execute: function() {
-            HomeModule = (function () {
-                function HomeModule() {
+            LeaderboardModule = (function () {
+                function LeaderboardModule() {
                 }
-                HomeModule = __decorate([
+                LeaderboardModule = __decorate([
                     core_1.NgModule({
                         imports: [
                             common_1.CommonModule,
                             http_1.HttpModule,
-                            home_routing_1.routing,
-                            shared_module_1.SharedModule.forRoot(),
+                            leaderboard_routing_1.routing,
                             ng_semantic_1.NgSemanticModule,
                         ],
-                        declarations: [home_component_1.HomeComponent, quiz_component_1.QuizComponent],
-                        bootstrap: [home_component_1.HomeComponent]
+                        declarations: [leaderboard_component_1.LeaderboardComponent],
+                        bootstrap: [leaderboard_component_1.LeaderboardComponent]
                     }), 
                     __metadata('design:paramtypes', [])
-                ], HomeModule);
-                return HomeModule;
+                ], LeaderboardModule);
+                return LeaderboardModule;
             })();
-            exports_1("HomeModule", HomeModule);
+            exports_1("LeaderboardModule", LeaderboardModule);
         }
     }
 });
-//# sourceMappingURL=home.module.js.map
+//# sourceMappingURL=leaderboard.module.js.map

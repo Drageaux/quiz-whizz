@@ -9,7 +9,7 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, api_service_1;
-    var HomeComponent;
+    var LeaderboardComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -19,54 +19,48 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                 api_service_1 = api_service_1_1;
             }],
         execute: function() {
-            HomeComponent = (function () {
-                function HomeComponent(apiService) {
+            LeaderboardComponent = (function () {
+                function LeaderboardComponent(apiService) {
                     this.apiService = apiService;
-                    this.appName = "Quiz Whizz";
-                    this.userName = "";
-                    this.registered = false;
-                    this.playing = false;
+                    this.topUsers = [];
                 }
-                HomeComponent.prototype.updateUserName = function (name) {
-                    this.userName = name;
+                LeaderboardComponent.prototype.ngOnInit = function () {
+                    this.getUsersByScore();
                 };
-                HomeComponent.prototype.startGame = function () {
+                LeaderboardComponent.prototype.getUsersByScore = function () {
                     var _this = this;
-                    this.playing = true;
-                    if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
-                        this.apiService
-                            .createUser(this.userName)
-                            .subscribe(function (data) {
-                            console.log(data);
-                        }, function (error) {
-                            _this.error = error.message;
-                            setTimeout(function () { return _this.error = null; }, 4000);
-                        });
-                    }
+                    this.apiService
+                        .getUsersByScore()
+                        .subscribe(function (data) {
+                        _this.topUsers = data;
+                        console.log(data);
+                    }, function (error) {
+                        _this.error = error.message;
+                        setTimeout(function () { return _this.error = null; }, 4000);
+                    });
                 };
-                HomeComponent.prototype.onBackToMenu = function (event) {
-                    this.playing = event;
+                LeaderboardComponent.prototype.getUsersByLevel = function () {
                 };
                 /***********
                  * HELPERS *
                  ***********/
-                HomeComponent.prototype.isEmptyString = function (text) {
+                LeaderboardComponent.prototype.isEmptyString = function (text) {
                     if (text == " " || text == "" || text == null) {
                         return true;
                     }
                     return false;
                 };
-                HomeComponent = __decorate([
+                LeaderboardComponent = __decorate([
                     core_1.Component({
-                        selector: "home",
-                        templateUrl: "client/modules/home/home.component.html"
+                        selector: "leaderboard",
+                        templateUrl: "client/modules/leaderboard/leaderboard.component.html"
                     }), 
                     __metadata('design:paramtypes', [api_service_1.ApiService])
-                ], HomeComponent);
-                return HomeComponent;
+                ], LeaderboardComponent);
+                return LeaderboardComponent;
             })();
-            exports_1("HomeComponent", HomeComponent);
+            exports_1("LeaderboardComponent", LeaderboardComponent);
         }
     }
 });
-//# sourceMappingURL=home.component.js.map
+//# sourceMappingURL=leaderboard.component.js.map
