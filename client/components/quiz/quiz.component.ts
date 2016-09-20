@@ -71,6 +71,7 @@ export class QuizComponent implements OnInit {
             duration: 60,
             total: 60
         });
+        this.time = 45000;
         this.timer = self.setInterval(() => {
             if (this.time > 0) {
                 this.time -= 100;

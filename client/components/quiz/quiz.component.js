@@ -62,6 +62,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                         duration: 60,
                         total: 60
                     });
+                    this.time = 45000;
                     this.timer = self.setInterval(function () {
                         if (_this.time > 0) {
                             _this.time -= 100;
