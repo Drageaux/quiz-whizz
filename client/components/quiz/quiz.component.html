@@ -26,8 +26,11 @@
          [class.yellow]="timePercent < 50 && timePercent > 24"
          [class.olive]="timePercent < 75 && timePercent > 49"
          [class.green]="timePercent < 100 && timePercent > 74">
-      <div class="bar"></div>
-      <div class="label">Time left: {{time/1000 | round}}</div>
+        <div class="bar"></div>
+        <div class="label">Time left: {{time/1000 | round}}</div>
+
+        <!--TODO: animate the amount of extra time added-->
+        
     </div>
 
     <div id="user-control" class="ui grid">
@@ -112,8 +115,10 @@
     </div>
     <div class="actions">
         <div class="ui button" (click)="restart()">
-            <i class="repeat icon"></i>Play Again</div>
+            <i class="repeat icon"></i>Play Again
+        </div>
         <div class="ui button" (click)="backToMenu($event)">
-            <i class="sign out icon"></i>Return to Menu</div>
+            <i class="sign out icon"></i>Return to Menu
+        </div>
     </div>
 </div>
