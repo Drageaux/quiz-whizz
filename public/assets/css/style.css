@@ -11,6 +11,8 @@ body {
       color: #FF695E;
       border-radius: 0 !important;
       transition-duration: 0.25s; }
+    body nav.ui.inverted.menu .item:before {
+      background: none; }
     body nav.ui.inverted.menu .item.active,
     body nav.ui.inverted.menu .item:hover,
     body nav.ui.inverted.menu .item:focus {
