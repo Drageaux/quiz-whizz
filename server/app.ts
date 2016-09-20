@@ -3,15 +3,14 @@ import * as express from "express";
 import { join } from "path";
 import * as favicon from "serve-favicon";
 import { json, urlencoded } from "body-parser";
-//import mongoose = require("mongoose");
 let mongoose = require("mongoose");
-require('dotenv').config();
+//require('dotenv').config();
 
 import { protectedRouter } from "./routes/protected";
 import { loginRouter } from "./routes/login";
 import { quizRouter } from "./routes/quiz";
 import { userRouter } from "./routes/user";
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/quiz-whizz");
 
 const app: express.Application = express();
 app.disable("x-powered-by");
