@@ -1,4 +1,6 @@
-System.register(["@angular/core", "@angular/http", "ng-semantic"], function(exports_1) {
+System.register(["@angular/core", "@angular/http", "ng-semantic"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,12 +40,12 @@ System.register(["@angular/core", "@angular/http", "ng-semantic"], function(expo
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: "app",
-                        template: "\n    <nav class=\"ui menu inverted huge\">\n        <a routerLink=\"home\" class=\"item\">Home</a>\n        <a routerLink=\"leaderboard\" class=\"item\">Leaderboard</a>\n        <!--<a routerLink=\"contact\" class=\"item\">Contact Me</a>-->\n\n        <!--<nav class=\"menu right\">-->\n            <!--<a (click)=\"myPopup.show($event, {position: 'right center'})\" *ngIf=\"!isLogged\" class=\"item\">Login</a>-->\n            <!--<a (click)=\"logout()\" *ngIf=\"isLogged\" class=\"item inverted red\">Logout</a>-->\n        <!--</nav>-->\n    </nav>\n        <!--<sm-popup class=\"huge\" #myPopup>-->\n            <!--<sm-card class=\"card basic\">-->\n                <!--<card-title> Simple login </card-title>-->\n                <!--<card-subtitle>  </card-subtitle>-->\n                <!--<card-content>-->\n                    <!--<p><b>Password</b>: angualr2express</p>-->\n                    <!--<p><b>Username</b>: john</p>-->\n                <!--</card-content>-->\n                <!--<sm-button class=\"bottom attached fluid primary\" *ngIf=\"!isLogged\" (click)=\"login()\">Login</sm-button>-->\n                <!--<sm-button class=\"bottom attached fluid red\" *ngIf=\"isLogged\" (click)=\"logout()\">Logout</sm-button>-->\n            <!--</sm-card>-->\n        <!--</sm-popup>-->\n\n    <router-outlet></router-outlet>\n    "
+                        template: "\n    <nav class=\"ui menu inverted huge\">\n        <a routerLink=\"home\" routerLinkActive=\"active\" class=\"item\">Home</a>\n        <a routerLink=\"leaderboard\" routerLinkActive=\"active\" class=\"item\">Leaderboard</a>\n        <!--<a routerLink=\"contact\" class=\"item\">Contact Me</a>-->\n\n        <!--<nav class=\"menu right\">-->\n            <!--<a (click)=\"myPopup.show($event, {position: 'right center'})\" *ngIf=\"!isLogged\" class=\"item\">Login</a>-->\n            <!--<a (click)=\"logout()\" *ngIf=\"isLogged\" class=\"item inverted red\">Logout</a>-->\n        <!--</nav>-->\n    </nav>\n\n    <router-outlet></router-outlet>\n    "
                     }), 
                     __metadata('design:paramtypes', [http_1.Http])
                 ], AppComponent);
                 return AppComponent;
-            })();
+            }());
             exports_1("AppComponent", AppComponent);
         }
     }

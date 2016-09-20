@@ -16,7 +16,7 @@ userRouter.post("/", function (request:Request, response:Response, next:NextFunc
                 // if it's been claimed already
                 console.log("ERR: username is taken");
                 response.json({message: "Username is already taken"});
-            }
+            } else { response.json({message: "Username is available for claim"}); }
         } else {
             // this username has not been added
             var newUser = new User();
