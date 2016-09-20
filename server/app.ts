@@ -4,8 +4,8 @@ import { join } from "path";
 import * as favicon from "serve-favicon";
 import { json, urlencoded } from "body-parser";
 let mongoose = require("mongoose");
-//require('dotenv').config();
 
+console.log(process.env.MONGODB_URI);
 import { protectedRouter } from "./routes/protected";
 import { loginRouter } from "./routes/login";
 import { quizRouter } from "./routes/quiz";
