@@ -1,4 +1,6 @@
-System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap", "./quiz"], function(exports_1) {
+System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap", "./quiz"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -136,8 +138,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                 };
                 QuizComponent.prototype.quitGame = function () {
                     clearInterval(this.timer);
-                    $("#confirm-quit")
-                        .modal("show");
+                    $("#confirm-quit").modal("show");
                 };
                 QuizComponent.prototype.restart = function () {
                     this.ngOnInit();
@@ -184,31 +185,33 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                 };
                 QuizComponent.prototype.correctAnswer = function () {
                     var _this = this;
-                    var timeline = new TimelineMax();
-                    var answerItems = $("#input-area ul li");
-                    var earnedScore = $("#hud .add-score");
-                    timeline
-                        .to(answerItems, 0.1, {
-                        backgroundColor: "#21BA45",
-                        ease: Power1.easeOut
-                    })
-                        .to(answerItems, 0.5, {
-                        autoAlpha: 0,
-                        y: -50,
-                        ease: Power1.easeOut
-                    }, "+=0.2");
-                    timeline
-                        .set(earnedScore, { x: 3, y: 0, autoAlpha: 1 }, 0)
-                        .to(earnedScore, 0.7, { autoAlpha: 0, y: -20 }, 0.3);
-                    var extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
-                    this.time = (this.time + extraTime) < 60000
-                        ? this.time + extraTime : 60000;
-                    this.score += Number(this.quiz.targetValue);
-                    this.refillPowerUps();
-                    this.diffLevel++;
-                    // wait after the animation; seems like the best way right now
-                    var timer = Rx_1.Observable.timer(1000);
-                    timer.subscribe(function (t) { return _this.makeQuiz(); });
+                    if (this.health > 0) {
+                        var timeline = new TimelineMax();
+                        var answerItems = $("#input-area ul li");
+                        var earnedScore = $("#hud .add-score");
+                        timeline
+                            .to(answerItems, 0.1, {
+                            backgroundColor: "#21BA45",
+                            ease: Power1.easeOut
+                        })
+                            .to(answerItems, 0.5, {
+                            autoAlpha: 0,
+                            y: -50,
+                            ease: Power1.easeOut
+                        }, "+=0.2");
+                        timeline
+                            .set(earnedScore, { x: 3, y: 0, autoAlpha: 1 }, 0)
+                            .to(earnedScore, 0.7, { autoAlpha: 0, y: -20 }, 0.3);
+                        var extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
+                        this.time = (this.time + extraTime) < 60000
+                            ? this.time + extraTime : 60000;
+                        this.score += Number(this.quiz.targetValue);
+                        this.refillPowerUps();
+                        this.diffLevel++;
+                        // wait after the animation; seems like the best way right now
+                        var timer = Rx_1.Observable.timer(1000);
+                        timer.subscribe(function (t) { return _this.makeQuiz(); });
+                    }
                 };
                 QuizComponent.prototype.wrongAnswer = function () {
                     var timeline = new TimelineMax();
@@ -331,7 +334,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     __metadata('design:paramtypes', [api_service_1.ApiService])
                 ], QuizComponent);
                 return QuizComponent;
-            })();
+            }());
             exports_1("QuizComponent", QuizComponent);
         }
     }

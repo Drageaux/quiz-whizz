@@ -12,6 +12,10 @@ import {Quiz} from "./quiz";
 
 declare var $;
 declare var TimelineMax;
+declare var Bounce;
+declare var Power1;
+declare var Power2;
+declare var Power3;
 
 @Component({
     selector: "quiz",
@@ -67,7 +71,6 @@ export class QuizComponent implements OnInit {
         this.skipPower = 3;
 
         this.makeQuiz();
-
         $("#timer").progress({
             duration: 60,
             total: 60
@@ -156,8 +159,7 @@ export class QuizComponent implements OnInit {
 
     quitGame() {
         clearInterval(this.timer);
-        $("#confirm-quit")
-            .modal("show");
+        $("#confirm-quit").modal("show");
     }
 
     restart() {
@@ -210,33 +212,35 @@ export class QuizComponent implements OnInit {
     }
 
     correctAnswer() {
-        let timeline = new TimelineMax();
-        let answerItems = $("#input-area ul li");
-        let earnedScore = $("#hud .add-score");
-        timeline
-            .to(answerItems, 0.1, {
-                backgroundColor: "#21BA45",
-                ease: Power1.easeOut
-            })
-            .to(answerItems, 0.5, {
-                autoAlpha: 0,
-                y: -50,
-                ease: Power1.easeOut
-            }, "+=0.2");
-        timeline
-            .set(earnedScore, {x: 3, y: 0, autoAlpha: 1}, 0)
-            .to(earnedScore, 0.7, {autoAlpha: 0, y: -20}, 0.3);
+        if (this.health > 0) {
+            let timeline = new TimelineMax();
+            let answerItems = $("#input-area ul li");
+            let earnedScore = $("#hud .add-score");
+            timeline
+                .to(answerItems, 0.1, {
+                    backgroundColor: "#21BA45",
+                    ease: Power1.easeOut
+                })
+                .to(answerItems, 0.5, {
+                    autoAlpha: 0,
+                    y: -50,
+                    ease: Power1.easeOut
+                }, "+=0.2");
+            timeline
+                .set(earnedScore, {x: 3, y: 0, autoAlpha: 1}, 0)
+                .to(earnedScore, 0.7, {autoAlpha: 0, y: -20}, 0.3);
 
-        let extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
-        this.time = (this.time + extraTime) < 60000
-            ? this.time + extraTime : 60000;
-        this.score += Number(this.quiz.targetValue);
-        this.refillPowerUps();
-        this.diffLevel++;
+            let extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
+            this.time = (this.time + extraTime) < 60000
+                ? this.time + extraTime : 60000;
+            this.score += Number(this.quiz.targetValue);
+            this.refillPowerUps();
+            this.diffLevel++;
 
-        // wait after the animation; seems like the best way right now
-        let timer = Observable.timer(1000);
-        timer.subscribe(t => this.makeQuiz());
+            // wait after the animation; seems like the best way right now
+            let timer = Observable.timer(1000);
+            timer.subscribe(t => this.makeQuiz());
+        }
     }
 
     wrongAnswer() {
