@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap", "./quiz"], function(exports_1, context_1) {
+System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap", "./quiz", "../../service/user.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, api_service_1, Rx_1, quiz_1;
+    var core_1, api_service_1, Rx_1, quiz_1, user_service_1;
     var QuizComponent;
     return {
         setters:[
@@ -26,11 +26,15 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
             function (_1) {},
             function (quiz_1_1) {
                 quiz_1 = quiz_1_1;
+            },
+            function (user_service_1_1) {
+                user_service_1 = user_service_1_1;
             }],
         execute: function() {
             QuizComponent = (function () {
-                function QuizComponent(apiService) {
+                function QuizComponent(apiService, userService) {
                     this.apiService = apiService;
+                    this.userService = userService;
                     this.onBackToMenu = new core_1.EventEmitter(); // emits event to parent component
                     this.buttonWidth = 1; // for uniformity
                     this.errorMessage = "";
@@ -45,6 +49,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                         answer: "cat",
                         animationTimeline: new TimelineMax()
                     };
+                    this.user = this.userService.getLocalUser();
                 }
                 QuizComponent.prototype.ngOnInit = function () {
                     this.diffLevel = 1;
@@ -113,18 +118,38 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                 };
                 QuizComponent.prototype.gameOver = function () {
                     clearInterval(this.timer);
-                    if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
-                        this.apiService
-                            .logHighScore(this.userName, this.score, this.diffLevel, this.registered)
-                            .subscribe(function (data) { return console.log(data); });
+                    if (!this.isEmptyString(this.user.name)) {
+                        this.logHighScore(this.user.name);
                     }
                     this.health = 0;
                     $("#game-over")
                         .modal('setting', 'closable', false)
                         .modal("show");
                 };
+                QuizComponent.prototype.logHighScore = function (name) {
+                    var _this = this;
+                    if (!this.isEmptyString(name) && name.length <= 14) {
+                        this.user.name = name;
+                        this.userService.updateLocalUser(this.user);
+                        this.apiService
+                            .createUser(this.user.name)
+                            .subscribe(function (data) {
+                            _this.user = data;
+                            _this.userService.updateLocalUser(_this.user);
+                            if (!_this.isEmptyString(_this.user.name) && _this.user.name.length <= 14) {
+                                _this.apiService
+                                    .logHighScore(_this.user.name, _this.score, _this.diffLevel, _this.user.registered)
+                                    .subscribe(function (data) { return console.log(data); });
+                            }
+                        }, function (error) {
+                            _this.error = error.message;
+                            setTimeout(function () { return _this.error = null; }, 4000);
+                        });
+                    }
+                };
                 QuizComponent.prototype.resume = function () {
                     var _this = this;
+                    clearInterval(this.timer);
                     this.timer = self.setInterval(function () {
                         if (_this.time > 0) {
                             _this.time -= 100;
@@ -318,21 +343,12 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     core_1.Output(), 
                     __metadata('design:type', Object)
                 ], QuizComponent.prototype, "onBackToMenu", void 0);
-                __decorate([
-                    // emits event to parent component
-                    core_1.Input(), 
-                    __metadata('design:type', String)
-                ], QuizComponent.prototype, "userName", void 0);
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', Boolean)
-                ], QuizComponent.prototype, "registered", void 0);
                 QuizComponent = __decorate([
                     core_1.Component({
                         selector: "quiz",
                         templateUrl: "client/components/quiz/quiz.component.html"
                     }), 
-                    __metadata('design:paramtypes', [api_service_1.ApiService])
+                    __metadata('design:paramtypes', [api_service_1.ApiService, user_service_1.UserService])
                 ], QuizComponent);
                 return QuizComponent;
             }());

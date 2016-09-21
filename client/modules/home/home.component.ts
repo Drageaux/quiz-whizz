@@ -11,8 +11,6 @@ import { UserService } from "../../service/user.service";
 export class HomeComponent {
     user:any;
     appName:string = "Quiz Whizz";
-    userName:string = "";
-    registered:boolean = false;
 
     playing:boolean = false;
 
@@ -20,30 +18,22 @@ export class HomeComponent {
                 private userService:UserService) {
         // see if there's a name saved in local storage, create new one if found none
         this.user = this.userService.getLocalUser();
-        if (this.user == null || this.isEmptyString(this.user.name)) {
-            this.user = {
-                "name": "",
-                "registered": false
-            };
-            this.userService.updateLocalUser(this.user);
-        } else {
+        if (!this.isEmptyString(this.user.name)) {
             console.log("Welcome back!");
-            this.userName = this.user.name;
         }
     }
 
     updateUserName(name:string) {
-        this.userName = name;
-        this.user.name = this.userName;
+        this.user.name = name;
         this.userService.updateLocalUser(this.user);
     }
 
     startGame(name:string) {
         this.updateUserName(name);
         this.playing = true;
-        if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
+        if (!this.isEmptyString(this.user.name) && this.user.name.length <= 14) {
             this.apiService
-                .createUser(this.userName)
+                .createUser(this.user.name)
                 .subscribe(
                     (data) => {
                         console.log(data)
@@ -57,6 +47,7 @@ export class HomeComponent {
 
     onBackToMenu(event:any) {
         this.playing = event;
+        this.user = this.userService.getLocalUser();
     }
 
     /***********

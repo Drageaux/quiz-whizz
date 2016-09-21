@@ -38,7 +38,10 @@ System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observa
                         return user;
                     }
                     else {
-                        return null;
+                        return {
+                            "name": "",
+                            "registered": false
+                        };
                     }
                 };
                 UserService.prototype.updateLocalUser = function (user) {

@@ -15,7 +15,7 @@ userRouter.post("/", function (request, response, next) {
                 response.json({ message: "Username is already taken" });
             }
             else {
-                response.json({ message: "Username is available for claim" });
+                response.json(user);
             }
         }
         else {
@@ -87,7 +87,7 @@ userRouter.post("/saveScore", function (request, response, next) {
             });
         }
         else {
-            response.json({ message: "ERROR" });
+            response.json({ message: "ERR: User not found or registration status mismatched" });
         }
     });
 });

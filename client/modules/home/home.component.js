@@ -29,35 +29,24 @@ System.register(["@angular/core", "../../service/api.service", "../../service/us
                     this.apiService = apiService;
                     this.userService = userService;
                     this.appName = "Quiz Whizz";
-                    this.userName = "";
-                    this.registered = false;
                     this.playing = false;
                     // see if there's a name saved in local storage, create new one if found none
                     this.user = this.userService.getLocalUser();
-                    if (this.user == null || this.isEmptyString(this.user.name)) {
-                        this.user = {
-                            "name": "",
-                            "registered": false
-                        };
-                        this.userService.updateLocalUser(this.user);
-                    }
-                    else {
+                    if (!this.isEmptyString(this.user.name)) {
                         console.log("Welcome back!");
-                        this.userName = this.user.name;
                     }
                 }
                 HomeComponent.prototype.updateUserName = function (name) {
-                    this.userName = name;
-                    this.user.name = this.userName;
+                    this.user.name = name;
                     this.userService.updateLocalUser(this.user);
                 };
                 HomeComponent.prototype.startGame = function (name) {
                     var _this = this;
                     this.updateUserName(name);
                     this.playing = true;
-                    if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
+                    if (!this.isEmptyString(this.user.name) && this.user.name.length <= 14) {
                         this.apiService
-                            .createUser(this.userName)
+                            .createUser(this.user.name)
                             .subscribe(function (data) {
                             console.log(data);
                         }, function (error) {
@@ -68,6 +57,7 @@ System.register(["@angular/core", "../../service/api.service", "../../service/us
                 };
                 HomeComponent.prototype.onBackToMenu = function (event) {
                     this.playing = event;
+                    this.user = this.userService.getLocalUser();
                 };
                 /***********
                  * HELPERS *

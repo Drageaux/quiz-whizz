@@ -9,6 +9,7 @@ import {ApiService} from "../../service/api.service";
 import {Observable} from "rxjs/Rx";
 import "gsap";
 import {Quiz} from "./quiz";
+import {UserService} from "../../service/user.service";
 
 declare var $;
 declare var TimelineMax;
@@ -25,8 +26,7 @@ export class QuizComponent implements OnInit {
     // essential
     @Input() name:string;
     @Output() onBackToMenu = new EventEmitter<boolean>(); // emits event to parent component
-    @Input() userName:string;
-    @Input() registered:boolean;
+    user:any;
     diffLevel:number; // difficulty
     score:number;
     health:number; // chances left
@@ -55,7 +55,9 @@ export class QuizComponent implements OnInit {
         animationTimeline: new TimelineMax()
     };
 
-    constructor(private apiService:ApiService) {
+    constructor(private apiService:ApiService,
+                private userService:UserService) {
+        this.user = this.userService.getLocalUser();
     }
 
     ngOnInit() {
@@ -134,18 +136,38 @@ export class QuizComponent implements OnInit {
 
     gameOver() {
         clearInterval(this.timer);
-        if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
-            this.apiService
-                .logHighScore(this.userName, this.score, this.diffLevel, this.registered)
-                .subscribe((data) => console.log(data));
-        }
+        if (!this.isEmptyString(this.user.name)) { this.logHighScore(this.user.name); }
         this.health = 0;
         $("#game-over")
             .modal('setting', 'closable', false)
             .modal("show");
     }
 
+    logHighScore(name:string) {
+        if (!this.isEmptyString(name) && name.length <= 14) {
+            this.user.name = name;
+            this.userService.updateLocalUser(this.user);
+            this.apiService
+                .createUser(this.user.name)
+                .subscribe(
+                    (data) => {
+                        this.user = data;
+                        this.userService.updateLocalUser(this.user);
+                        if (!this.isEmptyString(this.user.name) && this.user.name.length <= 14) {
+                            this.apiService
+                                .logHighScore(this.user.name, this.score, this.diffLevel, this.user.registered)
+                                .subscribe((data) => console.log(data));
+                        }
+                    },
+                    (error:Error) => {
+                        this.error = error.message;
+                        setTimeout(() => this.error = null, 4000)
+                    });
+        }
+    }
+
     resume() {
+        clearInterval(this.timer);
         this.timer = self.setInterval(() => {
             if (this.time > 0) {
                 this.time -= 100;

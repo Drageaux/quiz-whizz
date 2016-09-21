@@ -18,7 +18,10 @@ export class UserService {
         if (user) {
             return user;
         } else {
-            return null;
+            return {
+                "name": "",
+                "registered": false
+            };
         }
     }
 
