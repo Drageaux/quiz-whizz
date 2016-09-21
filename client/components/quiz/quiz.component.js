@@ -315,6 +315,11 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     __metadata('design:type', String)
                 ], QuizComponent.prototype, "name", void 0);
                 __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], QuizComponent.prototype, "onBackToMenu", void 0);
+                __decorate([
+                    // emits event to parent component
                     core_1.Input(), 
                     __metadata('design:type', String)
                 ], QuizComponent.prototype, "userName", void 0);
@@ -322,10 +327,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                     core_1.Input(), 
                     __metadata('design:type', Boolean)
                 ], QuizComponent.prototype, "registered", void 0);
-                __decorate([
-                    core_1.Output(), 
-                    __metadata('design:type', Object)
-                ], QuizComponent.prototype, "onBackToMenu", void 0);
                 QuizComponent = __decorate([
                     core_1.Component({
                         selector: "quiz",

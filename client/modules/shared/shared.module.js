@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "../../service/api.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "../../service/api.service", "../../service/user.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common", "../../service/api.service"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, api_service_1;
+    var core_1, common_1, api_service_1, user_service_1;
     var SharedModule;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(["@angular/core", "@angular/common", "../../service/api.service"
             },
             function (api_service_1_1) {
                 api_service_1 = api_service_1_1;
+            },
+            function (user_service_1_1) {
+                user_service_1 = user_service_1_1;
             }],
         execute: function() {
             SharedModule = (function () {
@@ -31,7 +34,8 @@ System.register(["@angular/core", "@angular/common", "../../service/api.service"
                     return {
                         ngModule: SharedModule,
                         providers: [
-                            api_service_1.ApiService
+                            api_service_1.ApiService,
+                            user_service_1.UserService
                         ]
                     };
                 };

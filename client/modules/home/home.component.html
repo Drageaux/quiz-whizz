@@ -10,9 +10,9 @@
         <div class="ui form">
             <div class="six wide field">
                 <input type="text" id="user-name" placeholder="Username (0-14 characters)" maxlength="14"
-                       [value]="userName" (keyup)="updateUserName(usernameInput.value)" #usernameInput>
+                       [value]="userName" #usernameInput>
             </div>
-            <div class="ui big positive button" (click)="startGame()">Start Game</div>
+            <div class="ui big positive button" (click)="startGame(usernameInput.value)">Start Game</div>
         </div>
         <hr>
         <ul>

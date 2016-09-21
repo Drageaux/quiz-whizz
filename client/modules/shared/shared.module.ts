@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { ApiService } from "../../service/api.service";
+import { UserService } from "../../service/user.service";
 
 @NgModule({
     imports:      [ CommonModule ],
@@ -14,7 +15,8 @@ export class SharedModule {
         return {
             ngModule: SharedModule,
             providers: [
-                ApiService
+                ApiService,
+                UserService
             ]
         };
     }

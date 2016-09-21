@@ -1,3 +1,4 @@
+"use strict";
 var express_1 = require("express");
 var http = require("http");
 var quizRouter = express_1.Router();

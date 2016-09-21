@@ -24,9 +24,9 @@ declare var Power3;
 export class QuizComponent implements OnInit {
     // essential
     @Input() name:string;
+    @Output() onBackToMenu = new EventEmitter<boolean>(); // emits event to parent component
     @Input() userName:string;
     @Input() registered:boolean;
-    @Output() onBackToMenu = new EventEmitter<boolean>(); // emits event to parent component
     diffLevel:number; // difficulty
     score:number;
     health:number; // chances left

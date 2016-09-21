@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../../service/api.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "../../service/api.service", "../../service/user.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, api_service_1;
+    var core_1, api_service_1, user_service_1;
     var HomeComponent;
     return {
         setters:[
@@ -19,21 +19,41 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
             },
             function (api_service_1_1) {
                 api_service_1 = api_service_1_1;
+            },
+            function (user_service_1_1) {
+                user_service_1 = user_service_1_1;
             }],
         execute: function() {
             HomeComponent = (function () {
-                function HomeComponent(apiService) {
+                function HomeComponent(apiService, userService) {
                     this.apiService = apiService;
+                    this.userService = userService;
                     this.appName = "Quiz Whizz";
                     this.userName = "";
                     this.registered = false;
                     this.playing = false;
+                    // see if there's a name saved in local storage, create new one if found none
+                    this.user = this.userService.getLocalUser();
+                    if (this.user == null || this.isEmptyString(this.user.name)) {
+                        this.user = {
+                            "name": "",
+                            "registered": false
+                        };
+                        this.userService.updateLocalUser(this.user);
+                    }
+                    else {
+                        console.log("Welcome back!");
+                        this.userName = this.user.name;
+                    }
                 }
                 HomeComponent.prototype.updateUserName = function (name) {
                     this.userName = name;
+                    this.user.name = this.userName;
+                    this.userService.updateLocalUser(this.user);
                 };
-                HomeComponent.prototype.startGame = function () {
+                HomeComponent.prototype.startGame = function (name) {
                     var _this = this;
+                    this.updateUserName(name);
                     this.playing = true;
                     if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
                         this.apiService
@@ -63,7 +83,7 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                         selector: "home",
                         templateUrl: "client/modules/home/home.component.html"
                     }), 
-                    __metadata('design:paramtypes', [api_service_1.ApiService])
+                    __metadata('design:paramtypes', [api_service_1.ApiService, user_service_1.UserService])
                 ], HomeComponent);
                 return HomeComponent;
             }());

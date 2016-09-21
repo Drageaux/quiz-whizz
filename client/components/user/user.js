@@ -6,8 +6,9 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             User = (function () {
-                function User(_id, userId, userUrl, email, name, profileImage, highScore, highLevel) {
+                function User(_id, registered, userId, userUrl, email, name, profileImage, highScore, highLevel) {
                     this._id = _id;
+                    this.registered = registered;
                     this.userId = userId;
                     this.userUrl = userUrl;
                     this.email = email;
