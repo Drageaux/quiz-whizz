@@ -27,10 +27,6 @@ System.register(["@angular/core", "@angular/http", "ng-semantic"], function(expo
             AppComponent = (function () {
                 function AppComponent(http) {
                     this.http = http;
-                    this.user = {
-                        password: "angualr2express",
-                        username: "john"
-                    };
                     this.isLogged = !!localStorage.getItem("id_token");
                 }
                 __decorate([

@@ -20,10 +20,6 @@ import { SemanticPopupComponent } from "ng-semantic";
     `
 })
 export class AppComponent {
-    user:any = {
-        password: "angualr2express",
-        username: "john"
-    };
     response:Response;
     isLogged:boolean;
     @ViewChild("myPopup") myPopup:SemanticPopupComponent;
@@ -31,7 +27,6 @@ export class AppComponent {
     constructor(private http:Http) {
         this.isLogged = !!localStorage.getItem("id_token");
     }
-
 
 
     //signup() {

@@ -1,3 +1,4 @@
+"use strict";
 var express_1 = require("express");
 var jsonwebtoken_1 = require("jsonwebtoken");
 var config_1 = require("../config");

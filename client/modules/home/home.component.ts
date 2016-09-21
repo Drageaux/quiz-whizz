@@ -1,30 +1,39 @@
-import { Component, Output } from "@angular/core";
+import { Component, Input, Output } from "@angular/core";
 import { ApiService } from "../../service/api.service";
 import { EventEmitter } from "events";
+import { User } from "../../components/user/user";
+import { UserService } from "../../service/user.service";
 
 @Component({
     selector: "home",
     templateUrl: `client/modules/home/home.component.html`
 })
 export class HomeComponent {
+    user:any;
     appName:string = "Quiz Whizz";
-    userName:string = "";
-    registered:boolean = false;
 
     playing:boolean = false;
 
-    constructor(private apiService:ApiService) {
+    constructor(private apiService:ApiService,
+                private userService:UserService) {
+        // see if there's a name saved in local storage, create new one if found none
+        this.user = this.userService.getLocalUser();
+        if (!this.isEmptyString(this.user.name)) {
+            console.log("Welcome back!");
+        }
     }
 
-    updateUserName(name:any) {
-        this.userName = name;
+    updateUserName(name:string) {
+        this.user.name = name;
+        this.userService.updateLocalUser(this.user);
     }
 
-    startGame() {
+    startGame(name:string) {
+        this.updateUserName(name);
         this.playing = true;
-        if (!this.isEmptyString(this.userName) && this.userName.length <= 14) {
+        if (!this.isEmptyString(this.user.name) && this.user.name.length <= 14) {
             this.apiService
-                .createUser(this.userName)
+                .createUser(this.user.name)
                 .subscribe(
                     (data) => {
                         console.log(data)
@@ -38,6 +47,7 @@ export class HomeComponent {
 
     onBackToMenu(event:any) {
         this.playing = event;
+        this.user = this.userService.getLocalUser();
     }
 
     /***********

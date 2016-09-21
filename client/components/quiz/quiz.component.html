@@ -92,6 +92,7 @@
     </div>
 </div>
 
+
 <div class="ui small modal" id="confirm-quit">
     <div class="header">
         Quitting Game...
@@ -105,11 +106,27 @@
     </div>
 </div>
 
+
+<!-- Game Over Screen -->
 <div class="ui basic modal" id="game-over">
     <div class="header">
         Game Over!
     </div>
     <div class="content" style="text-align: center">
+        <div *ngIf="isEmptyString(user.name)" class="ui form">
+            <div class="ui visible warning message">
+                <div class="header">
+                    Last chance to appear on the leaderboard!
+                </div>
+                You haven't provided your name or logged in yet
+            </div>
+            <div class="six wide field">
+                <input type="text" id="user-name" placeholder="Username (0-14 characters)" maxlength="14"
+                       [value]="user.name" #usernameInput>
+            </div>
+            <div class="ui big positive button" (click)="logHighScore(usernameInput.value)">Submit Score</div>
+        </div>
+        <h2 *ngIf="!isEmptyString(user.name)"><b>Name:</b> {{user.name}}</h2>
         <h2><b>Final Score</b>: {{score}}</h2>
         <h2><b>Level</b>: {{diffLevel}}</h2>
     </div>

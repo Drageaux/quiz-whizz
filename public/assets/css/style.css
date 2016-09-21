@@ -150,4 +150,11 @@ body {
       width: 90%;
       margin: auto; }
 
+/*********
+ * Modal *
+ *********/
+#game-over .six.wide.field {
+  margin-left: auto !important;
+  margin-right: auto !important; }
+
 /*# sourceMappingURL=style.css.map */
