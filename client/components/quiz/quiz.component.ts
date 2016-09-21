@@ -136,6 +136,7 @@ export class QuizComponent implements OnInit {
                 .logHighScore(this.userName, this.score, this.diffLevel, this.registered)
                 .subscribe((data) => console.log(data));
         }
+        this.health = 0;
         $("#game-over")
             .modal('setting', 'closable', false)
             .modal("show");
