@@ -44,6 +44,7 @@ System.register(["@angular/core", "../../service/api.service", "../../service/us
                     var _this = this;
                     this.updateUserName(name);
                     this.playing = true;
+                    localStorage.setItem("playing", this.playing);
                     if (!this.isEmptyString(this.user.name) && this.user.name.length <= 14) {
                         this.apiService
                             .createUser(this.user.name)
@@ -57,6 +58,7 @@ System.register(["@angular/core", "../../service/api.service", "../../service/us
                 };
                 HomeComponent.prototype.onBackToMenu = function (event) {
                     this.playing = event;
+                    localStorage.setItem("playing", this.playing);
                     this.user = this.userService.getLocalUser();
                 };
                 /***********

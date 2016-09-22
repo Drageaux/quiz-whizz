@@ -1,8 +1,7 @@
 import { Component, OnInit, Output } from "@angular/core";
 import { ApiService } from "../../service/api.service";
-import { EventEmitter } from "events";
 
-import {User} from "../../components/user/user";
+import { User } from "../../components/user/user";
 
 @Component({
     selector: "leaderboard",

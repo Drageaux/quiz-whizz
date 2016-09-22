@@ -29,6 +29,12 @@ System.register(["@angular/core", "@angular/http", "ng-semantic"], function(expo
                     this.http = http;
                     this.isLogged = !!localStorage.getItem("id_token");
                 }
+                AppComponent.prototype.ngOnInit = function () {
+                    localStorage.setItem("playing", "false");
+                };
+                AppComponent.prototype.isPlaying = function () {
+                    return localStorage.getItem("playing") == "true";
+                };
                 __decorate([
                     core_1.ViewChild("myPopup"), 
                     __metadata('design:type', ng_semantic_1.SemanticPopupComponent)
@@ -36,7 +42,7 @@ System.register(["@angular/core", "@angular/http", "ng-semantic"], function(expo
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: "app",
-                        template: "\n    <nav class=\"ui menu inverted huge\">\n        <a routerLink=\"home\" routerLinkActive=\"active\" class=\"item\">Home</a>\n        <a routerLink=\"leaderboard\" routerLinkActive=\"active\" class=\"item\">Leaderboard</a>\n        <!--<a routerLink=\"contact\" class=\"item\">Contact Me</a>-->\n\n        <!--<nav class=\"menu right\">-->\n            <!--<a (click)=\"myPopup.show($event, {position: 'right center'})\" *ngIf=\"!isLogged\" class=\"item\">Login</a>-->\n            <!--<a (click)=\"logout()\" *ngIf=\"isLogged\" class=\"item inverted red\">Logout</a>-->\n        <!--</nav>-->\n    </nav>\n\n    <router-outlet></router-outlet>\n    "
+                        template: "\n    <nav class=\"ui menu inverted huge\" *ngIf=\"!isPlaying()\">\n        <a routerLink=\"home\" routerLinkActive=\"active\" class=\"item\">Home</a>\n        <a routerLink=\"leaderboard\" routerLinkActive=\"active\" class=\"item\">Leaderboard</a>\n        <!--<a routerLink=\"contact\" class=\"item\">Contact Me</a>-->\n\n        <!--<nav class=\"menu right\">-->\n            <!--<a (click)=\"myPopup.show($event, {position: 'right center'})\" *ngIf=\"!isLogged\" class=\"item\">Login</a>-->\n            <!--<a (click)=\"logout()\" *ngIf=\"isLogged\" class=\"item inverted red\">Logout</a>-->\n        <!--</nav>-->\n    </nav>\n\n    <router-outlet></router-outlet>\n    "
                     }), 
                     __metadata('design:paramtypes', [http_1.Http])
                 ], AppComponent);

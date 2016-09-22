@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 
 import { ApiService } from "../../service/api.service";
 import { UserService } from "../../service/user.service";
+import { NavigateGuard } from "../../service/navigate-guard.service";
 
 @NgModule({
     imports:      [ CommonModule ],
@@ -16,7 +17,8 @@ export class SharedModule {
             ngModule: SharedModule,
             providers: [
                 ApiService,
-                UserService
+                UserService,
+                NavigateGuard
             ]
         };
     }

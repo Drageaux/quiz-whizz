@@ -5,7 +5,7 @@ import { SemanticPopupComponent } from "ng-semantic";
 @Component({
     selector: "app",
     template: `
-    <nav class="ui menu inverted huge">
+    <nav class="ui menu inverted huge" *ngIf="!isPlaying()">
         <a routerLink="home" routerLinkActive="active" class="item">Home</a>
         <a routerLink="leaderboard" routerLinkActive="active" class="item">Leaderboard</a>
         <!--<a routerLink="contact" class="item">Contact Me</a>-->
@@ -28,6 +28,13 @@ export class AppComponent {
         this.isLogged = !!localStorage.getItem("id_token");
     }
 
+    ngOnInit(){
+        localStorage.setItem("playing", "false");
+    }
+
+    isPlaying() {
+        return localStorage.getItem("playing") == "true";
+    }
 
     //signup() {
     //    this.http.post("/login/signup", JSON.stringify({

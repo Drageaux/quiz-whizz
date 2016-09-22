@@ -1,6 +1,5 @@
 import { Component, Input, Output } from "@angular/core";
 import { ApiService } from "../../service/api.service";
-import { EventEmitter } from "events";
 import { User } from "../../components/user/user";
 import { UserService } from "../../service/user.service";
 
@@ -31,6 +30,7 @@ export class HomeComponent {
     startGame(name:string) {
         this.updateUserName(name);
         this.playing = true;
+        localStorage.setItem("playing", this.playing);
         if (!this.isEmptyString(this.user.name) && this.user.name.length <= 14) {
             this.apiService
                 .createUser(this.user.name)
@@ -47,6 +47,7 @@ export class HomeComponent {
 
     onBackToMenu(event:any) {
         this.playing = event;
+        localStorage.setItem("playing", this.playing);
         this.user = this.userService.getLocalUser();
     }
 
