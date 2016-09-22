@@ -48,12 +48,6 @@ body {
         position: relative;
         margin: auto;
         margin-bottom: 10px; }
-    body .start-screen img.ui.image {
-      z-index: -1;
-      min-width: 480px;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%); }
   body quiz {
     -webkit-user-select: none;
     /* Chrome all / Safari all */
@@ -62,7 +56,9 @@ body {
     -ms-user-select: none;
     /* IE 10+ */
     user-select: none;
-    /* Likely future */ }
+    /* Likely future */
+    padding-top: 6%;
+    margin-bottom: 50px; }
     body quiz #hud {
       width: 100%;
       height: 40px; }
