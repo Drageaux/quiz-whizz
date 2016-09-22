@@ -92,12 +92,22 @@ userRouter.post("/saveScore", function (request, response, next) {
     });
 });
 // sort and get users by criteria
-userRouter.get("/list/score", function (request, response, next) {
-    User.find({}).sort({ highScore: -1 }).limit(10).exec(function (err, users) {
-        if (err) {
-            console.error(err.stack);
-        }
-        response.json(users);
-    });
+userRouter.get("/list/:criteria", function (request, response, next) {
+    if (request.params.criteria == "score") {
+        User.find({}).sort({ highScore: -1 }).limit(10).exec(function (err, users) {
+            if (err) {
+                console.error(err.stack);
+            }
+            response.json(users);
+        });
+    }
+    else if (request.params.criteria == "level") {
+        User.find({}).sort({ highLevel: -1 }).limit(10).exec(function (err, users) {
+            if (err) {
+                console.error(err.stack);
+            }
+            response.json(users);
+        });
+    }
 });
 //# sourceMappingURL=user.js.map

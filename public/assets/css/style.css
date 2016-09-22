@@ -3,8 +3,6 @@ body {
   body .center {
     text-align: center;
     padding-top: 100px; }
-  body .sebm-google-map-container {
-    height: 300px; }
   body nav.ui.inverted.menu {
     border-radius: 0 !important; }
     body nav.ui.inverted.menu .item {
@@ -149,6 +147,9 @@ body {
     body #leaderboard table.ui.table {
       width: 90%;
       margin: auto; }
+      body #leaderboard table.ui.table th:first-child:hover {
+        background: none;
+        cursor: auto; }
 
 /*********
  * Modal *

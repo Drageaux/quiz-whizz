@@ -25,23 +25,25 @@ System.register(["@angular/core", "../../service/api.service"], function(exports
                 function LeaderboardComponent(apiService) {
                     this.apiService = apiService;
                     this.topUsers = [];
+                    this.criteria = "";
                 }
                 LeaderboardComponent.prototype.ngOnInit = function () {
-                    this.getUsersByScore();
+                    this.getUsersBy("score");
                 };
-                LeaderboardComponent.prototype.getUsersByScore = function () {
+                LeaderboardComponent.prototype.getUsersBy = function (criteria) {
                     var _this = this;
-                    this.apiService
-                        .getUsersByScore()
-                        .subscribe(function (data) {
-                        _this.topUsers = data;
-                        console.log(data);
-                    }, function (error) {
-                        _this.error = error.message;
-                        setTimeout(function () { return _this.error = null; }, 4000);
-                    });
-                };
-                LeaderboardComponent.prototype.getUsersByLevel = function () {
+                    if (this.criteria !== criteria) {
+                        this.criteria = criteria;
+                        this.apiService
+                            .getUsersBy(criteria)
+                            .subscribe(function (data) {
+                            _this.topUsers = data;
+                            console.log(data);
+                        }, function (error) {
+                            _this.error = error.message;
+                            setTimeout(function () { return _this.error = null; }, 4000);
+                        });
+                    }
                 };
                 /***********
                  * HELPERS *

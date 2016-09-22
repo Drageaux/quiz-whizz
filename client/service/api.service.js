@@ -74,10 +74,10 @@ System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observa
                 /***************
                  * LEADERBOARD *
                  ***************/
-                ApiService.prototype.getUsersByScore = function () {
+                ApiService.prototype.getUsersBy = function (criteria) {
                     return this
                         .http
-                        .get("/user/list/score")
+                        .get("/user/list/" + criteria)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };

@@ -1,13 +1,13 @@
-import { Router, Request, Response, NextFunction } from "express";
-import { json, urlencoded } from "body-parser";
+import {Router, Request, Response, NextFunction} from "express";
+import {json, urlencoded} from "body-parser";
 
-const userRouter:Router = Router();
+const userRouter: Router = Router();
 
 let User = require("../models/user.js");
 
 
 // create new unique-name user, but it is still unclaimed
-userRouter.post("/", function (request:Request, response:Response, next:NextFunction) {
+userRouter.post("/", function (request: Request, response: Response, next: NextFunction) {
     var userName = request.body.userName.trim();
     User.findOne({"name": userName}, function (err, user) {
         if (user) {
@@ -35,7 +35,7 @@ userRouter.post("/", function (request:Request, response:Response, next:NextFunc
 
 
 // clear the account's record and mark username as registered
-userRouter.post("/register", function (request:Request, response:Response, next:NextFunction) {
+userRouter.post("/register", function (request: Request, response: Response, next: NextFunction) {
     var userName = request.body.userName.trim();
     User.findOne({"name": userName}, function (err, user) {
         if (user) {
@@ -69,7 +69,7 @@ userRouter.post("/register", function (request:Request, response:Response, next:
 
 
 // save if request & account registered status are the same
-userRouter.post("/saveScore", function (request:Request, response:Response, next:NextFunction) {
+userRouter.post("/saveScore", function (request: Request, response: Response, next: NextFunction) {
     User.findOne({"name": request.body.userName}, function (err, user) {
         if (user && user.registered == request.body.registered) {
             user.highScore = user.highScore > request.body.score ? user.highScore : request.body.score;
@@ -86,14 +86,22 @@ userRouter.post("/saveScore", function (request:Request, response:Response, next
 
 
 // sort and get users by criteria
-userRouter.get("/list/score", function (request:Request, response:Response, next:NextFunction) {
-    User.find({}).sort({highScore: -1}).limit(10).exec(
-        function(err, users) {
-            if (err) { console.error(err.stack); }
-            response.json(users);
-        }
-    );
-
+userRouter.get("/list/:criteria", function (request: Request, response: Response, next: NextFunction) {
+    if (request.params.criteria == "score") {
+        User.find({}).sort({highScore: -1}).limit(10).exec(
+            function (err, users) {
+                if (err) { console.error(err.stack); }
+                response.json(users);
+            }
+        );
+    } else if (request.params.criteria == "level") {
+        User.find({}).sort({highLevel: -1}).limit(10).exec(
+            function (err, users) {
+                if (err) { console.error(err.stack); }
+                response.json(users);
+            }
+        );
+    }
 });
 
-export { userRouter }
+export {userRouter}

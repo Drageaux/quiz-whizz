@@ -19,10 +19,6 @@ body {
         text-align: center;
         padding-top: 100px;
     }
-    .sebm-google-map-container {
-        height: 300px;
-    }
-
     nav.ui.inverted.menu {
         border-radius: 0 !important;
 
@@ -214,6 +210,7 @@ body {
         table.ui.table {
             width: 90%;
             margin: auto;
+            th:first-child:hover { background: none; cursor: auto }
         }
     }
 }

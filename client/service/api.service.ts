@@ -61,10 +61,10 @@ export class ApiService {
     /***************
      * LEADERBOARD *
      ***************/
-    getUsersByScore() {
+    getUsersBy(criteria:string) {
         return this
             .http
-            .get("/user/list/score")
+            .get("/user/list/" + criteria)
             .map((res) => <User[]> res.json())
             .catch(this.handleError);
     }
