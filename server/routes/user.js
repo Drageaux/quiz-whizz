@@ -1,3 +1,4 @@
+"use strict";
 var express_1 = require("express");
 var userRouter = express_1.Router();
 exports.userRouter = userRouter;

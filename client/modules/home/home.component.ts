@@ -30,7 +30,7 @@ export class HomeComponent {
     startGame(name:string) {
         this.updateUserName(name);
         this.playing = true;
-        localStorage.setItem("playing", this.playing);
+        localStorage.setItem("playing", "true");
         if (!this.isEmptyString(this.user.name) && this.user.name.length <= 14) {
             this.apiService
                 .createUser(this.user.name)
@@ -47,7 +47,7 @@ export class HomeComponent {
 
     onBackToMenu(event:any) {
         this.playing = event;
-        localStorage.setItem("playing", this.playing);
+        localStorage.setItem("playing", "false");
         this.user = this.userService.getLocalUser();
     }
 

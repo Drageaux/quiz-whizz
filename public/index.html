@@ -10,22 +10,21 @@
         <!-- IE required polyfills, in this exact order -->
         <!-- Polyfill(s) for older browsers -->
         <script src="assets/js/vendor/shim.min.js"></script>
-        <script src="https://unpkg.com/zone.js@0.6.21/dist/zone.js"></script>
+        <script src="assets/js/vendor/zone.min.js"></script>
         <script src="assets/js/vendor/Reflect.js"></script>
         <script src="assets/js/vendor/system.js"></script>
         <script src="assets/js/vendor/jquery.min.js"></script>
         <script src="assets/js/vendor/semantic.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js"></script>
 
-        <!-- 2. Configure SystemJS -->
         <!-- Development mod -->
-        <script src="assets/js/systemjs.config.js"></script>
-        <script>
-            System.set("gsap", System.newModule({
-              "default": window.com.greensock
-            }));
-            System.import('app').catch(function(err) { console.error(err); });
-        </script>
+        <!--<script src="assets/js/systemjs.config.js"></script>-->
+        <!--<script>-->
+            <!--System.set("gsap", System.newModule({-->
+              <!--"default": window.com.greensock-->
+            <!--}));-->
+            <!--System.import('app').catch(function(err) { console.error(err); });-->
+        <!--</script>-->
     </head>
 
     <body>
@@ -35,6 +34,6 @@
             </div>
         </app>
         <!--  Production mod -->
-        <!--<script src="assets/js/bundle.min.js"></script>-->
+        <script src="assets/js/bundle.min.js"></script>
     </body>
 </html>

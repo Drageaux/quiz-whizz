@@ -157,8 +157,6 @@ function generateExpression(exprTimes, targetValue, maxValue) {
         console.log("given val: " + givenValue);
     }
     // finalize
-    // TODO: truncate/toFix decimals to the thousandth (in front end)
-    // TODO: randomize the expr list before returning
     result.expr.sort(function () {
         return .5 - Math.random();
     });

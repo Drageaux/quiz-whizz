@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import {ApiService} from "../../service/api.service";
 import {Observable} from "rxjs/Rx";
-import "gsap";
+//import "gsap";
 import {Quiz} from "./quiz";
 import {UserService} from "../../service/user.service";
 
