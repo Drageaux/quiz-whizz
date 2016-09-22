@@ -10,8 +10,8 @@ import { UserService } from "../../service/user.service";
 export class HomeComponent {
     user:any;
     appName:string = "Quiz Whizz";
-
     playing:boolean = false;
+    error:any;
 
     constructor(private apiService:ApiService,
                 private userService:UserService) {

@@ -8,8 +8,8 @@ import { User } from "../../components/user/user";
     templateUrl: `client/modules/leaderboard/leaderboard.component.html`
 })
 export class LeaderboardComponent implements OnInit {
-
     topUsers:User[] = [];
+    error:any;
 
     constructor(private apiService:ApiService) {
     }
