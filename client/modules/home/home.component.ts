@@ -60,4 +60,8 @@ export class HomeComponent {
         }
         return false;
     }
+
+    isPlaying(){
+        return localStorage.getItem("playing");
+    }
 }

@@ -321,11 +321,12 @@ export class QuizComponent implements OnInit {
     }
 
     checkSolution() {
-        // TODO: send request to Mathjs to check solution
+        clearInterval(this.timer);
         this.apiService
             .checkSolution(this.exprString)
             .subscribe(
                 (data) => {
+                    this.resume();
                     console.log(data);
                     if (data.result == this.quiz.targetValue) {
                         this.errorMessage = "";

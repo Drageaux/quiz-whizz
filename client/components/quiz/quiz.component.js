@@ -290,10 +290,11 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "gsap"
                 };
                 QuizComponent.prototype.checkSolution = function () {
                     var _this = this;
-                    // TODO: send request to Mathjs to check solution
+                    clearInterval(this.timer);
                     this.apiService
                         .checkSolution(this.exprString)
                         .subscribe(function (data) {
+                        _this.resume();
                         console.log(data);
                         if (data.result == _this.quiz.targetValue) {
                             _this.errorMessage = "";

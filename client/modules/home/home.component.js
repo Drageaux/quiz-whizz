@@ -70,6 +70,9 @@ System.register(["@angular/core", "../../service/api.service", "../../service/us
                     }
                     return false;
                 };
+                HomeComponent.prototype.isPlaying = function () {
+                    return localStorage.getItem("playing");
+                };
                 HomeComponent = __decorate([
                     core_1.Component({
                         selector: "home",
