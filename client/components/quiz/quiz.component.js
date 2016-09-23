@@ -72,9 +72,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                 /***************
                  * INTERACTIVE *
                  ***************/
-                QuizComponent.prototype.howToPlay = function () {
-                    $("#how-to-modal").modal("show");
-                };
                 QuizComponent.prototype.keyPress = function (event) {
                     if (event.keyCode == 13) {
                         if (this.checkSolution()) {

@@ -10,12 +10,15 @@
         </thead>
         <tbody>
         <!--TODO: sort leaderboard in different ways-->
-        <tr *ngFor="let user of topUsers">
+        <tr *ngFor="let user of topUsers; let i = index">
             <td>
                 <h4 class="ui image header">
                     <!--<img src="" class="ui mini rounded image">-->
                     <div class="content">
                         {{user.name}}
+                        <i *ngIf="i == 0" class="gold star icon"></i>
+                        <i *ngIf="i == 1" class="silver star icon"></i>
+                        <i *ngIf="i == 2" class="bronze star icon"></i>
                         <!--<div class="sub header">-->
                     </div>
                 </h4>

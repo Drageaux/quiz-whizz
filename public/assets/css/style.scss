@@ -121,33 +121,6 @@ body {
                 position: absolute;
                 right: 1%;
             }
-            // TODO add eyes to monster
-            // shapes via Alan Johnson
-            .monster {
-                background: red;
-                width: 80px;
-                height: 80px;
-                position: absolute;
-                left: 0;
-                text-align: center;
-                -webkit-transform: rotate(20deg);
-                -moz-transform: rotate(20deg);
-                -ms-transform: rotate(20deg);
-                -o-transform: rotate(20 eg);
-            }
-            .monster:before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 80px;
-                width: 80px;
-                background: red;
-                -webkit-transform: rotate(135deg);
-                -moz-transform: rotate(135deg);
-                -ms-transform: rotate(135deg);
-                -o-transform: rotate(135deg);
-            }
         }
 
         #user-control {
@@ -210,7 +183,17 @@ body {
         table.ui.table {
             width: 90%;
             margin: auto;
-            th:first-child:hover { background: none; cursor: auto }
+            thead {
+                font-size: 1.2em;
+                th { border-bottom: 2px solid rgba(34, 36, 38, .1) }
+                th:first-child:hover { background: none; cursor: auto }
+            }
+            tbody {
+                .icon { font-size: 1.3em }
+                .gold.star.icon { color: gold }
+                .silver.star.icon { color: silver }
+                .bronze.star.icon { color: #CD7F32 }
+            }
         }
     }
 }
@@ -224,4 +207,36 @@ body {
         margin-left: auto !important;
         margin-right: auto !important;
     }
+}
+
+
+/**************************
+ * Shapes by Alan Johnson *
+ **************************/
+// TODO add eyes to monster
+.monster {
+    background: red;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    left: 0;
+    text-align: center;
+    -webkit-transform: rotate(20deg);
+    -moz-transform: rotate(20deg);
+    -ms-transform: rotate(20deg);
+    -o-transform: rotate(20 eg);
+}
+
+.monster:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 80px;
+    width: 80px;
+    background: red;
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
 }

@@ -88,29 +88,6 @@ body {
       body quiz #battleground #wall {
         position: absolute;
         right: 1%; }
-      body quiz #battleground .monster {
-        background: red;
-        width: 80px;
-        height: 80px;
-        position: absolute;
-        left: 0;
-        text-align: center;
-        -webkit-transform: rotate(20deg);
-        -moz-transform: rotate(20deg);
-        -ms-transform: rotate(20deg);
-        -o-transform: rotate(20 eg); }
-      body quiz #battleground .monster:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 80px;
-        width: 80px;
-        background: red;
-        -webkit-transform: rotate(135deg);
-        -moz-transform: rotate(135deg);
-        -ms-transform: rotate(135deg);
-        -o-transform: rotate(135deg); }
     body quiz #user-control {
       user-select: none;
       margin-top: 10px;
@@ -147,9 +124,21 @@ body {
     body #leaderboard table.ui.table {
       width: 90%;
       margin: auto; }
-      body #leaderboard table.ui.table th:first-child:hover {
-        background: none;
-        cursor: auto; }
+      body #leaderboard table.ui.table thead {
+        font-size: 1.2em; }
+        body #leaderboard table.ui.table thead th {
+          border-bottom: 2px solid rgba(34, 36, 38, 0.1); }
+        body #leaderboard table.ui.table thead th:first-child:hover {
+          background: none;
+          cursor: auto; }
+      body #leaderboard table.ui.table tbody .icon {
+        font-size: 1.3em; }
+      body #leaderboard table.ui.table tbody .gold.star.icon {
+        color: gold; }
+      body #leaderboard table.ui.table tbody .silver.star.icon {
+        color: silver; }
+      body #leaderboard table.ui.table tbody .bronze.star.icon {
+        color: #CD7F32; }
 
 /*********
  * Modal *
@@ -157,5 +146,33 @@ body {
 #game-over .six.wide.field {
   margin-left: auto !important;
   margin-right: auto !important; }
+
+/**************************
+ * Shapes by Alan Johnson *
+ **************************/
+.monster {
+  background: red;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 0;
+  text-align: center;
+  -webkit-transform: rotate(20deg);
+  -moz-transform: rotate(20deg);
+  -ms-transform: rotate(20deg);
+  -o-transform: rotate(20 eg); }
+
+.monster:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 80px;
+  width: 80px;
+  background: red;
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  -o-transform: rotate(135deg); }
 
 /*# sourceMappingURL=style.css.map */
