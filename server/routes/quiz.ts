@@ -14,7 +14,7 @@ quizRouter.post("/", function (request:Request, response:Response, next:NextFunc
     console.log("target val: " + targetValue);
 
     // generate expressions and modifiers
-    let exprTimes = 2;
+    let exprTimes = request.body.boosterToggle ? 3 : 2;
     let quiz = generateExpression(exprTimes, targetValue, maxValue);
     console.log("list: " + quiz.expr.toString());
 

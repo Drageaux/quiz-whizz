@@ -11,7 +11,7 @@ quizRouter.post("/", function (request, response, next) {
     var targetValue = getRandomInclusive(1, maxValue);
     console.log("target val: " + targetValue);
     // generate expressions and modifiers
-    var exprTimes = 2;
+    var exprTimes = request.body.boosterToggle ? 3 : 2;
     var quiz = generateExpression(exprTimes, targetValue, maxValue);
     console.log("list: " + quiz.expr.toString());
     response.json(quiz);

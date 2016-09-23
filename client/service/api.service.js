@@ -84,8 +84,11 @@ System.register(["@angular/core", '@angular/http', "angular2-jwt", "rxjs/Observa
                 /********
                  * QUIZ *
                  ********/
-                ApiService.prototype.makeQuiz = function (level) {
-                    var body = { currentLevel: level };
+                ApiService.prototype.makeQuiz = function (level, boosterToggle) {
+                    var body = {
+                        currentLevel: level,
+                        boosterToggle: boosterToggle
+                    };
                     var headers = new http_2.Headers({ "Content-Type": "application/json" });
                     var options = new http_2.RequestOptions({ headers: headers });
                     return this

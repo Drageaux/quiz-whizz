@@ -60,6 +60,8 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     this.inputIndex = 0;
                     this.exprString = "";
                     this.skipPower = 3;
+                    this.boosterPower = 1;
+                    this.boosterToggle = false;
                     this.makeQuiz();
                     $("#timer").progress({
                         duration: 60,
@@ -179,12 +181,21 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         this.makeQuiz();
                     }
                 };
+                QuizComponent.prototype.ultimateBooster = function () {
+                    if (this.boosterPower > 0) {
+                        this.boosterPower--;
+                        this.boosterToggle = true;
+                    }
+                };
                 QuizComponent.prototype.refillPowerUps = function () {
                     if (this.diffLevel % 7 == 0 && this.health < 3) {
                         this.health++;
                     }
                     if (this.diffLevel % 5 == 0 && this.skipPower < 3) {
                         this.skipPower++;
+                    }
+                    if (this.diffLevel % 5 == 0 && this.boosterPower < 3) {
+                        this.boosterPower++;
                     }
                 };
                 /**************
@@ -195,13 +206,14 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     //tl.to("#monster-0", 10, {left: "100%", ease: Power0.easeNone, onComplete: this.gameOver});
                 };
                 QuizComponent.prototype.destroyMonster = function (monster) {
-                    this.score++;
-                    var tl = monster.animationTimeline;
-                    var monsterObjectId = "#monster-0";
-                    tl.kill(null, monsterObjectId)
-                        .to(monsterObjectId, 0.4, { scale: 1.5, ease: Bounce.easeOut })
-                        .to(monsterObjectId, 0.4, { scale: 1.5, ease: Bounce.easeOut })
-                        .to(monsterObjectId, 0.3, { autoAlpha: 0, ease: Power1.easeIn }, "-=0.2");
+                    // this.score++;
+                    // let tl = monster.animationTimeline;
+                    //
+                    // let monsterObjectId = "#monster-0";
+                    // tl.kill(null, monsterObjectId)
+                    //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
+                    //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
+                    //     .to(monsterObjectId, 0.3, {autoAlpha: 0, ease: Power1.easeIn}, "-=0.2");
                     // TODO: clear form and question
                 };
                 QuizComponent.prototype.correctAnswer = function () {
@@ -226,7 +238,9 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         var extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
                         this.time = (this.time + extraTime) < 60000
                             ? this.time + extraTime : 60000;
-                        this.score += Number(this.quiz.targetValue);
+                        this.score += this.boosterToggle
+                            ? Number(this.quiz.targetValue) * 2 : Number(this.quiz.targetValue);
+                        this.boosterToggle = false;
                         this.refillPowerUps();
                         this.diffLevel++;
                         // wait after the animation; seems like the best way right now
@@ -255,7 +269,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     var _this = this;
                     if (this.health > 0) {
                         this.apiService
-                            .makeQuiz(this.diffLevel)
+                            .makeQuiz(this.diffLevel, this.boosterToggle)
                             .subscribe(function (data) {
                             console.log(data);
                             _this.quiz = data;
@@ -310,7 +324,9 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                  * HELPERS *
                  ***********/
                 QuizComponent.prototype.isEmptyString = function (text) {
-                    if (text == " " || text == "" || text == null) {
+                    // TODO: trim text in other isEmptyString() function
+                    text = text.trim();
+                    if (text == "" || text == null) {
                         return true;
                     }
                     return false;

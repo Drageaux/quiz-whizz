@@ -107,8 +107,8 @@ body {
         padding: 10px; }
       body quiz #user-control #input-area ul li.ui.button {
         margin-bottom: .25em; }
-    body quiz #options .column .button:not(:first-of-type) {
-      margin-top: 5px; }
+    body quiz #options .column .button {
+      margin-bottom: 5px; }
     body quiz #options .right.aligned.text {
       text-align: right; }
     @media only screen and (max-width: 767px) and (min-width: 320px) {

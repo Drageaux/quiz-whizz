@@ -155,8 +155,8 @@ body {
 
         #options {
             .column {
-                .button:not(:first-of-type) {
-                    margin-top: 5px;
+                .button {
+                    margin-bottom: 5px;
                 }
             }
             .right.aligned.text {

@@ -24,40 +24,42 @@ declare var Power3;
 })
 export class QuizComponent implements OnInit {
     // essential
-    @Input() name:string;
+    @Input() name: string;
     @Output() onBackToMenu = new EventEmitter<boolean>(); // emits event to parent component
-    user:any;
-    diffLevel:number; // difficulty
-    score:number;
-    health:number; // chances left
-    buttonWidth:number = 1; // for uniformity
-    errorMessage:string = "";
-    error:any;
+    user: any;
+    diffLevel: number; // difficulty
+    score: number;
+    health: number; // chances left
+    buttonWidth: number = 1; // for uniformity
+    errorMessage: string = "";
+    error: any;
     // quiz-related
-    quiz:Quiz = new Quiz([], "", "");
-    currAvailInput:any[]; // array list model bound to available choices of symbols
-    currUserInput:any[]; // stack list model bound to symbols the user selected
-    inputIndex:number; // basically the length of the answer list
-    exprString:string;
+    quiz: Quiz = new Quiz([], "", "");
+    currAvailInput: any[]; // array list model bound to available choices of symbols
+    currUserInput: any[]; // stack list model bound to symbols the user selected
+    inputIndex: number; // basically the length of the answer list
+    exprString: string;
     // power-ups
-    skipPower:number;
+    skipPower: number;
+    boosterPower: number;
+    boosterToggle: boolean;
     // timer
-    time:number;
-    timer:any;
-    timePercent:number;
-    paused:boolean = true;
+    time: number;
+    timer: any;
+    timePercent: number;
+    paused: boolean = true;
 
     // each monster will have their own timeline,
     // so that the user cannot interfere with the monster reaching their goal
-    monsterExample:any = {
+    monsterExample: any = {
         id: 0,
         question: "What's the common name for 'feline?'",
         answer: "cat",
         animationTimeline: new TimelineMax()
     };
 
-    constructor(private apiService:ApiService,
-                private userService:UserService) {
+    constructor(private apiService: ApiService,
+                private userService: UserService) {
         this.user = this.userService.getLocalUser();
     }
 
@@ -72,6 +74,8 @@ export class QuizComponent implements OnInit {
         this.exprString = "";
 
         this.skipPower = 3;
+        this.boosterPower = 1;
+        this.boosterToggle = false;
 
         this.makeQuiz();
         $("#timer").progress({
@@ -86,7 +90,7 @@ export class QuizComponent implements OnInit {
     /***************
      * INTERACTIVE *
      ***************/
-    keyPress(event:any) {
+    keyPress(event: any) {
         if (event.keyCode == 13) { // pressed Enter/Submit
             if (this.checkSolution()) {
                 // TODO: this.destroyMonster(this.monsterExample); // animation
@@ -96,7 +100,7 @@ export class QuizComponent implements OnInit {
         // TODO: navigate between different quizzes
     }
 
-    selectAnswer(index:number) {
+    selectAnswer(index: number) {
         if (!this.currAvailInput[index].disabled) {
             let value = this.currAvailInput[index].value;
             this.currUserInput[this.inputIndex].value = value; // move
@@ -117,7 +121,7 @@ export class QuizComponent implements OnInit {
         }
     }
 
-    removeAnswer(index:number) {
+    removeAnswer(index: number) {
         let answer = this.currUserInput[index];
         this.currAvailInput[answer.originIndex].disabled = false; // re-enable the original button
 
@@ -140,7 +144,7 @@ export class QuizComponent implements OnInit {
             .modal("show");
     }
 
-    logHighScore(name:string) {
+    logHighScore(name: string) {
         if (!this.isEmptyString(name) && name.length <= 14) {
             this.user.name = name;
             this.userService.updateLocalUser(this.user);
@@ -156,7 +160,7 @@ export class QuizComponent implements OnInit {
                                 .subscribe((data) => console.log(data));
                         }
                     },
-                    (error:Error) => {
+                    (error: Error) => {
                         this.error = error.message;
                         setTimeout(() => this.error = null, 4000)
                     });
@@ -186,7 +190,7 @@ export class QuizComponent implements OnInit {
         $("#game-over").modal("hide");
     }
 
-    backToMenu(event:any) {
+    backToMenu(event: any) {
         this.onBackToMenu.emit(false);
         $("#game-over").modal("hide");
         $("body > .dimmer.modals.page").remove(); // this would stack extra dimmer layers otherwise
@@ -203,9 +207,17 @@ export class QuizComponent implements OnInit {
         }
     }
 
+    ultimateBooster() {
+        if (this.boosterPower > 0) {
+            this.boosterPower--;
+            this.boosterToggle = true;
+        }
+    }
+
     refillPowerUps() {
         if (this.diffLevel % 7 == 0 && this.health < 3) { this.health++; }
         if (this.diffLevel % 5 == 0 && this.skipPower < 3) { this.skipPower++; }
+        if (this.diffLevel % 5 == 0 && this.boosterPower < 3) { this.boosterPower++; }
     }
 
 
@@ -217,15 +229,15 @@ export class QuizComponent implements OnInit {
         //tl.to("#monster-0", 10, {left: "100%", ease: Power0.easeNone, onComplete: this.gameOver});
     }
 
-    destroyMonster(monster:any) {
-        this.score++;
-        let tl = monster.animationTimeline;
-
-        let monsterObjectId = "#monster-0";
-        tl.kill(null, monsterObjectId)
-            .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
-            .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
-            .to(monsterObjectId, 0.3, {autoAlpha: 0, ease: Power1.easeIn}, "-=0.2");
+    destroyMonster(monster: any) {
+        // this.score++;
+        // let tl = monster.animationTimeline;
+        //
+        // let monsterObjectId = "#monster-0";
+        // tl.kill(null, monsterObjectId)
+        //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
+        //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
+        //     .to(monsterObjectId, 0.3, {autoAlpha: 0, ease: Power1.easeIn}, "-=0.2");
 
         // TODO: clear form and question
     }
@@ -252,7 +264,9 @@ export class QuizComponent implements OnInit {
             let extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
             this.time = (this.time + extraTime) < 60000
                 ? this.time + extraTime : 60000;
-            this.score += Number(this.quiz.targetValue);
+            this.score += this.boosterToggle
+                ? Number(this.quiz.targetValue) * 2 : Number(this.quiz.targetValue);
+            this.boosterToggle = false;
             this.refillPowerUps();
             this.diffLevel++;
 
@@ -285,7 +299,7 @@ export class QuizComponent implements OnInit {
     makeQuiz() {
         if (this.health > 0) {
             this.apiService
-                .makeQuiz(this.diffLevel)
+                .makeQuiz(this.diffLevel, this.boosterToggle)
                 .subscribe(
                     (data) => {
                         console.log(data);
@@ -342,8 +356,10 @@ export class QuizComponent implements OnInit {
     /***********
      * HELPERS *
      ***********/
-    isEmptyString(text:string) {
-        if (text == " " || text == "" || text == null) {
+    isEmptyString(text: string) {
+        // TODO: trim text in other isEmptyString() function
+        text = text.trim();
+        if (text == "" || text == null) {
             return true;
         }
         return false;
