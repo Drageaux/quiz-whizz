@@ -1,11 +1,11 @@
-import { Router, Request, Response, NextFunction } from "express";
-import { json, urlencoded } from "body-parser";
+import {Router, Request, Response, NextFunction} from "express";
+import {json, urlencoded} from "body-parser";
 var http = require("http");
 
-const quizRouter:Router = Router();
+const quizRouter: Router = Router();
 
 // get quiz question
-quizRouter.post("/", function (request:Request, response:Response, next:NextFunction) {
+quizRouter.post("/", function (request: Request, response: Response, next: NextFunction) {
     let level = request.body.currentLevel; // current difficulty level
     let maxValue = Math.pow(10, 1 + 0.1 * level); // max damage user can do
 
@@ -14,7 +14,9 @@ quizRouter.post("/", function (request:Request, response:Response, next:NextFunc
     console.log("target val: " + targetValue);
 
     // generate expressions and modifiers
-    let exprTimes = request.body.boosterToggle ? 3 : 2;
+    let exprTimes = 2 + Math.floor(level / 10);
+    console.log("TOGGLE: " + request.body.boosterToggle);
+    exprTimes += request.body.boosterToggle ? 1 : 0;
     let quiz = generateExpression(exprTimes, targetValue, maxValue);
     console.log("list: " + quiz.expr.toString());
 
@@ -23,7 +25,7 @@ quizRouter.post("/", function (request:Request, response:Response, next:NextFunc
 
 
 // evaluate and return the result & whether answer is correct or not
-quizRouter.post("/check", function (request:Request, response:Response, next:NextFunction) {
+quizRouter.post("/check", function (request: Request, response: Response, next: NextFunction) {
     let expr = request.body.expr;
     expr = encodeURIComponent(expr);
     console.log(expr);
@@ -52,7 +54,7 @@ quizRouter.post("/check", function (request:Request, response:Response, next:Nex
  * @param max
  * @returns {number}
  */
-function getRandomInclusive(min:number, max:number) {
+function getRandomInclusive(min: number, max: number) {
     if (min > max) {
         let temp = max;
         max = min;
@@ -68,8 +70,8 @@ function getRandomInclusive(min:number, max:number) {
  * @param givenValue
  * @param maxValue
  */
-function filterAllowedOperators(givenValue:number, maxValue:number) {
-    let exprPossible:string[] = ["+", "*", "-", "/"];
+function filterAllowedOperators(givenValue: number, maxValue: number) {
+    let exprPossible: string[] = ["+", "*", "-", "/"];
 
     if (givenValue >= maxValue) { // don't go over max
         let toRemove = exprPossible.indexOf("+");
@@ -124,7 +126,7 @@ function isPrime(value) {
  * @param maxValue - the maximum value pre-determined by the difficulty
  * @returns {string[]}
  */
-function generateExpression(exprTimes:number, targetValue:number, maxValue:number) {
+function generateExpression(exprTimes: number, targetValue: number, maxValue: number) {
     let result = {
         expr: [],
         givenValue: 0,
@@ -137,7 +139,7 @@ function generateExpression(exprTimes:number, targetValue:number, maxValue:numbe
     for (let i = 0; i < exprTimes; i++) {
         console.log("_____________________________");
         // filter only allowed expressions
-        let exprPossible:string[] = filterAllowedOperators(givenValue, maxValue);
+        let exprPossible: string[] = filterAllowedOperators(givenValue, maxValue);
         console.log("current value: " + givenValue + "\npossible: " + exprPossible);
 
         let randomIndex = getRandomInclusive(0, exprPossible.length - 1);
@@ -146,7 +148,7 @@ function generateExpression(exprTimes:number, targetValue:number, maxValue:numbe
                 limit = maxValue - givenValue;
                 modifier = getRandomInclusive(0, limit);
 
-                givenValue = givenValue + modifier;
+                givenValue = i < 2 ? givenValue + modifier : givenValue;
                 console.log("adding.......................: + " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "-");
                 break;
@@ -154,23 +156,23 @@ function generateExpression(exprTimes:number, targetValue:number, maxValue:numbe
                 limit = Math.floor(maxValue / givenValue);
                 modifier = getRandomInclusive(1, limit);
 
-                givenValue = givenValue * modifier;
+                givenValue = i < 2 ? givenValue * modifier : givenValue;
                 console.log("multiply.....................: * " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "/");
                 break;
             case "-":
                 modifier = getRandomInclusive(0, givenValue);
 
-                givenValue = givenValue - modifier;
+                givenValue = i < 2 ? givenValue - modifier : givenValue;
                 console.log("subtract.....................: - " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "+");
                 break;
             case "/":
                 modifier = getRandomInclusive(1, givenValue);
-                while (givenValue % modifier != 0){
+                while (givenValue % modifier != 0) {
                     modifier = getRandomInclusive(1, givenValue);
                 }
-                givenValue = givenValue / modifier;
+                givenValue = i < 2 ? givenValue / modifier : givenValue;
                 console.log("divide.......................: / " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "*");
                 break;
@@ -192,4 +194,4 @@ function generateExpression(exprTimes:number, targetValue:number, maxValue:numbe
 }
 
 
-export { quizRouter }
+export {quizRouter}

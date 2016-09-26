@@ -65,7 +65,8 @@ System.register(["@angular/core", "../../service/api.service", "../../service/us
                  * HELPERS *
                  ***********/
                 HomeComponent.prototype.isEmptyString = function (text) {
-                    if (text == " " || text == "" || text == null) {
+                    text = text.trim();
+                    if (text == "" || text == null) {
                         return true;
                     }
                     return false;

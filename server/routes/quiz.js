@@ -11,7 +11,9 @@ quizRouter.post("/", function (request, response, next) {
     var targetValue = getRandomInclusive(1, maxValue);
     console.log("target val: " + targetValue);
     // generate expressions and modifiers
-    var exprTimes = request.body.boosterToggle ? 3 : 2;
+    var exprTimes = 2 + Math.floor(level / 10);
+    console.log("TOGGLE: " + request.body.boosterToggle);
+    exprTimes += request.body.boosterToggle ? 1 : 0;
     var quiz = generateExpression(exprTimes, targetValue, maxValue);
     console.log("list: " + quiz.expr.toString());
     response.json(quiz);
@@ -124,20 +126,20 @@ function generateExpression(exprTimes, targetValue, maxValue) {
             case "+":
                 limit = maxValue - givenValue;
                 modifier = getRandomInclusive(0, limit);
-                givenValue = givenValue + modifier;
+                givenValue = i < 2 ? givenValue + modifier : givenValue;
                 console.log("adding.......................: + " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "-");
                 break;
             case "*":
                 limit = Math.floor(maxValue / givenValue);
                 modifier = getRandomInclusive(1, limit);
-                givenValue = givenValue * modifier;
+                givenValue = i < 2 ? givenValue * modifier : givenValue;
                 console.log("multiply.....................: * " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "/");
                 break;
             case "-":
                 modifier = getRandomInclusive(0, givenValue);
-                givenValue = givenValue - modifier;
+                givenValue = i < 2 ? givenValue - modifier : givenValue;
                 console.log("subtract.....................: - " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "+");
                 break;
@@ -146,7 +148,7 @@ function generateExpression(exprTimes, targetValue, maxValue) {
                 while (givenValue % modifier != 0) {
                     modifier = getRandomInclusive(1, givenValue);
                 }
-                givenValue = givenValue / modifier;
+                givenValue = i < 2 ? givenValue / modifier : givenValue;
                 console.log("divide.......................: / " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "*");
                 break;

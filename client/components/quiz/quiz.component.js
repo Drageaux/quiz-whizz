@@ -62,6 +62,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     this.skipPower = 3;
                     this.boosterPower = 1;
                     this.boosterToggle = false;
+                    this.boosterActive = false;
                     this.makeQuiz();
                     $("#timer").progress({
                         duration: 60,
@@ -93,7 +94,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         this.inputIndex++;
                         this.compileExpressionString();
                         // when all answers selected
-                        if (this.inputIndex == this.currAvailInput.length) {
+                        if (this.inputIndex == 4) {
                             this.checkSolution();
                         }
                     }
@@ -183,8 +184,10 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                 };
                 QuizComponent.prototype.ultimateBooster = function () {
                     if (this.boosterPower > 0) {
+                        console.log(this.boosterToggle);
                         this.boosterPower--;
                         this.boosterToggle = true;
+                        console.log(this.boosterToggle);
                     }
                 };
                 QuizComponent.prototype.refillPowerUps = function () {
@@ -240,7 +243,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                             ? this.time + extraTime : 60000;
                         this.score += this.boosterToggle
                             ? Number(this.quiz.targetValue) * 2 : Number(this.quiz.targetValue);
-                        this.boosterToggle = false;
+                        this.boosterToggle = this.boosterActive ? false : this.boosterToggle;
                         this.refillPowerUps();
                         this.diffLevel++;
                         // wait after the animation; seems like the best way right now
@@ -273,6 +276,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                             .subscribe(function (data) {
                             console.log(data);
                             _this.quiz = data;
+                            _this.boosterActive = _this.boosterToggle;
                             _this.currAvailInput = [];
                             _this.currUserInput = [];
                             _this.inputIndex = 0;
@@ -288,10 +292,12 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                                     disabled: false,
                                     location: null
                                 };
-                                _this.currUserInput[i] = {
-                                    value: "",
-                                    originIndex: null
-                                };
+                                if (i < 4) {
+                                    _this.currUserInput[i] = {
+                                        value: "",
+                                        originIndex: null
+                                    };
+                                }
                                 _this.exprString = _this.quiz.givenValue;
                             }
                             _this.buttonWidth = 50 + maxSymbolWidth * 8;
@@ -324,7 +330,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                  * HELPERS *
                  ***********/
                 QuizComponent.prototype.isEmptyString = function (text) {
-                    // TODO: trim text in other isEmptyString() function
                     text = text.trim();
                     if (text == "" || text == null) {
                         return true;

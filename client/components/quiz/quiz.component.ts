@@ -7,7 +7,6 @@ import {
 } from "@angular/core";
 import {ApiService} from "../../service/api.service";
 import {Observable} from "rxjs/Rx";
-//import "gsap";
 import {Quiz} from "./quiz";
 import {UserService} from "../../service/user.service";
 
@@ -42,7 +41,8 @@ export class QuizComponent implements OnInit {
     // power-ups
     skipPower: number;
     boosterPower: number;
-    boosterToggle: boolean;
+    boosterToggle: boolean; // true = next question will be harder
+    boosterActive: boolean; // true = current question is harder
     // timer
     time: number;
     timer: any;
@@ -76,6 +76,7 @@ export class QuizComponent implements OnInit {
         this.skipPower = 3;
         this.boosterPower = 1;
         this.boosterToggle = false;
+        this.boosterActive = false;
 
         this.makeQuiz();
         $("#timer").progress({
@@ -112,7 +113,7 @@ export class QuizComponent implements OnInit {
             this.compileExpressionString();
 
             // when all answers selected
-            if (this.inputIndex == this.currAvailInput.length) {
+            if (this.inputIndex == 4) {
                 this.checkSolution();
             }
         } else {
@@ -209,8 +210,11 @@ export class QuizComponent implements OnInit {
 
     ultimateBooster() {
         if (this.boosterPower > 0) {
+            console.log(this.boosterToggle);
             this.boosterPower--;
             this.boosterToggle = true;
+
+            console.log(this.boosterToggle);
         }
     }
 
@@ -266,7 +270,7 @@ export class QuizComponent implements OnInit {
                 ? this.time + extraTime : 60000;
             this.score += this.boosterToggle
                 ? Number(this.quiz.targetValue) * 2 : Number(this.quiz.targetValue);
-            this.boosterToggle = false;
+            this.boosterToggle = this.boosterActive ? false : this.boosterToggle;
             this.refillPowerUps();
             this.diffLevel++;
 
@@ -304,6 +308,7 @@ export class QuizComponent implements OnInit {
                     (data) => {
                         console.log(data);
                         this.quiz = data;
+                        this.boosterActive = this.boosterToggle;
 
                         this.currAvailInput = [];
                         this.currUserInput = [];
@@ -320,10 +325,12 @@ export class QuizComponent implements OnInit {
                                 disabled: false,
                                 location: null
                             };
-                            this.currUserInput[i] = {
-                                value: "",
-                                originIndex: null
-                            };
+                            if (i < 4) {
+                                this.currUserInput[i] = {
+                                    value: "",
+                                    originIndex: null
+                                };
+                            }
                             this.exprString = this.quiz.givenValue;
                         }
                         this.buttonWidth = 50 + maxSymbolWidth * 8;
@@ -357,7 +364,6 @@ export class QuizComponent implements OnInit {
      * HELPERS *
      ***********/
     isEmptyString(text: string) {
-        // TODO: trim text in other isEmptyString() function
         text = text.trim();
         if (text == "" || text == null) {
             return true;
