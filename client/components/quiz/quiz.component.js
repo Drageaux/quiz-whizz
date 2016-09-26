@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./quiz", "../../service/user.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./quiz", "../message/message", "../../service/user.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, api_service_1, Rx_1, quiz_1, user_service_1;
+    var core_1, api_service_1, Rx_1, quiz_1, message_1, user_service_1;
     var QuizComponent;
     return {
         setters:[
@@ -26,6 +26,9 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
             function (quiz_1_1) {
                 quiz_1 = quiz_1_1;
             },
+            function (message_1_1) {
+                message_1 = message_1_1;
+            },
             function (user_service_1_1) {
                 user_service_1 = user_service_1_1;
             }],
@@ -36,7 +39,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     this.userService = userService;
                     this.onBackToMenu = new core_1.EventEmitter(); // emits event to parent component
                     this.buttonWidth = 1; // for uniformity
-                    this.errorMessage = "";
                     // quiz-related
                     this.quiz = new quiz_1.Quiz([], "", "", 0);
                     this.paused = true;
@@ -54,7 +56,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     this.diffLevel = 1;
                     this.score = 0;
                     this.health = 5;
-                    this.errorMessage = "";
+                    this.consoleLog = [];
                     this.currAvailInput = [];
                     this.currUserInput = [];
                     this.inputIndex = 0;
@@ -67,7 +69,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         duration: 60,
                         total: 60
                     });
-                    this.time = 600000;
+                    this.time = 60000;
                     this.timePercent = this.time / 60000 * 100;
                     this.resume();
                 };
@@ -302,18 +304,27 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         .subscribe(function (data) {
                         _this.resume();
                         console.log(data);
+                        var mess = new message_1.Message("", "", "");
                         if (data.result == _this.quiz.targetValue) {
-                            _this.errorMessage = "";
+                            mess.header = "Nice!";
+                            mess.value = "Your answer was correct";
+                            mess.type = "positive";
                             _this.correctAnswer();
                         }
                         else if (Number.isInteger(Number(data.result))) {
-                            _this.errorMessage = "The result of your answer was " + data.result;
+                            mess.header = "Wrong answer.";
+                            mess.value = "Your answer value was " + data.result;
+                            mess.type = "negative";
                             _this.wrongAnswer();
                         }
                         else {
-                            _this.errorMessage = "Please check your expression syntax";
+                            mess.header = "Wrong answer.";
+                            mess.value = "Please check your expression syntax";
+                            mess.type = "negative";
                             _this.wrongAnswer();
                         }
+                        _this.consoleLog.push(mess);
+                        setTimeout(function () { return $("#console").scrollTop = $("#console").scrollHeight; }, 200);
                     });
                 };
                 /***********

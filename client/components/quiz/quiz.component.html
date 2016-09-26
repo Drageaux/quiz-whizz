@@ -72,11 +72,9 @@
             </div>
         </div>
         <div class="sixteen wide column"><b>Preview your answer:</b> {{exprString}}</div>
-        <div class="ui negative message centered twelve wide column" [class.hidden]="isEmptyString(errorMessage)">
-            <div class="header">
-                Wrong answer
-            </div>
-            <p>{{errorMessage}}</p>
+        <div class="ui left aligned fifteen wide centered column message" id="console">
+            <span *ngFor="let mess of consoleLog"
+                 class="{{mess.type}}"><b>{{mess.header}}</b> {{mess.value}}<br></span>
         </div>
     </div>
     <hr>
@@ -86,8 +84,10 @@
         <div class="left floated sixteen wide mobile five wide tablet four wide computer column">
             <h3>Power-Ups</h3>
             <!--TODO: booster power change color / animate when active, also prevent another click-->
-            <button class="ui button teal" onclick="this.blur();"
-                    [class.disabled]="boosterPower == 0"
+            <button class="ui button " onclick="this.blur();"
+                    [class.teal]="!boosterToggle"
+                    [class.orange]="boosterToggle"
+                    [class.pulse]="boosterActive"
                     (click)="ultimateBooster()">
                 <i class="bomb icon"></i>Ultimate Booster ({{boosterPower}}/3)
             </button>

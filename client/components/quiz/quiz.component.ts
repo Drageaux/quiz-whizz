@@ -1,13 +1,8 @@
-import {
-    Component,
-    OnInit,
-    Input,
-    Output,
-    EventEmitter
-} from "@angular/core";
+import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import {ApiService} from "../../service/api.service";
 import {Observable} from "rxjs/Rx";
 import {Quiz} from "./quiz";
+import {Message} from "../message/message";
 import {UserService} from "../../service/user.service";
 
 declare var $;
@@ -30,7 +25,7 @@ export class QuizComponent implements OnInit {
     score: number;
     health: number; // chances left
     buttonWidth: number = 1; // for uniformity
-    errorMessage: string = "";
+    consoleLog: any[];
     error: any;
     // quiz-related
     quiz: Quiz = new Quiz([], "", "", 0);
@@ -66,7 +61,7 @@ export class QuizComponent implements OnInit {
         this.diffLevel = 1;
         this.score = 0;
         this.health = 5;
-        this.errorMessage = "";
+        this.consoleLog = [];
         this.currAvailInput = [];
         this.currUserInput = [];
         this.inputIndex = 0;
@@ -81,7 +76,7 @@ export class QuizComponent implements OnInit {
             duration: 60,
             total: 60
         });
-        this.time = 600000;
+        this.time = 60000;
         this.timePercent = this.time / 60000 * 100;
         this.resume();
     }
@@ -336,16 +331,26 @@ export class QuizComponent implements OnInit {
                 (data) => {
                     this.resume();
                     console.log(data);
+                    let mess = new Message("", "", "");
                     if (data.result == this.quiz.targetValue) {
-                        this.errorMessage = "";
+                        mess.header = "Nice!";
+                        mess.value = "Your answer was correct";
+                        mess.type = "positive";
                         this.correctAnswer();
                     } else if (Number.isInteger(Number(data.result))) {
-                        this.errorMessage = "The result of your answer was " + data.result;
+                        mess.header = "Wrong answer.";
+                        mess.value = "Your answer value was " + data.result;
+                        mess.type = "negative";
                         this.wrongAnswer();
                     } else {
-                        this.errorMessage = "Please check your expression syntax";
+                        mess.header = "Wrong answer.";
+                        mess.value = "Please check your expression syntax";
+                        mess.type = "negative";
                         this.wrongAnswer();
                     }
+                    this.consoleLog.push(mess);
+                    setTimeout(() => $("#console").scrollTop = $("#console").scrollHeight,
+                    200);
                 }
             );
     }

@@ -107,6 +107,14 @@ body {
         padding: 10px; }
       body quiz #user-control #input-area ul li.ui.button {
         margin-bottom: .25em; }
+    body quiz #console {
+      height: 100px;
+      overflow-y: scroll;
+      font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif; }
+      body quiz #console .positive {
+        color: #21BA45; }
+      body quiz #console .negative {
+        color: #9F3A38; }
     body quiz #options .column .button {
       margin-bottom: 5px; }
     body quiz #options .right.aligned.text {
@@ -174,5 +182,19 @@ body {
   -moz-transform: rotate(135deg);
   -ms-transform: rotate(135deg);
   -o-transform: rotate(135deg); }
+
+/*****************************
+ * Pulse by Nathan B. Weller *
+ *****************************/
+.pulse {
+  animation: pulse 2s ease infinite; }
+
+@keyframes pulse {
+  0% {
+    transform: scale(1); }
+  50% {
+    transform: scale(1.1); }
+  100% {
+    transform: scale(1); } }
 
 /*# sourceMappingURL=style.css.map */
