@@ -9,13 +9,12 @@ quizRouter.post("/", function (request, response, next) {
     var maxValue = Math.pow(10, 1 + 0.1 * level); // max damage user can do
     // damage = random number between 1 and the max value
     var targetValue = getRandomInclusive(1, maxValue);
-    console.log("target val: " + targetValue);
     // generate expressions and modifiers
     var exprTimes = 2 + Math.floor(level / 10);
     exprTimes += request.body.boosterToggle ? 1 : 0;
     var quiz = generateExpression(exprTimes, targetValue, maxValue);
     quiz.score += request.body.boosterToggle ? quiz.score : 0;
-    console.log("list: " + quiz.expr.toString());
+    console.log(quiz);
     response.json(quiz);
 });
 // evaluate and return the result & whether answer is correct or not
@@ -64,22 +63,18 @@ function filterAllowedOperators(givenValue, maxValue) {
     if (givenValue >= maxValue) {
         var toRemove = exprPossible.indexOf("+");
         exprPossible.splice(toRemove, 1);
-        console.log("filter +:" + givenValue);
     }
     if (givenValue * 2 > maxValue || givenValue <= 1) {
         var toRemove = exprPossible.indexOf("*");
         exprPossible.splice(toRemove, 1);
-        console.log("filter " + givenValue + "*2: " + (givenValue * 2));
     }
     if (givenValue <= 0) {
         var toRemove = exprPossible.indexOf("-");
         exprPossible.splice(toRemove, 1);
-        console.log("filter -:" + givenValue);
     }
     if (isPrime(givenValue) || givenValue == 0) {
         var toRemove = exprPossible.indexOf("/");
         exprPossible.splice(toRemove, 1);
-        console.log("filter /:" + givenValue);
     }
     if (exprPossible.length == 0) {
     }
@@ -157,8 +152,6 @@ function generateExpression(exprTimes, targetValue, maxValue) {
                 console.log("ERROR: expression generation had some problems!");
                 break;
         }
-        console.log("list: " + result.expr.toString());
-        console.log("given val: " + givenValue);
     }
     // finalize
     result.expr.sort(function () {

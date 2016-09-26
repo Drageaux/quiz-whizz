@@ -53,14 +53,13 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                 QuizComponent.prototype.ngOnInit = function () {
                     this.diffLevel = 1;
                     this.score = 0;
-                    this.health = 3;
+                    this.health = 5;
                     this.errorMessage = "";
                     this.currAvailInput = [];
                     this.currUserInput = [];
                     this.inputIndex = 0;
                     this.exprString = "";
-                    this.skipPower = 3;
-                    this.boosterPower = 1;
+                    this.boosterPower = 3;
                     this.boosterToggle = false;
                     this.boosterActive = false;
                     this.makeQuiz();
@@ -68,7 +67,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         duration: 60,
                         total: 60
                     });
-                    this.time = 60000;
+                    this.time = 600000;
                     this.timePercent = this.time / 60000 * 100;
                     this.resume();
                 };
@@ -176,12 +175,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                 /*************
                  * POWER UPS *
                  *************/
-                QuizComponent.prototype.skipQuestion = function () {
-                    if (this.skipPower > 0) {
-                        this.skipPower--;
-                        this.makeQuiz();
-                    }
-                };
                 QuizComponent.prototype.ultimateBooster = function () {
                     if (this.boosterPower > 0) {
                         console.log(this.boosterToggle);
@@ -191,11 +184,8 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     }
                 };
                 QuizComponent.prototype.refillPowerUps = function () {
-                    if (this.diffLevel % 7 == 0 && this.health < 3) {
+                    if (this.diffLevel % 7 == 0 && this.health < 5) {
                         this.health++;
-                    }
-                    if (this.diffLevel % 5 == 0 && this.skipPower < 3) {
-                        this.skipPower++;
                     }
                     if (this.diffLevel % 5 == 0 && this.boosterPower < 3) {
                         this.boosterPower++;

@@ -14,6 +14,12 @@
                 <i class="heart icon"
                    [class.empty]="health<3"
                    [class.warning]="health==1"></i>
+                <i class="heart icon"
+                   [class.empty]="health<4"
+                   [class.warning]="health==1"></i>
+                <i class="heart icon"
+                   [class.empty]="health<5"
+                   [class.warning]="health==1"></i>
             </li>
         </ul>
     </div>
@@ -77,22 +83,14 @@
 
     <div class="ui grid" id="options">
         <!-- Power-Ups -->
-        <!--TODO: Resize the buttons for instructions-->
         <div class="left floated sixteen wide mobile five wide tablet four wide computer column">
             <h3>Power-Ups</h3>
-            <button class="ui button teal" onclick="this.blur();"
-                    [class.disabled]="skipPower == 0"
-                    (click)="skipQuestion()">
-                <i class="fast forward icon"></i>Skip Rope ({{skipPower}}/3)
-            </button>
+            <!--TODO: booster power change color / animate when active, also prevent another click-->
             <button class="ui button teal" onclick="this.blur();"
                     [class.disabled]="boosterPower == 0"
                     (click)="ultimateBooster()">
-                <i class="bomb icon"></i>Ultimate Booster ({{boosterPower}}/1)
+                <i class="bomb icon"></i>Ultimate Booster ({{boosterPower}}/3)
             </button>
-            <!--<button class="ui button teal" (click)="">-->
-            <!--<i class="icon"></i>-->
-            <!--</button>-->
         </div>
         <div class="right floated sixteen wide mobile five wide tablet four wide computer column">
             <h3 class="right aligned text">Options</h3>

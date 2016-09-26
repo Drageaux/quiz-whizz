@@ -11,14 +11,13 @@ quizRouter.post("/", function (request: Request, response: Response, next: NextF
 
     // damage = random number between 1 and the max value
     let targetValue = getRandomInclusive(1, maxValue);
-    console.log("target val: " + targetValue);
 
     // generate expressions and modifiers
     let exprTimes = 2 + Math.floor(level / 10);
     exprTimes += request.body.boosterToggle ? 1 : 0;
     let quiz = generateExpression(exprTimes, targetValue, maxValue);
     quiz.score += request.body.boosterToggle ? quiz.score : 0;
-    console.log("list: " + quiz.expr.toString());
+    console.log(quiz);
 
     response.json(quiz);
 });
@@ -76,26 +75,21 @@ function filterAllowedOperators(givenValue: number, maxValue: number) {
     if (givenValue >= maxValue) { // don't go over max
         let toRemove = exprPossible.indexOf("+");
         exprPossible.splice(toRemove, 1);
-        console.log("filter +:" + givenValue);
     }
     if (givenValue * 2 > maxValue || givenValue <= 1) { // shouldn't be larger than half of max (to make it interesting/harder)
         let toRemove = exprPossible.indexOf("*");
         exprPossible.splice(toRemove, 1);
-        console.log("filter " + givenValue + "*2: " + (givenValue * 2));
     }
     if (givenValue <= 0) { // don't go below 0
         let toRemove = exprPossible.indexOf("-");
         exprPossible.splice(toRemove, 1);
-        console.log("filter -:" + givenValue);
     }
     if (isPrime(givenValue) || givenValue == 0) { // don't divide prime numbers; will still result in decimals but reduce weird difficult values
         let toRemove = exprPossible.indexOf("/");
         exprPossible.splice(toRemove, 1);
-        console.log("filter /:" + givenValue);
     }
 
     if (exprPossible.length == 0) {
-        //exprPossible.push("+")
         // TODO: will have to test more whether it will ever hits 0 length
     }
     return exprPossible;
@@ -181,8 +175,6 @@ function generateExpression(exprTimes: number, targetValue: number, maxValue: nu
                 console.log("ERROR: expression generation had some problems!");
                 break;
         }
-        console.log("list: " + result.expr.toString());
-        console.log("given val: " + givenValue);
     }
 
     // finalize

@@ -39,7 +39,6 @@ export class QuizComponent implements OnInit {
     inputIndex: number; // basically the length of the answer list
     exprString: string;
     // power-ups
-    skipPower: number;
     boosterPower: number;
     boosterToggle: boolean; // true = next question will be harder
     boosterActive: boolean; // true = current question is harder
@@ -66,15 +65,14 @@ export class QuizComponent implements OnInit {
     ngOnInit() {
         this.diffLevel = 1;
         this.score = 0;
-        this.health = 3;
+        this.health = 5;
         this.errorMessage = "";
         this.currAvailInput = [];
         this.currUserInput = [];
         this.inputIndex = 0;
         this.exprString = "";
 
-        this.skipPower = 3;
-        this.boosterPower = 1;
+        this.boosterPower = 3;
         this.boosterToggle = false;
         this.boosterActive = false;
 
@@ -83,7 +81,7 @@ export class QuizComponent implements OnInit {
             duration: 60,
             total: 60
         });
-        this.time = 60000;
+        this.time = 600000;
         this.timePercent = this.time / 60000 * 100;
         this.resume();
     }
@@ -201,13 +199,6 @@ export class QuizComponent implements OnInit {
     /*************
      * POWER UPS *
      *************/
-    skipQuestion() {
-        if (this.skipPower > 0) {
-            this.skipPower--;
-            this.makeQuiz();
-        }
-    }
-
     ultimateBooster() {
         if (this.boosterPower > 0) {
             console.log(this.boosterToggle);
@@ -219,8 +210,7 @@ export class QuizComponent implements OnInit {
     }
 
     refillPowerUps() {
-        if (this.diffLevel % 7 == 0 && this.health < 3) { this.health++; }
-        if (this.diffLevel % 5 == 0 && this.skipPower < 3) { this.skipPower++; }
+        if (this.diffLevel % 7 == 0 && this.health < 5) { this.health++; }
         if (this.diffLevel % 5 == 0 && this.boosterPower < 3) { this.boosterPower++; }
     }
 
