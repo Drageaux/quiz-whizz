@@ -33,7 +33,7 @@ export class QuizComponent implements OnInit {
     errorMessage: string = "";
     error: any;
     // quiz-related
-    quiz: Quiz = new Quiz([], "", "");
+    quiz: Quiz = new Quiz([], "", "", 0);
     currAvailInput: any[]; // array list model bound to available choices of symbols
     currUserInput: any[]; // stack list model bound to symbols the user selected
     inputIndex: number; // basically the length of the answer list
@@ -268,9 +268,9 @@ export class QuizComponent implements OnInit {
             let extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
             this.time = (this.time + extraTime) < 60000
                 ? this.time + extraTime : 60000;
-            this.score += this.boosterToggle
-                ? Number(this.quiz.targetValue) * 2 : Number(this.quiz.targetValue);
+            this.score += this.quiz.score;
             this.boosterToggle = this.boosterActive ? false : this.boosterToggle;
+            this.boosterActive = this.boosterActive ? false : this.boosterActive;
             this.refillPowerUps();
             this.diffLevel++;
 

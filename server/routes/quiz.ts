@@ -15,9 +15,9 @@ quizRouter.post("/", function (request: Request, response: Response, next: NextF
 
     // generate expressions and modifiers
     let exprTimes = 2 + Math.floor(level / 10);
-    console.log("TOGGLE: " + request.body.boosterToggle);
     exprTimes += request.body.boosterToggle ? 1 : 0;
     let quiz = generateExpression(exprTimes, targetValue, maxValue);
+    quiz.score += request.body.boosterToggle ? quiz.score : 0;
     console.log("list: " + quiz.expr.toString());
 
     response.json(quiz);
@@ -130,7 +130,8 @@ function generateExpression(exprTimes: number, targetValue: number, maxValue: nu
     let result = {
         expr: [],
         givenValue: 0,
-        targetValue: targetValue
+        targetValue: targetValue,
+        score: targetValue
     };
     let givenValue = targetValue; // starts out equal to the damage
     let modifier; // current modifier number to be added in the list

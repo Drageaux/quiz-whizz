@@ -38,7 +38,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     this.buttonWidth = 1; // for uniformity
                     this.errorMessage = "";
                     // quiz-related
-                    this.quiz = new quiz_1.Quiz([], "", "");
+                    this.quiz = new quiz_1.Quiz([], "", "", 0);
                     this.paused = true;
                     // each monster will have their own timeline,
                     // so that the user cannot interfere with the monster reaching their goal
@@ -241,9 +241,9 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         var extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
                         this.time = (this.time + extraTime) < 60000
                             ? this.time + extraTime : 60000;
-                        this.score += this.boosterToggle
-                            ? Number(this.quiz.targetValue) * 2 : Number(this.quiz.targetValue);
+                        this.score += this.quiz.score;
                         this.boosterToggle = this.boosterActive ? false : this.boosterToggle;
+                        this.boosterActive = this.boosterActive ? false : this.boosterActive;
                         this.refillPowerUps();
                         this.diffLevel++;
                         // wait after the animation; seems like the best way right now
