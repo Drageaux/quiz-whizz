@@ -80,25 +80,15 @@
         <!--TODO: Resize the buttons for instructions-->
         <div class="left floated sixteen wide mobile five wide tablet four wide computer column">
             <h3>Power-Ups</h3>
-            <button class="ui animated fade button teal"
+            <button class="ui button teal" onclick="this.blur();"
                     [class.disabled]="skipPower == 0"
                     (click)="skipQuestion()">
-                <div class="visible content">
-                    <i class="fast forward icon"></i>Skip Rope ({{skipPower}}/3)
-                </div>
-                <div class="hidden content">
-                    Skip the current question
-                </div>
+                <i class="fast forward icon"></i>Skip Rope ({{skipPower}}/3)
             </button>
-            <button class="ui animated fade button teal"
+            <button class="ui button teal" onclick="this.blur();"
                     [class.disabled]="boosterPower == 0"
                     (click)="ultimateBooster()">
-                <div class="visible content">
-                    <i class="bomb icon"></i>Ultimate Booster ({{boosterPower}}/1)
-                </div>
-                <div class="hidden content">
-                    Boost your points with a challenge
-                </div>
+                <i class="bomb icon"></i>Ultimate Booster ({{boosterPower}}/1)
             </button>
             <!--<button class="ui button teal" (click)="">-->
             <!--<i class="icon"></i>-->

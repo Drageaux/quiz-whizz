@@ -155,9 +155,7 @@ body {
 
         #options {
             .column {
-                .button {
-                    margin-bottom: 5px;
-                }
+                .button { margin-bottom: 5px; }
             }
             .right.aligned.text {
                 text-align: right;
@@ -226,6 +224,7 @@ body {
     -ms-transform: rotate(20deg);
     -o-transform: rotate(20 eg);
 }
+
 
 .monster:before {
     content: "";
