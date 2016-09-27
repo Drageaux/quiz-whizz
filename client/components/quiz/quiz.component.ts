@@ -194,20 +194,20 @@ export class QuizComponent implements OnInit {
      *************/
     ultimateBooster() {
         this.boosterToggle = !this.boosterToggle;
-        let message = new Message("", "", "");
-        message.header = this.boosterToggle ?
-            "Booster ACTIVATED!" :
-            "Booster deactivated.";
-        message.value = this.boosterToggle ?
-            "The next questions will earn you 2x points" :
-            "You will no longer earn 2x points";
-        message.type = "warning";
-        this.consoleLog.push(message);
+        this.boosterToggle ?
+            this.pushMessage(
+                "Booster ACTIVATED!",
+                "The next questions will earn you 2x points",
+                "warning") :
+            this.pushMessage(
+                "Booster deactivated.",
+                "You will no longer earn 2x points",
+                "warning");
 
     }
 
     refillPowerUps() {
-        if (this.diffLevel % 7 == 0 && this.health < 5) { this.health++; }
+        if (this.diffLevel % 5 == 0 && this.health < 5) { this.health++; }
     }
 
 

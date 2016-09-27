@@ -178,18 +178,12 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                  *************/
                 QuizComponent.prototype.ultimateBooster = function () {
                     this.boosterToggle = !this.boosterToggle;
-                    var message = new message_1.Message("", "", "");
-                    message.header = this.boosterToggle ?
-                        "Booster ACTIVATED!" :
-                        "Booster deactivated.";
-                    message.value = this.boosterToggle ?
-                        "The next questions will earn you 2x points" :
-                        "You will no longer earn 2x points";
-                    message.type = "warning";
-                    this.consoleLog.push(message);
+                    this.boosterToggle ?
+                        this.pushMessage("Booster ACTIVATED!", "The next questions will earn you 2x points", "warning") :
+                        this.pushMessage("Booster deactivated.", "You will no longer earn 2x points", "warning");
                 };
                 QuizComponent.prototype.refillPowerUps = function () {
-                    if (this.diffLevel % 7 == 0 && this.health < 5) {
+                    if (this.diffLevel % 5 == 0 && this.health < 5) {
                         this.health++;
                     }
                 };
