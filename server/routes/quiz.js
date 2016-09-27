@@ -9,11 +9,12 @@ quizRouter.post("/", function (request, response, next) {
     var maxValue = Math.pow(10, 1 + 0.1 * level); // max damage user can do
     // damage = random number between 1 and the max value
     var targetValue = getRandomInclusive(1, maxValue);
-    console.log("target val: " + targetValue);
     // generate expressions and modifiers
-    var exprTimes = 2;
+    var exprTimes = 2 + Math.floor(level / 10);
+    exprTimes += request.body.boosterToggle ? 1 : 0;
     var quiz = generateExpression(exprTimes, targetValue, maxValue);
-    console.log("list: " + quiz.expr.toString());
+    quiz.score += request.body.boosterToggle ? quiz.score : 0;
+    console.log(quiz);
     response.json(quiz);
 });
 // evaluate and return the result & whether answer is correct or not
@@ -62,22 +63,18 @@ function filterAllowedOperators(givenValue, maxValue) {
     if (givenValue >= maxValue) {
         var toRemove = exprPossible.indexOf("+");
         exprPossible.splice(toRemove, 1);
-        console.log("filter +:" + givenValue);
     }
     if (givenValue * 2 > maxValue || givenValue <= 1) {
         var toRemove = exprPossible.indexOf("*");
         exprPossible.splice(toRemove, 1);
-        console.log("filter " + givenValue + "*2: " + (givenValue * 2));
     }
     if (givenValue <= 0) {
         var toRemove = exprPossible.indexOf("-");
         exprPossible.splice(toRemove, 1);
-        console.log("filter -:" + givenValue);
     }
     if (isPrime(givenValue) || givenValue == 0) {
         var toRemove = exprPossible.indexOf("/");
         exprPossible.splice(toRemove, 1);
-        console.log("filter /:" + givenValue);
     }
     if (exprPossible.length == 0) {
     }
@@ -109,7 +106,8 @@ function generateExpression(exprTimes, targetValue, maxValue) {
     var result = {
         expr: [],
         givenValue: 0,
-        targetValue: targetValue
+        targetValue: targetValue,
+        score: targetValue
     };
     var givenValue = targetValue; // starts out equal to the damage
     var modifier; // current modifier number to be added in the list
@@ -124,20 +122,20 @@ function generateExpression(exprTimes, targetValue, maxValue) {
             case "+":
                 limit = maxValue - givenValue;
                 modifier = getRandomInclusive(0, limit);
-                givenValue = givenValue + modifier;
+                givenValue = i < 2 ? givenValue + modifier : givenValue;
                 console.log("adding.......................: + " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "-");
                 break;
             case "*":
                 limit = Math.floor(maxValue / givenValue);
                 modifier = getRandomInclusive(1, limit);
-                givenValue = givenValue * modifier;
+                givenValue = i < 2 ? givenValue * modifier : givenValue;
                 console.log("multiply.....................: * " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "/");
                 break;
             case "-":
                 modifier = getRandomInclusive(0, givenValue);
-                givenValue = givenValue - modifier;
+                givenValue = i < 2 ? givenValue - modifier : givenValue;
                 console.log("subtract.....................: - " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "+");
                 break;
@@ -146,7 +144,7 @@ function generateExpression(exprTimes, targetValue, maxValue) {
                 while (givenValue % modifier != 0) {
                     modifier = getRandomInclusive(1, givenValue);
                 }
-                givenValue = givenValue / modifier;
+                givenValue = i < 2 ? givenValue / modifier : givenValue;
                 console.log("divide.......................: / " + modifier + " = " + givenValue);
                 result.expr.push(modifier.toString(), "*");
                 break;
@@ -154,8 +152,6 @@ function generateExpression(exprTimes, targetValue, maxValue) {
                 console.log("ERROR: expression generation had some problems!");
                 break;
         }
-        console.log("list: " + result.expr.toString());
-        console.log("given val: " + givenValue);
     }
     // finalize
     result.expr.sort(function () {

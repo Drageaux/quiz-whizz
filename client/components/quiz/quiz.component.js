@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./quiz", "../../service/user.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./quiz", "../message/message", "../../service/user.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, api_service_1, Rx_1, quiz_1, user_service_1;
+    var core_1, api_service_1, Rx_1, quiz_1, message_1, user_service_1;
     var QuizComponent;
     return {
         setters:[
@@ -26,6 +26,9 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
             function (quiz_1_1) {
                 quiz_1 = quiz_1_1;
             },
+            function (message_1_1) {
+                message_1 = message_1_1;
+            },
             function (user_service_1_1) {
                 user_service_1 = user_service_1_1;
             }],
@@ -36,9 +39,8 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     this.userService = userService;
                     this.onBackToMenu = new core_1.EventEmitter(); // emits event to parent component
                     this.buttonWidth = 1; // for uniformity
-                    this.errorMessage = "";
                     // quiz-related
-                    this.quiz = new quiz_1.Quiz([], "", "");
+                    this.quiz = new quiz_1.Quiz([], "", "", 0);
                     this.paused = true;
                     // each monster will have their own timeline,
                     // so that the user cannot interfere with the monster reaching their goal
@@ -53,13 +55,14 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                 QuizComponent.prototype.ngOnInit = function () {
                     this.diffLevel = 1;
                     this.score = 0;
-                    this.health = 3;
-                    this.errorMessage = "";
+                    this.health = 5;
+                    this.consoleLog = [];
                     this.currAvailInput = [];
                     this.currUserInput = [];
                     this.inputIndex = 0;
                     this.exprString = "";
-                    this.skipPower = 3;
+                    this.boosterToggle = false;
+                    this.boosterActive = false;
                     this.makeQuiz();
                     $("#timer").progress({
                         duration: 60,
@@ -91,7 +94,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         this.inputIndex++;
                         this.compileExpressionString();
                         // when all answers selected
-                        if (this.inputIndex == this.currAvailInput.length) {
+                        if (this.inputIndex == 4) {
                             this.checkSolution();
                         }
                     }
@@ -173,18 +176,15 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                 /*************
                  * POWER UPS *
                  *************/
-                QuizComponent.prototype.skipQuestion = function () {
-                    if (this.skipPower > 0) {
-                        this.skipPower--;
-                        this.makeQuiz();
-                    }
+                QuizComponent.prototype.ultimateBooster = function () {
+                    this.boosterToggle = !this.boosterToggle;
+                    this.boosterToggle ?
+                        this.pushMessage("Booster ACTIVATED!", "The next questions will earn you 2x points", "warning") :
+                        this.pushMessage("Booster deactivated.", "You will no longer earn 2x points", "warning");
                 };
                 QuizComponent.prototype.refillPowerUps = function () {
-                    if (this.diffLevel % 7 == 0 && this.health < 3) {
+                    if (this.diffLevel % 5 == 0 && this.health < 5) {
                         this.health++;
-                    }
-                    if (this.diffLevel % 5 == 0 && this.skipPower < 3) {
-                        this.skipPower++;
                     }
                 };
                 /**************
@@ -195,15 +195,19 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     //tl.to("#monster-0", 10, {left: "100%", ease: Power0.easeNone, onComplete: this.gameOver});
                 };
                 QuizComponent.prototype.destroyMonster = function (monster) {
-                    this.score++;
-                    var tl = monster.animationTimeline;
-                    var monsterObjectId = "#monster-0";
-                    tl.kill(null, monsterObjectId)
-                        .to(monsterObjectId, 0.4, { scale: 1.5, ease: Bounce.easeOut })
-                        .to(monsterObjectId, 0.4, { scale: 1.5, ease: Bounce.easeOut })
-                        .to(monsterObjectId, 0.3, { autoAlpha: 0, ease: Power1.easeIn }, "-=0.2");
+                    // this.score++;
+                    // let tl = monster.animationTimeline;
+                    //
+                    // let monsterObjectId = "#monster-0";
+                    // tl.kill(null, monsterObjectId)
+                    //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
+                    //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
+                    //     .to(monsterObjectId, 0.3, {autoAlpha: 0, ease: Power1.easeIn}, "-=0.2");
                     // TODO: clear form and question
                 };
+                /*******************
+                 * SYSTEM FEEDBACK *
+                 *******************/
                 QuizComponent.prototype.correctAnswer = function () {
                     var _this = this;
                     if (this.health > 0) {
@@ -226,7 +230,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         var extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
                         this.time = (this.time + extraTime) < 60000
                             ? this.time + extraTime : 60000;
-                        this.score += Number(this.quiz.targetValue);
+                        this.score += this.quiz.score;
                         this.refillPowerUps();
                         this.diffLevel++;
                         // wait after the animation; seems like the best way right now
@@ -235,18 +239,33 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     }
                 };
                 QuizComponent.prototype.wrongAnswer = function () {
+                    var _this = this;
                     var timeline = new TimelineMax();
                     var answerItems = $("#input-area ul li");
                     timeline
                         .set(answerItems, { backgroundColor: "#DB2828" })
                         .from(answerItems, 0.3, { x: 10, ease: Bounce.easeOut })
                         .set(answerItems, { x: 0 })
-                        .to(answerItems, 1, { backgroundColor: "#2185D0" }, "+=0.6");
+                        .to(answerItems, 0.5, {
+                        autoAlpha: 0,
+                        y: 50,
+                        ease: Power1.easeOut
+                    }, "+=0.2");
                     this.health--;
                     // game over
                     if (this.health == 0) {
                         this.gameOver();
                     }
+                    else {
+                        // wait after the animation; seems like the best way right now
+                        var timer = Rx_1.Observable.timer(1000);
+                        timer.subscribe(function (t) { return _this.makeQuiz(); });
+                    }
+                };
+                QuizComponent.prototype.pushMessage = function (header, value, type) {
+                    var message = new message_1.Message(header, value, type);
+                    this.consoleLog.push(message);
+                    setTimeout(function () { return $("#console").scrollTop($("#console")[0].scrollHeight); }, 100);
                 };
                 /************************
                  * END-TO-END FUNCTIONS *
@@ -255,10 +274,11 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     var _this = this;
                     if (this.health > 0) {
                         this.apiService
-                            .makeQuiz(this.diffLevel)
+                            .makeQuiz(this.diffLevel, this.boosterToggle)
                             .subscribe(function (data) {
                             console.log(data);
                             _this.quiz = data;
+                            _this.boosterActive = _this.boosterToggle;
                             _this.currAvailInput = [];
                             _this.currUserInput = [];
                             _this.inputIndex = 0;
@@ -274,10 +294,12 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                                     disabled: false,
                                     location: null
                                 };
-                                _this.currUserInput[i] = {
-                                    value: "",
-                                    originIndex: null
-                                };
+                                if (i < 4) {
+                                    _this.currUserInput[i] = {
+                                        value: "",
+                                        originIndex: null
+                                    };
+                                }
                                 _this.exprString = _this.quiz.givenValue;
                             }
                             _this.buttonWidth = 50 + maxSymbolWidth * 8;
@@ -293,15 +315,15 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         _this.resume();
                         console.log(data);
                         if (data.result == _this.quiz.targetValue) {
-                            _this.errorMessage = "";
+                            _this.pushMessage("Nice!", "Your answer was correct", "positive");
                             _this.correctAnswer();
                         }
                         else if (Number.isInteger(Number(data.result))) {
-                            _this.errorMessage = "The result of your answer was " + data.result;
+                            _this.pushMessage("Wrong answer.", "Your answer value was " + data.result, "negative");
                             _this.wrongAnswer();
                         }
                         else {
-                            _this.errorMessage = "Please check your expression syntax";
+                            _this.pushMessage("Wrong syntax.", "Your syntax was wrong", "negative");
                             _this.wrongAnswer();
                         }
                     });
@@ -310,7 +332,8 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                  * HELPERS *
                  ***********/
                 QuizComponent.prototype.isEmptyString = function (text) {
-                    if (text == " " || text == "" || text == null) {
+                    text = text.trim();
+                    if (text == "" || text == null) {
                         return true;
                     }
                     return false;

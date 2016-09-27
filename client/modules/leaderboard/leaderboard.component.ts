@@ -41,7 +41,8 @@ export class LeaderboardComponent implements OnInit {
      * HELPERS *
      ***********/
     isEmptyString(text: string) {
-        if (text == " " || text == "" || text == null) {
+        text = text.trim();
+        if (text == "" || text == null) {
             return true;
         }
         return false;

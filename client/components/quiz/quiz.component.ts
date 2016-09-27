@@ -1,14 +1,8 @@
-import {
-    Component,
-    OnInit,
-    Input,
-    Output,
-    EventEmitter
-} from "@angular/core";
+import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import {ApiService} from "../../service/api.service";
 import {Observable} from "rxjs/Rx";
-//import "gsap";
 import {Quiz} from "./quiz";
+import {Message} from "../message/message";
 import {UserService} from "../../service/user.service";
 
 declare var $;
@@ -24,54 +18,56 @@ declare var Power3;
 })
 export class QuizComponent implements OnInit {
     // essential
-    @Input() name:string;
+    @Input() name: string;
     @Output() onBackToMenu = new EventEmitter<boolean>(); // emits event to parent component
-    user:any;
-    diffLevel:number; // difficulty
-    score:number;
-    health:number; // chances left
-    buttonWidth:number = 1; // for uniformity
-    errorMessage:string = "";
-    error:any;
+    user: any;
+    diffLevel: number; // difficulty
+    score: number;
+    health: number; // chances left
+    buttonWidth: number = 1; // for uniformity
+    consoleLog: any[];
+    error: any;
     // quiz-related
-    quiz:Quiz = new Quiz([], "", "");
-    currAvailInput:any[]; // array list model bound to available choices of symbols
-    currUserInput:any[]; // stack list model bound to symbols the user selected
-    inputIndex:number; // basically the length of the answer list
-    exprString:string;
+    quiz: Quiz = new Quiz([], "", "", 0);
+    currAvailInput: any[]; // array list model bound to available choices of symbols
+    currUserInput: any[]; // stack list model bound to symbols the user selected
+    inputIndex: number; // basically the length of the answer list
+    exprString: string;
     // power-ups
-    skipPower:number;
+    boosterToggle: boolean; // true = next question will be harder
+    boosterActive: boolean; // true = current question is harder
     // timer
-    time:number;
-    timer:any;
-    timePercent:number;
-    paused:boolean = true;
+    time: number;
+    timer: any;
+    timePercent: number;
+    paused: boolean = true;
 
     // each monster will have their own timeline,
     // so that the user cannot interfere with the monster reaching their goal
-    monsterExample:any = {
+    monsterExample: any = {
         id: 0,
         question: "What's the common name for 'feline?'",
         answer: "cat",
         animationTimeline: new TimelineMax()
     };
 
-    constructor(private apiService:ApiService,
-                private userService:UserService) {
+    constructor(private apiService: ApiService,
+                private userService: UserService) {
         this.user = this.userService.getLocalUser();
     }
 
     ngOnInit() {
         this.diffLevel = 1;
         this.score = 0;
-        this.health = 3;
-        this.errorMessage = "";
+        this.health = 5;
+        this.consoleLog = [];
         this.currAvailInput = [];
         this.currUserInput = [];
         this.inputIndex = 0;
         this.exprString = "";
 
-        this.skipPower = 3;
+        this.boosterToggle = false;
+        this.boosterActive = false;
 
         this.makeQuiz();
         $("#timer").progress({
@@ -86,7 +82,7 @@ export class QuizComponent implements OnInit {
     /***************
      * INTERACTIVE *
      ***************/
-    keyPress(event:any) {
+    keyPress(event: any) {
         if (event.keyCode == 13) { // pressed Enter/Submit
             if (this.checkSolution()) {
                 // TODO: this.destroyMonster(this.monsterExample); // animation
@@ -96,7 +92,7 @@ export class QuizComponent implements OnInit {
         // TODO: navigate between different quizzes
     }
 
-    selectAnswer(index:number) {
+    selectAnswer(index: number) {
         if (!this.currAvailInput[index].disabled) {
             let value = this.currAvailInput[index].value;
             this.currUserInput[this.inputIndex].value = value; // move
@@ -108,7 +104,7 @@ export class QuizComponent implements OnInit {
             this.compileExpressionString();
 
             // when all answers selected
-            if (this.inputIndex == this.currAvailInput.length) {
+            if (this.inputIndex == 4) {
                 this.checkSolution();
             }
         } else {
@@ -117,7 +113,7 @@ export class QuizComponent implements OnInit {
         }
     }
 
-    removeAnswer(index:number) {
+    removeAnswer(index: number) {
         let answer = this.currUserInput[index];
         this.currAvailInput[answer.originIndex].disabled = false; // re-enable the original button
 
@@ -140,7 +136,7 @@ export class QuizComponent implements OnInit {
             .modal("show");
     }
 
-    logHighScore(name:string) {
+    logHighScore(name: string) {
         if (!this.isEmptyString(name) && name.length <= 14) {
             this.user.name = name;
             this.userService.updateLocalUser(this.user);
@@ -156,7 +152,7 @@ export class QuizComponent implements OnInit {
                                 .subscribe((data) => console.log(data));
                         }
                     },
-                    (error:Error) => {
+                    (error: Error) => {
                         this.error = error.message;
                         setTimeout(() => this.error = null, 4000)
                     });
@@ -186,7 +182,7 @@ export class QuizComponent implements OnInit {
         $("#game-over").modal("hide");
     }
 
-    backToMenu(event:any) {
+    backToMenu(event: any) {
         this.onBackToMenu.emit(false);
         $("#game-over").modal("hide");
         $("body > .dimmer.modals.page").remove(); // this would stack extra dimmer layers otherwise
@@ -196,16 +192,22 @@ export class QuizComponent implements OnInit {
     /*************
      * POWER UPS *
      *************/
-    skipQuestion() {
-        if (this.skipPower > 0) {
-            this.skipPower--;
-            this.makeQuiz();
-        }
+    ultimateBooster() {
+        this.boosterToggle = !this.boosterToggle;
+        this.boosterToggle ?
+            this.pushMessage(
+                "Booster ACTIVATED!",
+                "The next questions will earn you 2x points",
+                "warning") :
+            this.pushMessage(
+                "Booster deactivated.",
+                "You will no longer earn 2x points",
+                "warning");
+
     }
 
     refillPowerUps() {
-        if (this.diffLevel % 7 == 0 && this.health < 3) { this.health++; }
-        if (this.diffLevel % 5 == 0 && this.skipPower < 3) { this.skipPower++; }
+        if (this.diffLevel % 5 == 0 && this.health < 5) { this.health++; }
     }
 
 
@@ -217,19 +219,22 @@ export class QuizComponent implements OnInit {
         //tl.to("#monster-0", 10, {left: "100%", ease: Power0.easeNone, onComplete: this.gameOver});
     }
 
-    destroyMonster(monster:any) {
-        this.score++;
-        let tl = monster.animationTimeline;
-
-        let monsterObjectId = "#monster-0";
-        tl.kill(null, monsterObjectId)
-            .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
-            .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
-            .to(monsterObjectId, 0.3, {autoAlpha: 0, ease: Power1.easeIn}, "-=0.2");
+    destroyMonster(monster: any) {
+        // this.score++;
+        // let tl = monster.animationTimeline;
+        //
+        // let monsterObjectId = "#monster-0";
+        // tl.kill(null, monsterObjectId)
+        //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
+        //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
+        //     .to(monsterObjectId, 0.3, {autoAlpha: 0, ease: Power1.easeIn}, "-=0.2");
 
         // TODO: clear form and question
     }
 
+    /*******************
+     * SYSTEM FEEDBACK *
+     *******************/
     correctAnswer() {
         if (this.health > 0) {
             let timeline = new TimelineMax();
@@ -252,7 +257,7 @@ export class QuizComponent implements OnInit {
             let extraTime = this.diffLevel > 10 ? 10000 : this.diffLevel * 1000;
             this.time = (this.time + extraTime) < 60000
                 ? this.time + extraTime : 60000;
-            this.score += Number(this.quiz.targetValue);
+            this.score += this.quiz.score;
             this.refillPowerUps();
             this.diffLevel++;
 
@@ -269,13 +274,30 @@ export class QuizComponent implements OnInit {
             .set(answerItems, {backgroundColor: "#DB2828"})
             .from(answerItems, 0.3, {x: 10, ease: Bounce.easeOut})
             .set(answerItems, {x: 0})
-            .to(answerItems, 1, {backgroundColor: "#2185D0"}, "+=0.6");
+            .to(answerItems, 0.5, {
+                autoAlpha: 0,
+                y: 50,
+                ease: Power1.easeOut
+            }, "+=0.2");
         this.health--;
 
         // game over
         if (this.health == 0) {
             this.gameOver();
+        } else {
+            // wait after the animation; seems like the best way right now
+            let timer = Observable.timer(1000);
+            timer.subscribe(t => this.makeQuiz());
         }
+    }
+
+    pushMessage(header: string, value: string, type: string) {
+        let message = new Message(header, value, type);
+        this.consoleLog.push(message);
+        setTimeout(
+            () => $("#console").scrollTop($("#console")[0].scrollHeight),
+            100
+        );
     }
 
 
@@ -285,11 +307,12 @@ export class QuizComponent implements OnInit {
     makeQuiz() {
         if (this.health > 0) {
             this.apiService
-                .makeQuiz(this.diffLevel)
+                .makeQuiz(this.diffLevel, this.boosterToggle)
                 .subscribe(
                     (data) => {
                         console.log(data);
                         this.quiz = data;
+                        this.boosterActive = this.boosterToggle;
 
                         this.currAvailInput = [];
                         this.currUserInput = [];
@@ -306,10 +329,12 @@ export class QuizComponent implements OnInit {
                                 disabled: false,
                                 location: null
                             };
-                            this.currUserInput[i] = {
-                                value: "",
-                                originIndex: null
-                            };
+                            if (i < 4) {
+                                this.currUserInput[i] = {
+                                    value: "",
+                                    originIndex: null
+                                };
+                            }
                             this.exprString = this.quiz.givenValue;
                         }
                         this.buttonWidth = 50 + maxSymbolWidth * 8;
@@ -326,13 +351,19 @@ export class QuizComponent implements OnInit {
                     this.resume();
                     console.log(data);
                     if (data.result == this.quiz.targetValue) {
-                        this.errorMessage = "";
+                        this.pushMessage("Nice!", "Your answer was correct", "positive");
                         this.correctAnswer();
                     } else if (Number.isInteger(Number(data.result))) {
-                        this.errorMessage = "The result of your answer was " + data.result;
+                        this.pushMessage(
+                            "Wrong answer.",
+                            "Your answer value was " + data.result,
+                            "negative");
                         this.wrongAnswer();
                     } else {
-                        this.errorMessage = "Please check your expression syntax";
+                        this.pushMessage(
+                            "Wrong syntax.",
+                            "Your syntax was wrong",
+                            "negative");
                         this.wrongAnswer();
                     }
                 }
@@ -342,8 +373,9 @@ export class QuizComponent implements OnInit {
     /***********
      * HELPERS *
      ***********/
-    isEmptyString(text:string) {
-        if (text == " " || text == "" || text == null) {
+    isEmptyString(text: string) {
+        text = text.trim();
+        if (text == "" || text == null) {
             return true;
         }
         return false;

@@ -3,7 +3,7 @@
     <div id="hud">
         <div></div>
         <ul>
-            <li>Score: {{score}} <span class="add-score">(+ {{quiz.targetValue}})</span></li>
+            <li>Score: {{score}}<span class="add-score">(+ {{quiz.score}})</span></li>
             <li>Health:
                 <i class="heart icon"
                    [class.empty]="health<1"
@@ -13,6 +13,12 @@
                    [class.warning]="health==1"></i>
                 <i class="heart icon"
                    [class.empty]="health<3"
+                   [class.warning]="health==1"></i>
+                <i class="heart icon"
+                   [class.empty]="health<4"
+                   [class.warning]="health==1"></i>
+                <i class="heart icon"
+                   [class.empty]="health<5"
                    [class.warning]="health==1"></i>
             </li>
         </ul>
@@ -30,11 +36,19 @@
         <div class="label">Time left: {{time/1000 | round}}</div>
 
         <!--TODO: animate the amount of extra time added-->
-
     </div>
 
     <div id="user-control" class="ui grid">
-        <div class="sixteen wide column"><h2>Level: {{diffLevel}}</h2></div>
+        <div class="sixteen wide column"><h2>Level: {{diffLevel}}</h2>
+            <a class="circular ui button" id="booster"
+               [class.teal]="!boosterToggle"
+               [class.orange]="boosterToggle"
+               [class.pulse]="boosterActive"
+               (click)="ultimateBooster()">
+                <!--<i class="bomb icon"></i>-->
+                Boost!
+            </a>
+        </div>
         <!-- Available Buttons -->
         <div class="ui row">
             <ul class="column">
@@ -65,26 +79,19 @@
                 = {{quiz.targetValue}}
             </div>
         </div>
-        <div class="sixteen wide column"><b>Preview your answer:</b> {{exprString}}</div>
-        <div class="ui negative message centered twelve wide column" [class.hidden]="isEmptyString(errorMessage)">
-            <div class="header">
-                Wrong answer
-            </div>
-            <p>{{errorMessage}}</p>
+
+        <h3 class="sixteen wide column text" id="console-header">Message Log</h3>
+        <div class="ui left aligned fifteen wide centered column message" id="console">
+            <ul class="ui list">
+                <li *ngFor="let mess of consoleLog"
+                    class="item {{mess.type}}"><b>{{mess.header}}</b> {{mess.value}}
+                </li>
+            </ul>
         </div>
     </div>
     <hr>
 
     <div class="ui grid" id="options">
-        <div class="left floated sixteen wide mobile five wide tablet four wide computer column">
-            <h3>Power-Ups</h3>
-            <button class="ui button teal" (click)="skipQuestion()">
-                <i class="fast forward icon"></i>Skip this question ({{skipPower}}/3)
-            </button>
-            <!--<button class="ui button teal" (click)="">-->
-            <!--<i class="icon"></i>-->
-            <!--</button>-->
-        </div>
         <div class="right floated sixteen wide mobile five wide tablet four wide computer column">
             <h3 class="right aligned text">Options</h3>
             <button class="right floated ui button red" (click)="quitGame()">Quit Game</button>

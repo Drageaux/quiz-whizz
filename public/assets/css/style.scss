@@ -13,6 +13,9 @@ $brown_semantic: #A5673F;
 $grey_semantic: #767676;
 $black_semantic: #1B1C1D;
 
+$negative_semantic: #9F3A38;
+$positive_semantic: #2C662D;
+
 body {
     background: url("http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/geometry2.png");
     .center {
@@ -128,6 +131,16 @@ body {
             margin-top: 10px;
             margin-bottom: 10px;
             text-align: center;
+            #booster {
+                position: absolute;
+                padding-top: 21px;
+                padding-left: 7px;
+                padding-right: 7px;
+                padding-bottom: 34px;
+                height: 50px;
+                right: 14px;
+                top: 4px;
+            }
             span {
                 display: inline-block;
             }
@@ -137,6 +150,7 @@ body {
                     display: inline-block;
                 }
                 li.ui.button {
+                    margin-bottom: 5px;
                     width: 50px;
                     height: 36px; // height and vertical-align to work with empty buttons
                     vertical-align: top;
@@ -153,11 +167,21 @@ body {
             }
         }
 
+        #console-header { margin-top: 5px; margin-bottom: 5px; padding-top: 0; padding-bottom: 0; }
+        #console {
+            margin-top: 0;
+            height: 100px;
+            overflow-y: scroll;
+            font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            .positive { color: $green_semantic; }
+            .negative { color: $negative_semantic; }
+            .warning { color: $orange_semantic; }
+            li { width: 100%; }
+        }
+
         #options {
             .column {
-                .button:not(:first-of-type) {
-                    margin-top: 5px;
-                }
+                .button { margin-bottom: 5px; }
             }
             .right.aligned.text {
                 text-align: right;
@@ -210,6 +234,26 @@ body {
 }
 
 
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+
+::-webkit-scrollbar-track {
+    background-color: lighten($grey_semantic, 40%);
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+
+::-webkit-scrollbar-thumb:vertical {
+    background-color: darken($grey_semantic, 5%);
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+
 /**************************
  * Shapes by Alan Johnson *
  **************************/
@@ -227,6 +271,7 @@ body {
     -o-transform: rotate(20 eg);
 }
 
+
 .monster:before {
     content: "";
     position: absolute;
@@ -239,4 +284,27 @@ body {
     -moz-transform: rotate(135deg);
     -ms-transform: rotate(135deg);
     -o-transform: rotate(135deg);
+}
+
+
+/*****************************
+ * Pulse by Nathan B. Weller *
+ *****************************/
+.pulse {
+    animation: pulse 1s ease infinite;
+}
+
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }

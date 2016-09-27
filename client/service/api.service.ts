@@ -1,23 +1,23 @@
-import { Injectable } from "@angular/core";
-import { Http, Response } from '@angular/http';
-import { Headers, RequestOptions } from '@angular/http';
-import { AuthHttp } from "angular2-jwt";
-import { Observable } from "rxjs/Observable";
+import {Injectable} from "@angular/core";
+import {Http, Response} from '@angular/http';
+import {Headers, RequestOptions} from '@angular/http';
+import {AuthHttp} from "angular2-jwt";
+import {Observable} from "rxjs/Observable";
 
-import { Quiz } from "../components/quiz/quiz";
-import { User } from "../components/user/user";
+import {Quiz} from "../components/quiz/quiz";
+import {User} from "../components/user/user";
 
 @Injectable()
 export class ApiService {
 
-    constructor(private authHttp:AuthHttp,
-                private http:Http) {
+    constructor(private authHttp: AuthHttp,
+                private http: Http) {
     }
 
     /********
      * USER *
      ********/
-    createUser(userName:string) {
+    createUser(userName: string) {
         let body = {userName: userName};
         let headers = new Headers({"Content-Type": "application/json"});
         let options = new RequestOptions({headers: headers});
@@ -25,11 +25,11 @@ export class ApiService {
         return this
             .http
             .post("/user", body, options)
-            .map((res:Response) => res.json())
+            .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 
-    register(userName:string, email:string) {
+    register(userName: string, email: string) {
         let body = {userName: userName, email: email};
         let headers = new Headers({"Content-Type": "application/json"});
         let options = new RequestOptions({headers: headers});
@@ -37,11 +37,11 @@ export class ApiService {
         return this
             .http
             .post("/user/register", body, options)
-            .map((res:Response) => res.json())
+            .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 
-    logHighScore(userName:string, score:number, level:number, registered:boolean) {
+    logHighScore(userName: string, score: number, level: number, registered: boolean) {
         let body = {
             userName: userName,
             score: score,
@@ -54,14 +54,14 @@ export class ApiService {
         return this
             .http
             .post("/user/saveScore", body, options)
-            .map((res:Response) => res.json())
+            .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 
     /***************
      * LEADERBOARD *
      ***************/
-    getUsersBy(criteria:string) {
+    getUsersBy(criteria: string) {
         return this
             .http
             .get("/user/list/" + criteria)
@@ -72,19 +72,22 @@ export class ApiService {
     /********
      * QUIZ *
      ********/
-    makeQuiz(level:number) {
-        let body = {currentLevel: level};
+    makeQuiz(level: number, boosterToggle: boolean) {
+        let body = {
+            currentLevel: level,
+            boosterToggle: boosterToggle
+        };
         let headers = new Headers({"Content-Type": "application/json"});
         let options = new RequestOptions({headers: headers});
 
         return this
             .http
             .post("/quiz", body, options)
-            .map((res:Response) => res.json())
+            .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 
-    checkSolution(expr:string) {
+    checkSolution(expr: string) {
         let body = {expr: expr};
         let headers = new Headers({"Content-Type": "application/json"});
         let options = new RequestOptions({headers: headers});
@@ -96,7 +99,7 @@ export class ApiService {
             .catch(this.handleError);
     }
 
-    private handleError(error:any) {
+    private handleError(error: any) {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :
