@@ -25,21 +25,30 @@
     </div>
     <hr>
 
-    <!--<div class="ui small progress"-->
-    <!--data-total="60" id="timer"-->
-    <!--[attr.data-value]="timePercent"-->
-    <!--[class.red]="timePercent < 25"-->
-    <!--[class.yellow]="timePercent < 50 && timePercent > 24"-->
-    <!--[class.olive]="timePercent < 75 && timePercent > 49"-->
-    <!--[class.green]="timePercent < 100 && timePercent > 74">-->
-    <!--<div class="bar"></div>-->
-    <!--<div class="label">Time left: {{time/1000 | round}}</div>-->
+    <div class="ui small progress"
+         data-total="60" id="timer"
+         [attr.data-value]="timePercent"
+         [class.red]="timePercent < 25"
+         [class.yellow]="timePercent < 50 && timePercent > 24"
+         [class.olive]="timePercent < 75 && timePercent > 49"
+         [class.green]="timePercent < 100 && timePercent > 74">
+        <div class="bar"></div>
+        <div class="label">Time left: {{time/1000 | round}}</div>
 
-    <!--TODO: animate the amount of extra time added-->
-    <!--</div>-->
+        <!--TODO: animate the amount of extra time added-->
+    </div>
 
     <div id="user-control" class="ui grid">
-        <div class="sixteen wide column"><h2>Level: {{diffLevel}}</h2></div>
+        <div class="sixteen wide column"><h2>Level: {{diffLevel}}</h2>
+            <a class="circular ui button" id="booster"
+               [class.teal]="!boosterToggle"
+               [class.orange]="boosterToggle"
+               [class.pulse]="boosterActive"
+               (click)="ultimateBooster()">
+                <!--<i class="bomb icon"></i>-->
+                Boost!
+            </a>
+        </div>
         <!-- Available Buttons -->
         <div class="ui row">
             <ul class="column">
@@ -69,16 +78,6 @@
             <div class="question-values four wide left aligned column" id="target-value">
                 = {{quiz.targetValue}}
             </div>
-        </div>
-        <div class="sixteen wide column">
-            <a class="circular ui button" id="booster"
-               [class.teal]="!boosterToggle"
-               [class.orange]="boosterToggle"
-               [class.pulse]="boosterActive"
-               (click)="ultimateBooster()">
-                <!--<i class="bomb icon"></i>-->
-                Boost!
-            </a>
         </div>
 
         <h3 class="sixteen wide column text" id="console-header">Message Log</h3>

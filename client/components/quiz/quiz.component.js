@@ -61,7 +61,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     this.currUserInput = [];
                     this.inputIndex = 0;
                     this.exprString = "";
-                    this.boosterPower = 3;
                     this.boosterToggle = false;
                     this.boosterActive = false;
                     this.makeQuiz();
@@ -188,14 +187,10 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         "You will no longer earn 2x points";
                     message.type = "warning";
                     this.consoleLog.push(message);
-                    setTimeout(function () { return $("#console").scrollTop($("#console")[0].scrollHeight); }, 100);
                 };
                 QuizComponent.prototype.refillPowerUps = function () {
                     if (this.diffLevel % 7 == 0 && this.health < 5) {
                         this.health++;
-                    }
-                    if (this.diffLevel % 5 == 0 && this.boosterPower < 3) {
-                        this.boosterPower++;
                     }
                 };
                 /**************
@@ -216,6 +211,9 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     //     .to(monsterObjectId, 0.3, {autoAlpha: 0, ease: Power1.easeIn}, "-=0.2");
                     // TODO: clear form and question
                 };
+                /*******************
+                 * SYSTEM FEEDBACK *
+                 *******************/
                 QuizComponent.prototype.correctAnswer = function () {
                     var _this = this;
                     if (this.health > 0) {
@@ -259,6 +257,11 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     if (this.health == 0) {
                         this.gameOver();
                     }
+                };
+                QuizComponent.prototype.pushMessage = function (header, value, type) {
+                    var message = new message_1.Message(header, value, type);
+                    this.consoleLog.push(message);
+                    setTimeout(function () { return $("#console").scrollTop($("#console")[0].scrollHeight); }, 100);
                 };
                 /************************
                  * END-TO-END FUNCTIONS *
@@ -327,7 +330,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                             _this.wrongAnswer();
                         }
                         _this.consoleLog.push(mess);
-                        setTimeout(function () { return $("#console").scrollTop($("#console")[0].scrollHeight); }, 100);
+                        setTimeout(function () { return $("#console").scrollTop($("#console")[0].scrollHeight); }, 10);
                     });
                 };
                 /***********

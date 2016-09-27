@@ -34,7 +34,6 @@ export class QuizComponent implements OnInit {
     inputIndex: number; // basically the length of the answer list
     exprString: string;
     // power-ups
-    boosterPower: number;
     boosterToggle: boolean; // true = next question will be harder
     boosterActive: boolean; // true = current question is harder
     // timer
@@ -67,7 +66,6 @@ export class QuizComponent implements OnInit {
         this.inputIndex = 0;
         this.exprString = "";
 
-        this.boosterPower = 3;
         this.boosterToggle = false;
         this.boosterActive = false;
 
@@ -205,15 +203,11 @@ export class QuizComponent implements OnInit {
             "You will no longer earn 2x points";
         message.type = "warning";
         this.consoleLog.push(message);
-        setTimeout(
-            () => $("#console").scrollTop($("#console")[0].scrollHeight),
-            100
-        );
+
     }
 
     refillPowerUps() {
         if (this.diffLevel % 7 == 0 && this.health < 5) { this.health++; }
-        if (this.diffLevel % 5 == 0 && this.boosterPower < 3) { this.boosterPower++; }
     }
 
 
@@ -238,6 +232,9 @@ export class QuizComponent implements OnInit {
         // TODO: clear form and question
     }
 
+    /*******************
+     * SYSTEM FEEDBACK *
+     *******************/
     correctAnswer() {
         if (this.health > 0) {
             let timeline = new TimelineMax();
@@ -284,6 +281,15 @@ export class QuizComponent implements OnInit {
         if (this.health == 0) {
             this.gameOver();
         }
+    }
+
+    pushMessage(header: string, value: string, type: string) {
+        let message = new Message(header, value, type);
+        this.consoleLog.push(message);
+        setTimeout(
+            () => $("#console").scrollTop($("#console")[0].scrollHeight),
+            100
+        );
     }
 
 
@@ -356,7 +362,7 @@ export class QuizComponent implements OnInit {
                     this.consoleLog.push(mess);
                     setTimeout(
                         () => $("#console").scrollTop($("#console")[0].scrollHeight),
-                        100
+                        10
                     );
                 }
             );

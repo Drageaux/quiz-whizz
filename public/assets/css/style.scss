@@ -131,6 +131,16 @@ body {
             margin-top: 10px;
             margin-bottom: 10px;
             text-align: center;
+            #booster {
+                position: absolute;
+                padding-top: 21px;
+                padding-left: 7px;
+                padding-right: 7px;
+                padding-bottom: 34px;
+                height: 50px;
+                right: 14px;
+                top: 4px;
+            }
             span {
                 display: inline-block;
             }
@@ -140,6 +150,7 @@ body {
                     display: inline-block;
                 }
                 li.ui.button {
+                    margin-bottom: 5px;
                     width: 50px;
                     height: 36px; // height and vertical-align to work with empty buttons
                     vertical-align: top;
@@ -154,11 +165,6 @@ body {
                     li.ui.button { margin-bottom: .25em; }
                 }
             }
-        }
-        #booster {
-            padding: 15px;
-            height: 50px;
-            i { }
         }
 
         #console-header { margin-top: 5px; margin-bottom: 5px; padding-top: 0; padding-bottom: 0; }
