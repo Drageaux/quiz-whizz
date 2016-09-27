@@ -134,7 +134,8 @@ body {
       body quiz #console .warning {
         color: #F2711C; }
       body quiz #console li {
-        width: 100%; }
+        width: 100%;
+        text-align: center; }
     body quiz #options .column .button {
       margin-bottom: 5px; }
     body quiz #options .right.aligned.text {

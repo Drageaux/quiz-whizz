@@ -176,7 +176,7 @@ body {
             .positive { color: $green_semantic; }
             .negative { color: $negative_semantic; }
             .warning { color: $orange_semantic; }
-            li { width: 100%; }
+            li { width: 100%; text-align: center; }
         }
 
         #options {
