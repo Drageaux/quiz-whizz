@@ -9,7 +9,6 @@
         </tr>
         </thead>
         <tbody>
-        <div class="ui active centered inline loader" *ngIf="topUsers.length == 0"></div>
         <tr *ngFor="let user of topUsers; let i = index">
             <td>
                 <h4 class="ui image header">
@@ -32,4 +31,5 @@
         </tr>
         </tbody>
     </table>
+    <div class="ui active centered inline loader" *ngIf="topUsers.length == 0"></div>
 </div>
