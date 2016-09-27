@@ -274,12 +274,20 @@ export class QuizComponent implements OnInit {
             .set(answerItems, {backgroundColor: "#DB2828"})
             .from(answerItems, 0.3, {x: 10, ease: Bounce.easeOut})
             .set(answerItems, {x: 0})
-            .to(answerItems, 1, {backgroundColor: "#2185D0"}, "+=0.6");
+            .to(answerItems, 0.5, {
+                autoAlpha: 0,
+                y: 50,
+                ease: Power1.easeOut
+            }, "+=0.2");
         this.health--;
 
         // game over
         if (this.health == 0) {
             this.gameOver();
+        } else {
+            // wait after the animation; seems like the best way right now
+            let timer = Observable.timer(1000);
+            timer.subscribe(t => this.makeQuiz());
         }
     }
 
@@ -342,28 +350,22 @@ export class QuizComponent implements OnInit {
                 (data) => {
                     this.resume();
                     console.log(data);
-                    let mess = new Message("", "", "");
                     if (data.result == this.quiz.targetValue) {
-                        mess.header = "Nice!";
-                        mess.value = "Your answer was correct";
-                        mess.type = "positive";
+                        this.pushMessage("Nice!", "Your answer was correct", "positive");
                         this.correctAnswer();
                     } else if (Number.isInteger(Number(data.result))) {
-                        mess.header = "Wrong answer.";
-                        mess.value = "Your answer value was " + data.result;
-                        mess.type = "negative";
+                        this.pushMessage(
+                            "Wrong answer.",
+                            "Your answer value was " + data.result,
+                            "negative");
                         this.wrongAnswer();
                     } else {
-                        mess.header = "Wrong answer.";
-                        mess.value = "Your syntax was wrong";
-                        mess.type = "negative";
+                        this.pushMessage(
+                            "Wrong syntax.",
+                            "Your syntax was wrong",
+                            "negative");
                         this.wrongAnswer();
                     }
-                    this.consoleLog.push(mess);
-                    setTimeout(
-                        () => $("#console").scrollTop($("#console")[0].scrollHeight),
-                        10
-                    );
                 }
             );
     }

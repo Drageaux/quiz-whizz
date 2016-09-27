@@ -245,17 +245,27 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     }
                 };
                 QuizComponent.prototype.wrongAnswer = function () {
+                    var _this = this;
                     var timeline = new TimelineMax();
                     var answerItems = $("#input-area ul li");
                     timeline
                         .set(answerItems, { backgroundColor: "#DB2828" })
                         .from(answerItems, 0.3, { x: 10, ease: Bounce.easeOut })
                         .set(answerItems, { x: 0 })
-                        .to(answerItems, 1, { backgroundColor: "#2185D0" }, "+=0.6");
+                        .to(answerItems, 0.5, {
+                        autoAlpha: 0,
+                        y: 50,
+                        ease: Power1.easeOut
+                    }, "+=0.2");
                     this.health--;
                     // game over
                     if (this.health == 0) {
                         this.gameOver();
+                    }
+                    else {
+                        // wait after the animation; seems like the best way right now
+                        var timer = Rx_1.Observable.timer(1000);
+                        timer.subscribe(function (t) { return _this.makeQuiz(); });
                     }
                 };
                 QuizComponent.prototype.pushMessage = function (header, value, type) {
@@ -310,27 +320,18 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         .subscribe(function (data) {
                         _this.resume();
                         console.log(data);
-                        var mess = new message_1.Message("", "", "");
                         if (data.result == _this.quiz.targetValue) {
-                            mess.header = "Nice!";
-                            mess.value = "Your answer was correct";
-                            mess.type = "positive";
+                            _this.pushMessage("Nice!", "Your answer was correct", "positive");
                             _this.correctAnswer();
                         }
                         else if (Number.isInteger(Number(data.result))) {
-                            mess.header = "Wrong answer.";
-                            mess.value = "Your answer value was " + data.result;
-                            mess.type = "negative";
+                            _this.pushMessage("Wrong answer.", "Your answer value was " + data.result, "negative");
                             _this.wrongAnswer();
                         }
                         else {
-                            mess.header = "Wrong answer.";
-                            mess.value = "Your syntax was wrong";
-                            mess.type = "negative";
+                            _this.pushMessage("Wrong syntax.", "Your syntax was wrong", "negative");
                             _this.wrongAnswer();
                         }
-                        _this.consoleLog.push(mess);
-                        setTimeout(function () { return $("#console").scrollTop($("#console")[0].scrollHeight); }, 10);
                     });
                 };
                 /***********
