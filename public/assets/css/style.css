@@ -107,7 +107,12 @@ body {
         padding: 10px; }
       body quiz #user-control #input-area ul li.ui.button {
         margin-bottom: .25em; }
+    body quiz #console-header {
+      margin-bottom: 5px;
+      padding-top: 0;
+      padding-bottom: 0; }
     body quiz #console {
+      margin-top: 0;
       height: 100px;
       overflow-y: scroll;
       font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif; }
@@ -115,6 +120,8 @@ body {
         color: #21BA45; }
       body quiz #console .negative {
         color: #9F3A38; }
+      body quiz #console li {
+        width: 100%; }
     body quiz #options .column .button {
       margin-bottom: 5px; }
     body quiz #options .right.aligned.text {
@@ -154,6 +161,20 @@ body {
 #game-over .six.wide.field {
   margin-left: auto !important;
   margin-right: auto !important; }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px; }
+
+::-webkit-scrollbar-track {
+  background-color: gainsboro;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+
+::-webkit-scrollbar-thumb:vertical {
+  background-color: dimgray;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
 
 /**************************
  * Shapes by Alan Johnson *

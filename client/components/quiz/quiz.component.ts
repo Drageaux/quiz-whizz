@@ -349,8 +349,10 @@ export class QuizComponent implements OnInit {
                         this.wrongAnswer();
                     }
                     this.consoleLog.push(mess);
-                    setTimeout(() => $("#console").scrollTop = $("#console").scrollHeight,
-                    200);
+                    setTimeout(
+                        () => $("#console").scrollTop($("#console")[0].scrollHeight),
+                        100
+                    );
                 }
             );
     }

@@ -324,7 +324,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                             _this.wrongAnswer();
                         }
                         _this.consoleLog.push(mess);
-                        setTimeout(function () { return $("#console").scrollTop = $("#console").scrollHeight; }, 200);
+                        setTimeout(function () { return $("#console").scrollTop($("#console")[0].scrollHeight); }, 100);
                     });
                 };
                 /***********
