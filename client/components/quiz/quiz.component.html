@@ -26,16 +26,16 @@
     <hr>
 
     <!--<div class="ui small progress"-->
-         <!--data-total="60" id="timer"-->
-         <!--[attr.data-value]="timePercent"-->
-         <!--[class.red]="timePercent < 25"-->
-         <!--[class.yellow]="timePercent < 50 && timePercent > 24"-->
-         <!--[class.olive]="timePercent < 75 && timePercent > 49"-->
-         <!--[class.green]="timePercent < 100 && timePercent > 74">-->
-        <!--<div class="bar"></div>-->
-        <!--<div class="label">Time left: {{time/1000 | round}}</div>-->
+    <!--data-total="60" id="timer"-->
+    <!--[attr.data-value]="timePercent"-->
+    <!--[class.red]="timePercent < 25"-->
+    <!--[class.yellow]="timePercent < 50 && timePercent > 24"-->
+    <!--[class.olive]="timePercent < 75 && timePercent > 49"-->
+    <!--[class.green]="timePercent < 100 && timePercent > 74">-->
+    <!--<div class="bar"></div>-->
+    <!--<div class="label">Time left: {{time/1000 | round}}</div>-->
 
-        <!--TODO: animate the amount of extra time added-->
+    <!--TODO: animate the amount of extra time added-->
     <!--</div>-->
 
     <div id="user-control" class="ui grid">
@@ -70,7 +70,16 @@
                 = {{quiz.targetValue}}
             </div>
         </div>
-        <div class="sixteen wide column"><b>Preview your answer:</b> {{exprString}}</div>
+        <div class="sixteen wide column">
+            <a class="circular ui button" id="booster"
+               [class.teal]="!boosterToggle"
+               [class.orange]="boosterToggle"
+               [class.pulse]="boosterActive"
+               (click)="ultimateBooster()">
+                <!--<i class="bomb icon"></i>-->
+                Boost!
+            </a>
+        </div>
 
         <h3 class="sixteen wide column text" id="console-header">Message Log</h3>
         <div class="ui left aligned fifteen wide centered column message" id="console">
@@ -84,18 +93,6 @@
     <hr>
 
     <div class="ui grid" id="options">
-        <!-- Power-Ups -->
-        <div class="left floated sixteen wide mobile five wide tablet four wide computer column">
-            <h3>Power-Ups</h3>
-            <!--TODO: booster power change color / animate when active, also prevent another click-->
-            <button class="ui button " onclick="this.blur();"
-                    [class.teal]="!boosterToggle"
-                    [class.orange]="boosterToggle"
-                    [class.pulse]="boosterActive"
-                    (click)="ultimateBooster()">
-                <i class="bomb icon"></i>Ultimate Booster ({{boosterPower}}/3)
-            </button>
-        </div>
         <div class="right floated sixteen wide mobile five wide tablet four wide computer column">
             <h3 class="right aligned text">Options</h3>
             <button class="right floated ui button red" (click)="quitGame()">Quit Game</button>

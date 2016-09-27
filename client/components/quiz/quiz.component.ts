@@ -195,13 +195,20 @@ export class QuizComponent implements OnInit {
      * POWER UPS *
      *************/
     ultimateBooster() {
-        if (this.boosterPower > 0) {
-            console.log(this.boosterToggle);
-            this.boosterPower--;
-            this.boosterToggle = true;
-
-            console.log(this.boosterToggle);
-        }
+        this.boosterToggle = !this.boosterToggle;
+        let message = new Message("", "", "");
+        message.header = this.boosterToggle ?
+            "Booster ACTIVATED!" :
+            "Booster deactivated.";
+        message.value = this.boosterToggle ?
+            "The next questions will earn you 2x points" :
+            "You will no longer earn 2x points";
+        message.type = "warning";
+        this.consoleLog.push(message);
+        setTimeout(
+            () => $("#console").scrollTop($("#console")[0].scrollHeight),
+            100
+        );
     }
 
     refillPowerUps() {
@@ -254,8 +261,6 @@ export class QuizComponent implements OnInit {
             this.time = (this.time + extraTime) < 60000
                 ? this.time + extraTime : 60000;
             this.score += this.quiz.score;
-            this.boosterToggle = this.boosterActive ? false : this.boosterToggle;
-            this.boosterActive = this.boosterActive ? false : this.boosterActive;
             this.refillPowerUps();
             this.diffLevel++;
 
@@ -344,7 +349,7 @@ export class QuizComponent implements OnInit {
                         this.wrongAnswer();
                     } else {
                         mess.header = "Wrong answer.";
-                        mess.value = "Please check your expression syntax";
+                        mess.value = "Your syntax was wrong";
                         mess.type = "negative";
                         this.wrongAnswer();
                     }

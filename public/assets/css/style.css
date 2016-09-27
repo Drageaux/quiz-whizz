@@ -107,7 +107,11 @@ body {
         padding: 10px; }
       body quiz #user-control #input-area ul li.ui.button {
         margin-bottom: .25em; }
+    body quiz #booster {
+      padding: 15px;
+      height: 50px; }
     body quiz #console-header {
+      margin-top: 5px;
       margin-bottom: 5px;
       padding-top: 0;
       padding-bottom: 0; }
@@ -120,6 +124,8 @@ body {
         color: #21BA45; }
       body quiz #console .negative {
         color: #9F3A38; }
+      body quiz #console .warning {
+        color: #F2711C; }
       body quiz #console li {
         width: 100%; }
     body quiz #options .column .button {
@@ -208,7 +214,7 @@ body {
  * Pulse by Nathan B. Weller *
  *****************************/
 .pulse {
-  animation: pulse 2s ease infinite; }
+  animation: pulse 1s ease infinite; }
 
 @keyframes pulse {
   0% {

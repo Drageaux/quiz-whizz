@@ -155,8 +155,13 @@ body {
                 }
             }
         }
+        #booster {
+            padding: 15px;
+            height: 50px;
+            i { }
+        }
 
-        #console-header { margin-bottom: 5px; padding-top: 0; padding-bottom: 0; }
+        #console-header { margin-top: 5px; margin-bottom: 5px; padding-top: 0; padding-bottom: 0; }
         #console {
             margin-top: 0;
             height: 100px;
@@ -164,6 +169,7 @@ body {
             font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
             .positive { color: $green_semantic; }
             .negative { color: $negative_semantic; }
+            .warning { color: $orange_semantic; }
             li { width: 100%; }
         }
 
@@ -279,7 +285,7 @@ body {
  * Pulse by Nathan B. Weller *
  *****************************/
 .pulse {
-    animation: pulse 2s ease infinite;
+    animation: pulse 1s ease infinite;
 }
 
 
