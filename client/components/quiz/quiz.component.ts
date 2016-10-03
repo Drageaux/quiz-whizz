@@ -40,7 +40,8 @@ export class QuizComponent implements OnInit {
     time: number;
     timer: any;
     timePercent: number;
-    paused: boolean = true;
+    // misuse/abuse prevention
+    canAnswer: boolean;
 
     // each monster will have their own timeline,
     // so that the user cannot interfere with the monster reaching their goal
@@ -69,6 +70,8 @@ export class QuizComponent implements OnInit {
         this.boosterToggle = false;
         this.boosterActive = false;
 
+        this.canAnswer = true;
+
         this.makeQuiz();
         $("#timer").progress({
             duration: 60,
@@ -93,23 +96,25 @@ export class QuizComponent implements OnInit {
     }
 
     selectAnswer(index: number) {
-        if (!this.currAvailInput[index].disabled) {
-            let value = this.currAvailInput[index].value;
-            this.currUserInput[this.inputIndex].value = value; // move
-            this.currUserInput[this.inputIndex].originIndex = index; // remember the index for removal
+        if (this.canAnswer) {
+            if (!this.currAvailInput[index].disabled) {
+                let value = this.currAvailInput[index].value;
+                this.currUserInput[this.inputIndex].value = value; // move
+                this.currUserInput[this.inputIndex].originIndex = index; // remember the index for removal
 
-            this.currAvailInput[index].disabled = true; // disable original button
-            this.currAvailInput[index].location = this.inputIndex; // remember the location to cancel selection
-            this.inputIndex++;
-            this.compileExpressionString();
+                this.currAvailInput[index].disabled = true; // disable original button
+                this.currAvailInput[index].location = this.inputIndex; // remember the location to cancel selection
+                this.inputIndex++;
+                this.compileExpressionString();
 
-            // when all answers selected
-            if (this.inputIndex == 4) {
-                this.checkSolution();
+                // when all answers selected
+                if (this.inputIndex == 4) {
+                    this.checkSolution();
+                }
+            } else {
+                let location = this.currAvailInput[index].location;
+                this.removeAnswer(location);
             }
-        } else {
-            let location = this.currAvailInput[index].location;
-            this.removeAnswer(location);
         }
     }
 
@@ -338,17 +343,19 @@ export class QuizComponent implements OnInit {
                             this.exprString = this.quiz.givenValue;
                         }
                         this.buttonWidth = 50 + maxSymbolWidth * 8;
+
+                        this.canAnswer = true;
                     });
         }
     }
 
     checkSolution() {
         clearInterval(this.timer);
+        this.canAnswer = false;
         this.apiService
             .checkSolution(this.exprString)
             .subscribe(
                 (data) => {
-                    this.resume();
                     console.log(data);
                     if (data.result == this.quiz.targetValue) {
                         this.pushMessage("Nice!", "Your answer was correct", "positive");
@@ -366,6 +373,8 @@ export class QuizComponent implements OnInit {
                             "negative");
                         this.wrongAnswer();
                     }
+
+                    this.resume();
                 }
             );
     }

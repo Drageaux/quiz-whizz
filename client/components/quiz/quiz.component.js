@@ -41,7 +41,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     this.buttonWidth = 1; // for uniformity
                     // quiz-related
                     this.quiz = new quiz_1.Quiz([], "", "", 0);
-                    this.paused = true;
                     // each monster will have their own timeline,
                     // so that the user cannot interfere with the monster reaching their goal
                     this.monsterExample = {
@@ -63,6 +62,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     this.exprString = "";
                     this.boosterToggle = false;
                     this.boosterActive = false;
+                    this.canAnswer = true;
                     this.makeQuiz();
                     $("#timer").progress({
                         duration: 60,
@@ -85,22 +85,24 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     // TODO: navigate between different quizzes
                 };
                 QuizComponent.prototype.selectAnswer = function (index) {
-                    if (!this.currAvailInput[index].disabled) {
-                        var value = this.currAvailInput[index].value;
-                        this.currUserInput[this.inputIndex].value = value; // move
-                        this.currUserInput[this.inputIndex].originIndex = index; // remember the index for removal
-                        this.currAvailInput[index].disabled = true; // disable original button
-                        this.currAvailInput[index].location = this.inputIndex; // remember the location to cancel selection
-                        this.inputIndex++;
-                        this.compileExpressionString();
-                        // when all answers selected
-                        if (this.inputIndex == 4) {
-                            this.checkSolution();
+                    if (this.canAnswer) {
+                        if (!this.currAvailInput[index].disabled) {
+                            var value = this.currAvailInput[index].value;
+                            this.currUserInput[this.inputIndex].value = value; // move
+                            this.currUserInput[this.inputIndex].originIndex = index; // remember the index for removal
+                            this.currAvailInput[index].disabled = true; // disable original button
+                            this.currAvailInput[index].location = this.inputIndex; // remember the location to cancel selection
+                            this.inputIndex++;
+                            this.compileExpressionString();
+                            // when all answers selected
+                            if (this.inputIndex == 4) {
+                                this.checkSolution();
+                            }
                         }
-                    }
-                    else {
-                        var location_1 = this.currAvailInput[index].location;
-                        this.removeAnswer(location_1);
+                        else {
+                            var location_1 = this.currAvailInput[index].location;
+                            this.removeAnswer(location_1);
+                        }
                     }
                 };
                 QuizComponent.prototype.removeAnswer = function (index) {
@@ -303,16 +305,17 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                                 _this.exprString = _this.quiz.givenValue;
                             }
                             _this.buttonWidth = 50 + maxSymbolWidth * 8;
+                            _this.canAnswer = true;
                         });
                     }
                 };
                 QuizComponent.prototype.checkSolution = function () {
                     var _this = this;
                     clearInterval(this.timer);
+                    this.canAnswer = false;
                     this.apiService
                         .checkSolution(this.exprString)
                         .subscribe(function (data) {
-                        _this.resume();
                         console.log(data);
                         if (data.result == _this.quiz.targetValue) {
                             _this.pushMessage("Nice!", "Your answer was correct", "positive");
@@ -326,6 +329,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                             _this.pushMessage("Wrong syntax.", "Your syntax was wrong", "negative");
                             _this.wrongAnswer();
                         }
+                        _this.resume();
                     });
                 };
                 /***********
