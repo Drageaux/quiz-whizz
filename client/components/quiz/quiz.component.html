@@ -57,7 +57,8 @@
                     [class.basic]="currAvailInput[i].disabled"
                     *ngFor="let symbol of currAvailInput; let i = index"
                     (click)="selectAnswer(i)">
-                    {{symbol.value}}
+                    <span *ngIf="symbol.value != '*'">{{symbol.value}}</span>
+                    <span *ngIf="symbol.value == '*'">&times;</span>
                 </li>
             </ul>
         </div>
@@ -72,7 +73,8 @@
                     [class.disabled]="isEmptyString(currUserInput[i].value)"
                     *ngFor="let symbol of currUserInput; let i = index"
                     (click)="removeAnswer(i)">
-                    {{symbol.value}}
+                    <span *ngIf="symbol.value != '*'">{{symbol.value}}</span>
+                    <span *ngIf="symbol.value == '*'">&times;</span>
                 </li>
             </ul>
             <div class="question-values four wide left aligned column" id="target-value">
