@@ -25,6 +25,7 @@
     </div>
     <hr>
 
+    <!-- Timer -->
     <div class="ui small progress"
          data-total="60" id="timer"
          [attr.data-value]="timePercent"
@@ -38,6 +39,7 @@
         <!--TODO: animate the amount of extra time added-->
     </div>
 
+    <!-- Booster -->
     <div id="user-control" class="ui grid">
         <div class="sixteen wide column"><h2>Level: {{diffLevel}}</h2>
             <a class="circular ui button" id="booster"
@@ -46,10 +48,14 @@
                [class.pulse]="boosterActive"
                (click)="ultimateBooster()">
                 <!--<i class="bomb icon"></i>-->
+                <span class="ui orange ribbon label">2x pts</span>
                 Boost!
             </a>
         </div>
         <!-- Available Buttons -->
+        <div class="ui pointing below basic blue label" id="for-avail-input">
+            (Click us!)
+        </div>
         <div class="ui row">
             <ul class="column">
                 <li class="ui blue button"
@@ -102,6 +108,7 @@
 </div>
 
 
+<!-- Quit Game Confirmation -->
 <div class="ui small modal" id="confirm-quit">
     <div class="header">
         Quitting Game...

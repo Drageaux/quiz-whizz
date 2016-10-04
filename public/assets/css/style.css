@@ -102,6 +102,17 @@ body {
         height: 50px;
         right: 14px;
         top: 4px; }
+        body quiz #user-control #booster span {
+          display: inline;
+          position: absolute;
+          left: -13px;
+          top: -6px;
+          width: 40px;
+          padding-left: 0px;
+          padding-right: 0px; }
+      body quiz #user-control .label#for-avail-input {
+        margin: auto;
+        cursor: default; }
       body quiz #user-control span {
         display: inline-block; }
       body quiz #user-control ul li {

@@ -140,7 +140,17 @@ body {
                 height: 50px;
                 right: 14px;
                 top: 4px;
+                span {
+                    display: inline;
+                    position: absolute;
+                    left: -13px;
+                    top: -6px;
+                    width: 40px;
+                    padding-left: 0px;
+                    padding-right: 0px;
+                }
             }
+            .label#for-avail-input { margin: auto; cursor: default }
             span {
                 display: inline-block;
             }
