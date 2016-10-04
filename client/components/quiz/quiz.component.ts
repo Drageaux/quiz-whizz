@@ -119,17 +119,29 @@ export class QuizComponent implements OnInit {
     }
 
     removeAnswer(index: number) {
-        let answer = this.currUserInput[index];
-        this.currAvailInput[answer.originIndex].disabled = false; // re-enable the original button
+        if (this.canAnswer) {
+            this.canAnswer = false; // disable spamming
+            let answer = this.currUserInput[index];
+            this.currAvailInput[answer.originIndex].disabled = false; // re-enable the original button
 
-        // remove just the 1 selected answer
-        this.currUserInput.splice(index, 1);
-        this.currUserInput.push({
-            value: "",
-            originIndex: null
-        });
-        this.inputIndex--;
-        this.compileExpressionString();
+            // remove just the 1 selected answer
+            this.currUserInput.splice(index, 1);
+            this.currUserInput.push({
+                value: "",
+                originIndex: null
+            });
+            // update available inputs' locations
+            for (let i = 0; i < this.currUserInput.length; i++) {
+                let userInput = this.currUserInput[i];
+                if (userInput.originIndex != null) {
+                    this.currAvailInput[userInput.originIndex].location = i;
+                }
+            }
+
+            this.inputIndex--;
+            this.compileExpressionString();
+            this.canAnswer = true; // enable clicking
+        }
     }
 
     gameOver() {

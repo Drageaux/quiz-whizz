@@ -106,16 +106,27 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     }
                 };
                 QuizComponent.prototype.removeAnswer = function (index) {
-                    var answer = this.currUserInput[index];
-                    this.currAvailInput[answer.originIndex].disabled = false; // re-enable the original button
-                    // remove just the 1 selected answer
-                    this.currUserInput.splice(index, 1);
-                    this.currUserInput.push({
-                        value: "",
-                        originIndex: null
-                    });
-                    this.inputIndex--;
-                    this.compileExpressionString();
+                    if (this.canAnswer) {
+                        this.canAnswer = false; // disable spamming
+                        var answer = this.currUserInput[index];
+                        this.currAvailInput[answer.originIndex].disabled = false; // re-enable the original button
+                        // remove just the 1 selected answer
+                        this.currUserInput.splice(index, 1);
+                        this.currUserInput.push({
+                            value: "",
+                            originIndex: null
+                        });
+                        // update available inputs' locations
+                        for (var i = 0; i < this.currUserInput.length; i++) {
+                            var userInput = this.currUserInput[i];
+                            if (userInput.originIndex != null) {
+                                this.currAvailInput[userInput.originIndex].location = i;
+                            }
+                        }
+                        this.inputIndex--;
+                        this.compileExpressionString();
+                        this.canAnswer = true; // enable clicking
+                    }
                 };
                 QuizComponent.prototype.gameOver = function () {
                     clearInterval(this.timer);
