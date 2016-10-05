@@ -108,7 +108,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                 };
                 QuizComponent.prototype.removeAnswer = function (index) {
                     if (this.canAnswer) {
-                        this.canAnswer = false; // disable spamming
                         var answer = this.currUserInput[index];
                         this.currAvailInput[answer.originIndex].disabled = false; // re-enable the original button
                         // remove just the 1 selected answer
@@ -126,7 +125,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         }
                         this.inputIndex--;
                         this.compileExpressionString();
-                        this.canAnswer = true; // enable clicking
                     }
                 };
                 QuizComponent.prototype.gameOver = function () {

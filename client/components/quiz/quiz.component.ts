@@ -121,7 +121,6 @@ export class QuizComponent implements OnInit {
 
     removeAnswer(index: number) {
         if (this.canAnswer) {
-            this.canAnswer = false; // disable spamming
             let answer = this.currUserInput[index];
             this.currAvailInput[answer.originIndex].disabled = false; // re-enable the original button
 
@@ -141,7 +140,6 @@ export class QuizComponent implements OnInit {
 
             this.inputIndex--;
             this.compileExpressionString();
-            this.canAnswer = true; // enable clicking
         }
     }
 
