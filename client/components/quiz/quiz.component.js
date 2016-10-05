@@ -165,6 +165,11 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         if (_this.time > 0) {
                             _this.time -= 100;
                         }
+                        else if (_this.health > 0) {
+                            _this.time = 60000;
+                            _this.wrongAnswer();
+                            _this.pushMessage("Lost 1 health!", "Time's up", "negative");
+                        }
                         else {
                             _this.gameOver();
                         }
@@ -197,6 +202,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                 QuizComponent.prototype.refillPowerUps = function () {
                     if (this.diffLevel % 5 == 0 && this.health < 5) {
                         this.health++;
+                        this.pushMessage("Regained 1 health!", "Level " + this.diffLevel + " reached.", "info");
                     }
                 };
                 /**************

@@ -180,6 +180,10 @@ export class QuizComponent implements OnInit {
         this.timer = self.setInterval(() => {
             if (this.time > 0) {
                 this.time -= 100;
+            } else if (this.health > 0) {
+                this.time = 60000;
+                this.wrongAnswer();
+                this.pushMessage("Lost 1 health!", "Time's up", "negative");
             } else {
                 this.gameOver();
             }
@@ -223,7 +227,10 @@ export class QuizComponent implements OnInit {
     }
 
     refillPowerUps() {
-        if (this.diffLevel % 5 == 0 && this.health < 5) { this.health++; }
+        if (this.diffLevel % 5 == 0 && this.health < 5) {
+            this.health++;
+            this.pushMessage("Regained 1 health!", "Level " + this.diffLevel + " reached.", "info");
+        }
     }
 
 
