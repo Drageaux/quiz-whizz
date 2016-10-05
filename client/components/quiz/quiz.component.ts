@@ -62,6 +62,7 @@ export class QuizComponent implements OnInit {
         this.score = 0;
         this.health = 5;
         this.consoleLog = [];
+        this.pushMessage("Welcome!", "Use the buttons in blue to solve the math equation", "info");
         this.currAvailInput = [];
         this.currUserInput = [];
         this.inputIndex = 0;

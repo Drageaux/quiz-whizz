@@ -144,6 +144,8 @@ body {
         color: #9F3A38; }
       body quiz #console .warning {
         color: #F2711C; }
+      body quiz #console .info {
+        color: #2185D0; }
       body quiz #console li {
         width: 100%;
         text-align: center; }
