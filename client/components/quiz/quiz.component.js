@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./quiz", "../message/message", "../../service/user.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "rxjs/Rx", "./quiz", "../message/message", "../../service/api.service", "../../service/user.service", "../../service/tips.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,12 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, api_service_1, Rx_1, quiz_1, message_1, user_service_1;
+    var core_1, Rx_1, quiz_1, message_1, api_service_1, user_service_1, tips_service_1;
     var QuizComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (api_service_1_1) {
-                api_service_1 = api_service_1_1;
             },
             function (Rx_1_1) {
                 Rx_1 = Rx_1_1;
@@ -29,26 +26,25 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
             function (message_1_1) {
                 message_1 = message_1_1;
             },
+            function (api_service_1_1) {
+                api_service_1 = api_service_1_1;
+            },
             function (user_service_1_1) {
                 user_service_1 = user_service_1_1;
+            },
+            function (tips_service_1_1) {
+                tips_service_1 = tips_service_1_1;
             }],
         execute: function() {
             QuizComponent = (function () {
-                function QuizComponent(apiService, userService) {
+                function QuizComponent(apiService, userService, tipsService) {
                     this.apiService = apiService;
                     this.userService = userService;
+                    this.tipsService = tipsService;
                     this.onBackToMenu = new core_1.EventEmitter(); // emits event to parent component
                     this.buttonWidth = 1; // for uniformity
                     // quiz-related
                     this.quiz = new quiz_1.Quiz([], "", "", 0);
-                    // each monster will have their own timeline,
-                    // so that the user cannot interfere with the monster reaching their goal
-                    this.monsterExample = {
-                        id: 0,
-                        question: "What's the common name for 'feline?'",
-                        answer: "cat",
-                        animationTimeline: new TimelineMax()
-                    };
                     this.user = this.userService.getLocalUser();
                 }
                 QuizComponent.prototype.ngOnInit = function () {
@@ -57,6 +53,8 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     this.health = 5;
                     this.consoleLog = [];
                     this.pushMessage("Welcome!", "Use the buttons in blue to solve the math equation", "info");
+                    var tip = this.tipsService.makeRandomTipObject();
+                    this.pushMessage(tip.header, tip.message, "info");
                     this.currAvailInput = [];
                     this.currUserInput = [];
                     this.inputIndex = 0;
@@ -74,17 +72,8 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                     this.resume();
                 };
                 /***************
-                 * INTERACTIVE *
+                 * GAME LOGIC *
                  ***************/
-                QuizComponent.prototype.keyPress = function (event) {
-                    if (event.keyCode == 13) {
-                        if (this.checkSolution()) {
-                            // TODO: this.destroyMonster(this.monsterExample); // animation
-                            this.makeQuiz(); // return another quiz
-                        }
-                    }
-                    // TODO: navigate between different quizzes
-                };
                 QuizComponent.prototype.selectAnswer = function (index) {
                     if (this.canAnswer) {
                         if (!this.currAvailInput[index].disabled) {
@@ -204,24 +193,6 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         this.health++;
                         this.pushMessage("Regained 1 health!", "Level " + this.diffLevel + " reached.", "info");
                     }
-                };
-                /**************
-                 * ANIMATIONS *
-                 **************/
-                QuizComponent.prototype.spawnMonster = function () {
-                    //let tl = this.monsterExample.animationTimeline;
-                    //tl.to("#monster-0", 10, {left: "100%", ease: Power0.easeNone, onComplete: this.gameOver});
-                };
-                QuizComponent.prototype.destroyMonster = function (monster) {
-                    // this.score++;
-                    // let tl = monster.animationTimeline;
-                    //
-                    // let monsterObjectId = "#monster-0";
-                    // tl.kill(null, monsterObjectId)
-                    //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
-                    //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
-                    //     .to(monsterObjectId, 0.3, {autoAlpha: 0, ease: Power1.easeIn}, "-=0.2");
-                    // TODO: clear form and question
                 };
                 /*******************
                  * SYSTEM FEEDBACK *
@@ -388,7 +359,7 @@ System.register(["@angular/core", "../../service/api.service", "rxjs/Rx", "./qui
                         selector: "quiz",
                         templateUrl: "client/components/quiz/quiz.component.html"
                     }), 
-                    __metadata('design:paramtypes', [api_service_1.ApiService, user_service_1.UserService])
+                    __metadata('design:paramtypes', [api_service_1.ApiService, user_service_1.UserService, tips_service_1.TipsService])
                 ], QuizComponent);
                 return QuizComponent;
             }());

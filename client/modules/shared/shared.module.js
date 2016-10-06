@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "../../service/api.service", "../../service/user.service", "../../service/navigate-guard.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "../../service/api.service", "../../service/user.service", "../../service/tips.service", "../../service/navigate-guard.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common", "../../service/api.service"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, api_service_1, user_service_1, navigate_guard_service_1;
+    var core_1, common_1, api_service_1, user_service_1, tips_service_1, navigate_guard_service_1;
     var SharedModule;
     return {
         setters:[
@@ -26,6 +26,9 @@ System.register(["@angular/core", "@angular/common", "../../service/api.service"
             function (user_service_1_1) {
                 user_service_1 = user_service_1_1;
             },
+            function (tips_service_1_1) {
+                tips_service_1 = tips_service_1_1;
+            },
             function (navigate_guard_service_1_1) {
                 navigate_guard_service_1 = navigate_guard_service_1_1;
             }],
@@ -39,6 +42,7 @@ System.register(["@angular/core", "@angular/common", "../../service/api.service"
                         providers: [
                             api_service_1.ApiService,
                             user_service_1.UserService,
+                            tips_service_1.TipsService,
                             navigate_guard_service_1.NavigateGuard
                         ]
                     };

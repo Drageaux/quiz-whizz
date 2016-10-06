@@ -1,9 +1,10 @@
 import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
-import {ApiService} from "../../service/api.service";
 import {Observable} from "rxjs/Rx";
 import {Quiz} from "./quiz";
 import {Message} from "../message/message";
+import {ApiService} from "../../service/api.service";
 import {UserService} from "../../service/user.service";
+import {TipsService} from "../../service/tips.service";
 
 declare var $;
 declare var TimelineMax;
@@ -43,17 +44,9 @@ export class QuizComponent implements OnInit {
     // misuse/abuse prevention
     canAnswer: boolean;
 
-    // each monster will have their own timeline,
-    // so that the user cannot interfere with the monster reaching their goal
-    monsterExample: any = {
-        id: 0,
-        question: "What's the common name for 'feline?'",
-        answer: "cat",
-        animationTimeline: new TimelineMax()
-    };
-
     constructor(private apiService: ApiService,
-                private userService: UserService) {
+                private userService: UserService,
+                private tipsService: TipsService) {
         this.user = this.userService.getLocalUser();
     }
 
@@ -63,6 +56,8 @@ export class QuizComponent implements OnInit {
         this.health = 5;
         this.consoleLog = [];
         this.pushMessage("Welcome!", "Use the buttons in blue to solve the math equation", "info");
+        let tip = this.tipsService.makeRandomTipObject();
+        this.pushMessage(tip.header, tip.message, "info");
         this.currAvailInput = [];
         this.currUserInput = [];
         this.inputIndex = 0;
@@ -84,18 +79,8 @@ export class QuizComponent implements OnInit {
     }
 
     /***************
-     * INTERACTIVE *
+     * GAME LOGIC *
      ***************/
-    keyPress(event: any) {
-        if (event.keyCode == 13) { // pressed Enter/Submit
-            if (this.checkSolution()) {
-                // TODO: this.destroyMonster(this.monsterExample); // animation
-                this.makeQuiz(); // return another quiz
-            }
-        }
-        // TODO: navigate between different quizzes
-    }
-
     selectAnswer(index: number) {
         if (this.canAnswer) {
             if (!this.currAvailInput[index].disabled) {
@@ -233,27 +218,6 @@ export class QuizComponent implements OnInit {
         }
     }
 
-
-    /**************
-     * ANIMATIONS *
-     **************/
-    spawnMonster() {
-        //let tl = this.monsterExample.animationTimeline;
-        //tl.to("#monster-0", 10, {left: "100%", ease: Power0.easeNone, onComplete: this.gameOver});
-    }
-
-    destroyMonster(monster: any) {
-        // this.score++;
-        // let tl = monster.animationTimeline;
-        //
-        // let monsterObjectId = "#monster-0";
-        // tl.kill(null, monsterObjectId)
-        //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
-        //     .to(monsterObjectId, 0.4, {scale: 1.5, ease: Bounce.easeOut})
-        //     .to(monsterObjectId, 0.3, {autoAlpha: 0, ease: Power1.easeIn}, "-=0.2");
-
-        // TODO: clear form and question
-    }
 
     /*******************
      * SYSTEM FEEDBACK *

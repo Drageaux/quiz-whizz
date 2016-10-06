@@ -1,14 +1,14 @@
-import { NgModule, ModuleWithProviders } from "@angular/core";
-import { CommonModule } from "@angular/common";
-
-import { ApiService } from "../../service/api.service";
-import { UserService } from "../../service/user.service";
-import { NavigateGuard } from "../../service/navigate-guard.service";
+import {NgModule, ModuleWithProviders} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {ApiService} from "../../service/api.service";
+import {UserService} from "../../service/user.service";
+import {TipsService} from "../../service/tips.service";
+import {NavigateGuard} from "../../service/navigate-guard.service";
 
 @NgModule({
-    imports:      [ CommonModule ],
-    declarations: [ /* Declare components and pipes */],
-    exports:      [ /* Export them */ ]
+    imports: [CommonModule],
+    declarations: [/* Declare components and pipes */],
+    exports: [/* Export them */]
 })
 export class SharedModule {
 
@@ -18,6 +18,7 @@ export class SharedModule {
             providers: [
                 ApiService,
                 UserService,
+                TipsService,
                 NavigateGuard
             ]
         };
