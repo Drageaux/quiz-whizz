@@ -27,10 +27,10 @@
         <script src="assets/js/vendor/semantic.min.js"></script>
 
         <!-- Development mod -->
-        <!--<script src="assets/js/systemjs.config.js"></script>-->
-        <!--<script>-->
-            <!--System.import('app').catch(function(err) { console.error(err); });-->
-        <!--</script>-->
+        <script src="assets/js/systemjs.config.js"></script>
+        <script>
+            System.import('app').catch(function(err) { console.error(err); });
+        </script>
     </head>
 
     <body>
@@ -40,7 +40,8 @@
             </div>
         </app>
         <!--  Production mod -->
-        <script src="assets/js/bundle.min.js"></script>
+        <!--<script src="assets/js/bundle.min.js"></script>-->
+        <script src="http://cdn.auth0.com/js/lock/10.2/lock.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js"></script>
     </body>
 </html>
