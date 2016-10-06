@@ -7,7 +7,15 @@
                 <input type="text" id="user-name" placeholder="Username (0-14 characters)" maxlength="14"
                        [value]="user.name" #usernameInput>
             </div>
-            <div class="ui big positive button" (click)="startGame(usernameInput.value)">Start Game</div>
+            <div class="ui big positive button" (click)="startGame(usernameInput.value)">
+                <span *ngIf="!user.registered">Play as Guest</span>
+                <span *ngIf="user.registered">Start Game</span>
+            </div>
+            <div *ngIf="!user.registered"
+                 class="ui big orange button"
+                 (click)="userService.login()">
+                <span><i class="sign in icon"></i>Login</span>
+            </div>
         </div>
         <hr>
         <ul>
