@@ -1,4 +1,5 @@
 import {Injectable} from "@angular/core";
+import {Router} from "@angular/router";
 import {tokenNotExpired, AuthHttp} from "angular2-jwt";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
@@ -12,16 +13,26 @@ declare var Auth0Lock: any;
 export class UserService {
     // Configure Auth0
     lock = new Auth0Lock('BQBgvwL4VhCBYG5UCWCoxwBG3drfBR1A', 'davefpg.auth0.com', {});
+    //Store profile object in auth class
+    userProfile: Object;
 
-    constructor(private authHttp: AuthHttp,
+    constructor(private router: Router,
+                private authHttp: AuthHttp,
                 private http: Http,
                 private apiService: ApiService) {
         // Add callback for lock `authenticated` event
         this.lock.on("authenticated", (authResult) => {
             localStorage.setItem('id_token', authResult.idToken);
-            let localUser = this.getLocalUser();
-            this.apiService.register(localUser.name, authResult.email)
-                .subscribe(data => console.log(data));
+            // Fetch profile information
+            this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
+                if (error) {
+                    console.log(error);
+                }
+                this.userProfile = profile;
+                localStorage.setItem('profile', JSON.stringify(profile));
+            });
+
+            this.lock.hide();
         });
     }
 

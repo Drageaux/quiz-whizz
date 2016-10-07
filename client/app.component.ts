@@ -8,7 +8,6 @@ import { SemanticPopupComponent } from "ng-semantic";
     <nav class="ui menu inverted huge" *ngIf="!isPlaying()">
         <a routerLink="home" routerLinkActive="active" class="item">Home</a>
         <a routerLink="leaderboard" routerLinkActive="active" class="item">Leaderboard</a>
-        <!--<a routerLink="contact" class="item">Contact Me</a>-->
 
         <!--<nav class="menu right">-->
             <!--<a (click)="myPopup.show($event, {position: 'right center'})" *ngIf="!isLogged" class="item">Login</a>-->

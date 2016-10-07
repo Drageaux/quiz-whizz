@@ -1,4 +1,4 @@
-System.register(["@angular/core", "angular2-jwt", "@angular/http", "rxjs/Observable", "./api.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "angular2-jwt", "@angular/http", "rxjs/Observable", "./api.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(["@angular/core", "angular2-jwt", "@angular/http", "rxjs/Observa
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, angular2_jwt_1, http_1, Observable_1, api_service_1;
+    var core_1, router_1, angular2_jwt_1, http_1, Observable_1, api_service_1;
     var UserService;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             },
             function (angular2_jwt_1_1) {
                 angular2_jwt_1 = angular2_jwt_1_1;
@@ -31,8 +34,9 @@ System.register(["@angular/core", "angular2-jwt", "@angular/http", "rxjs/Observa
             }],
         execute: function() {
             UserService = (function () {
-                function UserService(authHttp, http, apiService) {
+                function UserService(router, authHttp, http, apiService) {
                     var _this = this;
+                    this.router = router;
                     this.authHttp = authHttp;
                     this.http = http;
                     this.apiService = apiService;
@@ -41,9 +45,15 @@ System.register(["@angular/core", "angular2-jwt", "@angular/http", "rxjs/Observa
                     // Add callback for lock `authenticated` event
                     this.lock.on("authenticated", function (authResult) {
                         localStorage.setItem('id_token', authResult.idToken);
-                        var localUser = _this.getLocalUser();
-                        _this.apiService.register(localUser.name, authResult.email)
-                            .subscribe(function (data) { return console.log(data); });
+                        // Fetch profile information
+                        _this.lock.getProfile(authResult.idToken, function (error, profile) {
+                            if (error) {
+                                console.log(error);
+                            }
+                            _this.userProfile = profile;
+                            localStorage.setItem('profile', JSON.stringify(profile));
+                        });
+                        _this.lock.hide();
                     });
                 }
                 UserService.prototype.getLocalUser = function () {
@@ -87,7 +97,7 @@ System.register(["@angular/core", "angular2-jwt", "@angular/http", "rxjs/Observa
                 };
                 UserService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [angular2_jwt_1.AuthHttp, http_1.Http, api_service_1.ApiService])
+                    __metadata('design:paramtypes', [router_1.Router, angular2_jwt_1.AuthHttp, http_1.Http, api_service_1.ApiService])
                 ], UserService);
                 return UserService;
             }());

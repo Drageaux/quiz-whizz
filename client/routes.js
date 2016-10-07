@@ -10,7 +10,8 @@ System.register(['@angular/router'], function(exports_1, context_1) {
             }],
         execute: function() {
             exports_1("routes", routes = [
-                { path: '', redirectTo: 'home', pathMatch: 'full' }
+                { path: '', redirectTo: 'home', pathMatch: 'full' },
+                { path: '**', redirectTo: '' }
             ]);
             exports_1("routing", routing = router_1.RouterModule.forRoot(routes, { useHash: true }));
         }
