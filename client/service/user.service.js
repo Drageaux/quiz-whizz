@@ -34,6 +34,7 @@ System.register(["@angular/core", "@angular/router", "angular2-jwt", "@angular/h
             }],
         execute: function() {
             UserService = (function () {
+                //Store profile object in auth class
                 function UserService(router, authHttp, http, apiService) {
                     var _this = this;
                     this.router = router;
@@ -41,7 +42,8 @@ System.register(["@angular/core", "@angular/router", "angular2-jwt", "@angular/h
                     this.http = http;
                     this.apiService = apiService;
                     // Configure Auth0
-                    this.lock = new Auth0Lock('BQBgvwL4VhCBYG5UCWCoxwBG3drfBR1A', 'davefpg.auth0.com', {});
+                    this.options = { auth: { redirect: false } };
+                    this.lock = new Auth0Lock('BQBgvwL4VhCBYG5UCWCoxwBG3drfBR1A', 'davefpg.auth0.com', this.options);
                     // Add callback for lock `authenticated` event
                     this.lock.on("authenticated", function (authResult) {
                         localStorage.setItem('id_token', authResult.idToken);
@@ -50,16 +52,19 @@ System.register(["@angular/core", "@angular/router", "angular2-jwt", "@angular/h
                             if (error) {
                                 console.log(error);
                             }
-                            _this.userProfile = profile;
-                            localStorage.setItem('profile', JSON.stringify(profile));
+                            var thisUser = _this.getLocalUser();
+                            _this.apiService.register(thisUser.name, profile.email)
+                                .subscribe(function (data) {
+                                _this.updateLocalUser(data);
+                                console.log(_this.getLocalUser());
+                            });
                         });
                         _this.lock.hide();
                     });
                 }
                 UserService.prototype.getLocalUser = function () {
-                    var user = JSON.parse(localStorage.getItem("user"));
-                    if (user) {
-                        return user;
+                    if (JSON.parse(localStorage.getItem("user"))) {
+                        return JSON.parse(localStorage.getItem("user"));
                     }
                     else {
                         return {

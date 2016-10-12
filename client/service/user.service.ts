@@ -12,9 +12,9 @@ declare var Auth0Lock: any;
 @Injectable()
 export class UserService {
     // Configure Auth0
-    lock = new Auth0Lock('BQBgvwL4VhCBYG5UCWCoxwBG3drfBR1A', 'davefpg.auth0.com', {});
+    options = {auth: {redirect: false}};
+    lock = new Auth0Lock('BQBgvwL4VhCBYG5UCWCoxwBG3drfBR1A', 'davefpg.auth0.com', this.options);
     //Store profile object in auth class
-    userProfile: Object;
 
     constructor(private router: Router,
                 private authHttp: AuthHttp,
@@ -28,8 +28,12 @@ export class UserService {
                 if (error) {
                     console.log(error);
                 }
-                this.userProfile = profile;
-                localStorage.setItem('profile', JSON.stringify(profile));
+                let thisUser = this.getLocalUser();
+                this.apiService.register(thisUser.name, profile.email)
+                    .subscribe(data => {
+                        this.updateLocalUser(data);
+                        console.log(this.getLocalUser())
+                    })
             });
 
             this.lock.hide();
@@ -37,9 +41,8 @@ export class UserService {
     }
 
     getLocalUser() {
-        let user = JSON.parse(localStorage.getItem("user"));
-        if (user) {
-            return user;
+        if (JSON.parse(localStorage.getItem("user"))) {
+            return JSON.parse(localStorage.getItem("user"));
         } else {
             return {
                 "name": "",
